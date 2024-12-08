@@ -18,139 +18,176 @@
 
 <body class="bg-gray-50">
 
-    <!-- Sidebar -->
-    <div class="flex h-screen bg-[#0F4C75] text-white">
-        <div class="w-64 p-6">
-            <div class="flex items-center space-x-3 mb-8">
-                <i data-lucide="file-text" class="w-12 h-12 text-white"></i>
-                <h1 class="text-2xl font-bold tracking-tight">LeafletPro Farmasi</h1>
+    <!-- Navbar -->
+    <nav class="bg-[#0F4C75] text-white p-4 shadow-md fixed top-0 w-full z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="shield" class="w-8 h-8"></i>
+                <h1 class="text-xl font-bold">Admin LeafletPro Farmasi</h1>
             </div>
-            <ul class="space-y-6 text-lg">
-                <li><a href="#" class="flex items-center hover:bg-blue-500 p-2 rounded-md"><i data-lucide="home"
-                            class="w-6 h-6 mr-3"></i> Dashboard</a></li>
-                <li><a href="#customers" class="flex items-center hover:bg-blue-500 p-2 rounded-md"><i
-                            data-lucide="users" class="w-6 h-6 mr-3"></i> Pelanggan</a></li>
-                <li><a href="#orders" class="flex items-center hover:bg-blue-500 p-2 rounded-md"><i
-                            data-lucide="clipboard" class="w-6 h-6 mr-3"></i> Pesanan</a></li>
-                <li><a href="#settings" class="flex items-center hover:bg-blue-500 p-2 rounded-md"><i
-                            data-lucide="settings" class="w-6 h-6 mr-3"></i> Pengaturan</a></li>
-                <li><a href="/auth/logout" class="flex items-center hover:bg-blue-500 p-2 rounded-md"><i
-                            data-lucide="log-out" class="w-6 h-6 mr-3"></i> Keluar</a></li>
-            </ul>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button id="notifikasi-toggle" class="hover:text-blue-200 transition">
+                        <i data-lucide="bell" class="w-6 h-6"></i>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">4</span>
+                    </button>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <img src="https://via.placeholder.com/40" alt="Profil Admin" class="rounded-full w-10 h-10">
+                    <div>
+                        <p class="text-sm font-semibold">Admin Utama</p>
+                        <p class="text-xs text-blue-200">Super Administrator</p>
+                    </div>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <!-- Content Area -->
-        <div class="flex-1 p-6">
-            <!-- Header -->
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-[#0F4C75]">Halo, Admin</h2>
-                <button
-                    class="bg-[#1A73E8] text-white px-6 py-2 rounded-full flex items-center justify-center shadow-md hover:bg-[#0F4C75] transition">
-                    <i data-lucide="bell" class="mr-2 w-5 h-5"></i> Notifikasi
-                </button>
+    <!-- Main Content Area -->
+    <div class="container mx-auto mt-20 px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Sidebar Menu -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <ul class="space-y-4">
+                    <li>
+                        <a href="#dashboard" class="flex items-center text-[#0F4C75] font-semibold bg-blue-50 p-3 rounded-lg">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#proyek-management" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                            <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
+                            Manajemen Proyek
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#pengguna" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                            <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+                            Manajemen Pengguna
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#konsultasi" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                            <i data-lucide="message-circle" class="w-5 h-5 mr-3"></i>
+                            Konsultasi
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#laporan" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                            <i data-lucide="chart-bar" class="w-5 h-5 mr-3"></i>
+                            Laporan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#pengaturan" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                            <i data-lucide="settings" class="w-5 h-5 mr-3"></i>
+                            Pengaturan
+                        </a>
+                    </li>
+                </ul>
             </div>
 
-            <!-- Dashboard Sections -->
+            <!-- Main Content -->
+            <div class="md:col-span-2">
+                <!-- Dashboard Overview -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-[#0F4C75]">Dashboard Admin</h2>
+                    </div>
 
-            <!-- Pelanggan Section -->
-            <section id="customers" class="mb-12">
-                <h3 class="text-2xl font-semibold text-[#0F4C75] mb-4">Daftar Pelanggan</h3>
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <table class="w-full table-auto">
-                        <thead>
-                            <tr class="border-b">
-                                <th class="px-4 py-2 text-left">ID Pelanggan</th>
-                                <th class="px-4 py-2 text-left">Nama</th>
-                                <th class="px-4 py-2 text-left">Email</th>
-                                <th class="px-4 py-2 text-left">Telepon</th>
-                                <th class="px-4 py-2 text-left">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td class="px-4 py-2">#001</td>
-                                <td class="px-4 py-2">John Doe</td>
-                                <td class="px-4 py-2">johndoe@mail.com</td>
-                                <td class="px-4 py-2">081234567890</td>
-                                <td class="px-4 py-2">
-                                    <button
-                                        class="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 transition">Edit</button>
-                                    <button
-                                        class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition ml-2">Hapus</button>
-                                </td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="px-4 py-2">#002</td>
-                                <td class="px-4 py-2">Jane Smith</td>
-                                <td class="px-4 py-2">janesmith@mail.com</td>
-                                <td class="px-4 py-2">082345678901</td>
-                                <td class="px-4 py-2">
-                                    <button
-                                        class="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 transition">Edit</button>
-                                    <button
-                                        class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition ml-2">Hapus</button>
-                                </td>
-                            </tr>
-                            <!-- Add more customers here -->
-                        </tbody>
-                    </table>
+                    <!-- Status Overview -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <i data-lucide="file-text" class="w-8 h-8 text-blue-500"></i>
+                                <p class="text-2xl font-bold text-[#0F4C75]">12</p>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-600">Total Proyek</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <i data-lucide="users" class="w-8 h-8 text-green-500"></i>
+                                <p class="text-2xl font-bold text-[#0F4C75]">45</p>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-600">Pengguna Aktif</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <i data-lucide="clock" class="w-8 h-8 text-yellow-500"></i>
+                                <p class="text-2xl font-bold text-[#0F4C75]">3</p>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-600">Proyek Berjalan</p>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <i data-lucide="alert-circle" class="w-8 h-8 text-red-500"></i>
+                                <p class="text-2xl font-bold text-[#0F4C75]">2</p>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-600">Revisi Pending</p>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activities -->
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold text-[#0F4C75] mb-4">Aktivitas Terakhir</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-semibold">Proyek Baru: Leaflet Kesehatan Lansia</p>
+                                        <p class="text-sm text-gray-600">Dibuat oleh Dr. Widya - 30 Menit yang lalu</p>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">Baru</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-semibold">Konsultasi Pending: Desain Infografis</p>
+                                        <p class="text-sm text-gray-600">Menunggu tinjauan - 2 Jam yang lalu</p>
+                                    </div>
+                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">Menunggu</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
 
-            <!-- Pesanan Section -->
-            <section id="orders" class="mb-12">
-                <h3 class="text-2xl font-semibold text-[#0F4C75] mb-4">Daftar Pesanan</h3>
-                <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <table class="w-full table-auto">
-                        <thead>
-                            <tr class="border-b">
-                                <th class="px-4 py-2 text-left">ID Pesanan</th>
-                                <th class="px-4 py-2 text-left">Nama Pelanggan</th>
-                                <th class="px-4 py-2 text-left">Tanggal</th>
-                                <th class="px-4 py-2 text-left">Status</th>
-                                <th class="px-4 py-2 text-left">Total</th>
-                                <th class="px-4 py-2 text-left">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td class="px-4 py-2">#12345</td>
-                                <td class="px-4 py-2">John Doe</td>
-                                <td class="px-4 py-2">01-01-2024</td>
-                                <td class="px-4 py-2 text-yellow-500">Proses</td>
-                                <td class="px-4 py-2">Rp 750.000</td>
-                                <td class="px-4 py-2">
-                                    <button
-                                        class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition">Lihat</button>
-                                    <button
-                                        class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition ml-2">Selesaikan</button>
-                                    <button
-                                        class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition ml-2">Hapus</button>
-                                </td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="px-4 py-2">#12346</td>
-                                <td class="px-4 py-2">Jane Smith</td>
-                                <td class="px-4 py-2">05-01-2024</td>
-                                <td class="px-4 py-2 text-green-500">Selesai</td>
-                                <td class="px-4 py-2">Rp 1.200.000</td>
-                                <td class="px-4 py-2">
-                                    <button
-                                        class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition">Lihat</button>
-                                    <button
-                                        class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition ml-2"
-                                        disabled>Selesai</button>
-                                    <button
-                                        class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition ml-2">Hapus</button>
-                                </td>
-                            </tr>
-                            <!-- Add more orders here -->
-                        </tbody>
-                    </table>
+                <!-- Proyek dalam Tinjauan -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-[#0F4C75]">Proyek dalam Tinjauan</h3>
+                        <button class="bg-[#1A73E8] text-white px-4 py-2 rounded-full hover:bg-[#0F4C75] transition">
+                            Lihat Semua
+                        </button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 p-4 rounded-lg flex justify-between items-center">
+                            <div>
+                                <p class="font-semibold">Leaflet Informasi Penyakit Jantung</p>
+                                <p class="text-sm text-gray-600">Diajukan oleh: Dr. Budi</p>
+                            </div>
+                            <div class="space-x-2">
+                                <button class="bg-green-500 text-white px-3 py-1 rounded-full text-xs hover:bg-green-600">Setujui</button>
+                                <button class="bg-red-500 text-white px-3 py-1 rounded-full text-xs hover:bg-red-600">Tolak</button>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg flex justify-between items-center">
+                            <div>
+                                <p class="font-semibold">Desain Infografis Vaksinasi</p>
+                                <p class="text-sm text-gray-600">Diajukan oleh: Dr. Ani</p>
+                            </div>
+                            <div class="space-x-2">
+                                <button class="bg-green-500 text-white px-3 py-1 rounded-full text-xs hover:bg-green-600">Setujui</button>
+                                <button class="bg-red-500 text-white px-3 py-1 rounded-full text-xs hover:bg-red-600">Tolak</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
-
-            <!-- Pengaturan Section -->
+            </div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -159,5 +196,4 @@
         });
     </script>
 </body>
-
 </html>
