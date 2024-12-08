@@ -34,7 +34,7 @@ class Auth extends Controller
 
             // Redirect berdasarkan role
             if ($user['role'] === 'admin') {
-                return redirect()->to('/admin');  // Redirect ke dashboard admin
+                return redirect()->to('/admin/dashboard');  // Redirect ke dashboard admin
             } else {
                 return redirect()->to('/customer');  // Redirect ke dashboard customer
             }

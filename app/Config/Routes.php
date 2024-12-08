@@ -23,10 +23,31 @@ $routes->post('auth/registrasi', 'Auth::registerProcess');
 // app/Config/Routes.php
 
 $routes->get('customer', 'CustomerController::index');  // Rute untuk menampilkan halaman dashboard customer
-$routes->get('admin', 'AdminController::index');
+// $routes->get('admin', 'AdminController::index');
 $routes->get('/produk', 'CustomerController::produk');
 $routes->get('customer/detail/(:num)', 'CustomerController::detail/$1');
 
 // Add these new routes:
 $routes->get('checkout/(:num)', 'CustomerController::checkout/$1');
 $routes->post('process-checkout', 'CustomerController::processCheckout');
+$routes->get('/admin/dashboard', 'AdminController::index');
+$routes->get('/admin/products', 'AdminController::products');
+$routes->get('/admin/products/create', 'AdminController::createProduct');
+$routes->post('/admin/products/store', 'AdminController::storeProduct');
+$routes->get('/admin/products/edit/(:num)', 'AdminController::editProduct/$1');
+$routes->post('/admin/products/update/(:num)', 'AdminController::updateProduct/$1');
+$routes->get('/admin/products/delete/(:num)', 'AdminController::deleteProduct/$1');
+
+$routes->get('/admin/orders', 'AdminController::orders');
+$routes->get('/admin/orders/view/(:num)', 'AdminController::viewOrder/$1');
+$routes->post('/admin/orders/update/(:num)', 'AdminController::updateOrder/$1');
+
+$routes->get('/admin/consultations', 'AdminController::consultations');
+$routes->get('/admin/consultations/create', 'AdminController::createConsultation');
+$routes->post('/admin/consultations/store', 'AdminController::storeConsultation');
+
+$routes->get('/admin/projects', 'AdminController::projects');
+$routes->get('/admin/projects/create', 'AdminController::createProject');
+$routes->post('/admin/projects/store', 'AdminController::storeProject');
+
+$routes->get('/admin/logout', 'AdminController::logout');
