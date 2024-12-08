@@ -7,157 +7,157 @@
     <title>LeafletPro Farmasi - Login</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #0a6ebd;
-            --secondary-color: #20b2aa;
-            --background-color: #f4f7f6;
-            --text-color: #333;
-        }
+    :root {
+        --primary-color: #0a6ebd;
+        --secondary-color: #20b2aa;
+        --background-color: #f4f7f6;
+        --text-color: #333;
+    }
 
-        body {
-            background: linear-gradient(135deg, var(--background-color) 0%, #ffffff 100%);
-            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 15px;
-            color: var(--text-color);
-        }
+    body {
+        background: linear-gradient(135deg, var(--background-color) 0%, #ffffff 100%);
+        font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 15px;
+        color: var(--text-color);
+    }
 
+    .login-container {
+        display: flex;
+        width: 100%;
+        max-width: 1100px;
+        background: white;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .login-image {
+        flex: 1;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        color: white;
+        text-align: center;
+    }
+
+    .login-image-content {
+        max-width: 300px;
+    }
+
+    .login-image svg {
+        max-width: 200px;
+        margin-bottom: 20px;
+    }
+
+    .login-form {
+        flex: 1;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .login-form h2 {
+        color: var(--primary-color);
+        margin-bottom: 30px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .form-control {
+        height: 50px;
+        border: none;
+        border-bottom: 2px solid #e0e0e0;
+        border-radius: 0;
+        padding-left: 40px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-bottom-color: var(--primary-color);
+    }
+
+    .form-group i {
+        position: absolute;
+        left: 10px;
+        top: 15px;
+        color: var(--primary-color);
+        transition: 0.3s;
+    }
+
+    .form-group input:focus+i {
+        color: var(--primary-color);
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        border: none;
+        height: 50px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .btn-primary:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #6c757d;
+    }
+
+    .error-message {
+        color: #dc3545;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
         .login-container {
-            display: flex;
+            flex-direction: column;
+        }
+
+        .login-image,
+        .login-form {
+            flex: none;
             width: 100%;
-            max-width: 1100px;
-            background: white;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
+            padding: 30px;
         }
 
         .login-image {
-            flex: 1;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            color: white;
-            text-align: center;
+            display: none;
         }
+    }
 
-        .login-image-content {
-            max-width: 300px;
-        }
+    .remember-forgot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
 
-        .login-image svg {
-            max-width: 200px;
-            margin-bottom: 20px;
-        }
-
-        .login-form {
-            flex: 1;
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .login-form h2 {
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .form-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .form-control {
-            height: 50px;
-            border: none;
-            border-bottom: 2px solid #e0e0e0;
-            border-radius: 0;
-            padding-left: 40px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-bottom-color: var(--primary-color);
-        }
-
-        .form-group i {
-            position: absolute;
-            left: 10px;
-            top: 15px;
-            color: var(--primary-color);
-            transition: 0.3s;
-        }
-
-        .form-group input:focus+i {
-            color: var(--primary-color);
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            border: none;
-            height: 50px;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .btn-primary:hover {
-            background: var(--secondary-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .login-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #6c757d;
-        }
-
-        .error-message {
-            color: #dc3545;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .login-container {
-                flex-direction: column;
-            }
-
-            .login-image,
-            .login-form {
-                flex: none;
-                width: 100%;
-                padding: 30px;
-            }
-
-            .login-image {
-                display: none;
-            }
-        }
-
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .custom-control-input:checked~.custom-control-label::before {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
+    .custom-control-input:checked~.custom-control-label::before {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
     </style>
 </head>
 
@@ -179,9 +179,9 @@
 
             <!-- Pesan kesalahan -->
             <?php if (session()->getFlashdata('msg')): ?>
-                <div class="error-message">
-                    <?= session()->getFlashdata('msg'); ?>
-                </div>
+            <div class="error-message">
+                <?= session()->getFlashdata('msg'); ?>
+            </div>
             <?php endif; ?>
 
             <!-- Form Login -->
