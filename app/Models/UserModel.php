@@ -19,4 +19,8 @@ class UserModel extends Model
     {
         return $this->where('role', 'customer')->findAll();
     }
+    public function getAdmin()
+    {
+        return $this->where('role', 'admin')->first();
+    }
 }
