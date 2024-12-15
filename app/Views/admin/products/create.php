@@ -151,7 +151,7 @@
             <div class="content-area bg-gray-50 rounded-xl shadow-md p-6 mb-6 border-t-4 border-[#2C3E50]">
                 <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Create New Product</h2>
 
-                <form action="/admin/products/store" method="POST" enctype="multipart/form-data" class="space-y-6">
+              <form action="/admin/products/store" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name">Product Name</label>
                         <input type="text" name="name" id="name" required>
@@ -168,8 +168,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="image">Image</label>
-                        <input type="file" name="image" id="image">
+                      <label for="image">Image</label>
+    <input type="file" name="image" id="image">
                     </div>
 
                     <div class="form-group flex space-x-4">

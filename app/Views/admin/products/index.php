@@ -141,53 +141,53 @@
                 </ul>
             </div>
 
-            <!-- Manage Products Content -->
-            <div class="content-area bg-gray-50 rounded-xl shadow-md p-6 mb-6 border-t-4 border-[#2C3E50]">
-                <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Manage Products</h2>
+        <!-- Manage Products Content -->
+<div class="content-area bg-gray-50 rounded-xl shadow-md p-6 mb-6 border-t-4 border-[#2C3E50]">
+    <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Manage Products</h2>
 
-                <!-- Product Table -->
-                <div class="bg-gray-50 rounded-xl p-4">
-                    <div class="flex justify-end mb-4">
-                        <a href="/admin/products/create"
-                            class="flex items-center bg-[#2C3E50] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
-                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>
-                            Create New Product
-                        </a>
-                    </div>
-                    <table class="w-full table-auto">
-                        <thead>
-                            <tr class="border-b border-gray-200">
-                                <th class="py-2 text-left">Name</th>
-                                <th class="py-2 text-left">Price</th>
-                                <th class="py-2 text-left">Description</th>
-                                <th class="py-2 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($products as $product): ?>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-2"><?= esc($product['name']) ?></td>
-                                    <td class="py-2"><?= esc($product['price']) ?></td>
-                                    <td class="py-2"><?= esc($product['description']) ?></td>
-                                    <td class="py-2 text-right table-actions">
-                                        <a href="/admin/products/edit/<?= esc($product['id']) ?>"
-                                            class="text-blue-600 hover:text-blue-800">
-                                            <i data-lucide="edit" class="w-5 h-5"></i>
-                                        </a>
-                                        <a href="/admin/products/delete/<?= esc($product['id']) ?>"
-                                            onclick="return confirm('Are you sure?')"
-                                            class="text-red-600 hover:text-red-800">
-                                            <i data-lucide="trash" class="w-5 h-5"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <!-- Product Table -->
+<div class="bg-gray-50 rounded-xl p-4">
+    <div class="flex justify-end mb-4">
+        <a href="/admin/products/create" class="flex items-center bg-[#2C3E50] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>
+            Create New Product
+        </a>
     </div>
+    <table class="w-full table-auto">
+        <thead>
+            <tr class="border-b border-gray-200">
+                <th class="py-2 text-left">Name</th>
+                <th class="py-2 text-left">Price</th>
+                <th class="py-2 text-left">Description</th>
+                <th class="py-2 text-left">Image</th>
+                <th class="py-2 text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($products as $product): ?>
+                <tr>
+                    <td class="py-2"><?= esc($product['name']) ?></td>
+                    <td class="py-2"><?= esc(number_format($product['price'], 2)) ?></td>
+                    <td class="py-2"><?= esc($product['description']) ?></td>
+                  <td class="py-2">
+    <?php if ($product['image'] && file_exists(ROOTPATH . '/writable/uploads/products/' . $product['image'])): ?>
+                       <img src="<?= base_url('/writable/uploads/products/' . $product['image']) ?>" alt="Product Image">
+
+                    <?php else: ?>
+                        <span>No Image</span>
+                    <?php endif; ?>
+                </td>
+
+                    <td class="py-2 text-right">
+                        <a href="/admin/products/edit/<?= esc($product['id']) ?>" class="text-blue-600 hover:text-blue-800 mr-4">Edit</a>
+                        <a href="/admin/products/delete/<?= esc($product['id']) ?>" class="text-red-600 hover:text-red-800" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>

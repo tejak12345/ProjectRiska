@@ -30,30 +30,33 @@ class AdminController extends Controller
 
     public function storeProduct()
     {
-        $productModel = new ProductModel();
+        $model = new ProductModel();
 
-        // Validasi form input
-        $validation =  \Config\Services::validation();
-        $validation->setRules([
-            'name' => 'required',
-            'price' => 'required',
-            'description' => 'required',
-        ]);
+        $image = $this->request->getFile('image');
 
-        if ($validation->withRequest($this->request)->run() === FALSE) {
-            return redirect()->to('/admin/products/create')->withInput();
+        // Jika file gambar ada dan valid
+        if ($image && $image->isValid()) {
+            $imageName = $image->getRandomName(); // Nama acak untuk file gambar
+            // Pindahkan gambar ke subfolder products di dalam folder uploads
+            $image->move(ROOTPATH . 'writable/uploads/products', $imageName); // Gambar disimpan di writable/uploads/products
+        } else {
+            $imageName = null;
         }
 
-        // Menyimpan produk
-        $productModel->save([
+        // Data produk yang akan disimpan
+        $data = [
             'name' => $this->request->getPost('name'),
             'price' => $this->request->getPost('price'),
             'description' => $this->request->getPost('description'),
-            'image' => $this->request->getPost('image'),
-        ]);
+            'image' => $imageName,
+        ];
+
+        $model->save($data);
 
         return redirect()->to('/admin/products');
     }
+
+
 
     public function editProduct($id)
     {
