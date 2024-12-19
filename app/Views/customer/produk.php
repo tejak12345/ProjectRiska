@@ -13,6 +13,22 @@
     body {
         font-family: 'Inter', sans-serif;
     }
+
+    .product-name {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* Menambahkan "..." jika teks terpotong */
+        white-space: nowrap;
+        /* Menghindari teks untuk membungkus ke baris baru */
+        font-weight: bold;
+        font-size: 1.125rem;
+        /* Ukuran font yang lebih besar untuk nama produk */
+        color: #2d3748;
+        /* Warna teks */
+        max-width: 100%;
+        /* Menjaga teks agar sesuai dengan lebar container */
+    }
     </style>
 </head>
 
@@ -42,6 +58,22 @@
             </div>
         </div>
     </nav>
+
+    <!-- Modal untuk Detail Produk -->
+    <div id="productModal" class="fixed inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg w-96 p-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-gray-800" id="modalProductName">Nama Produk</h2>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
+            </div>
+            <p class="text-blue-600 font-semibold mt-2" id="modalProductPrice">Rp 0</p>
+            <p class="text-gray-600 mt-4" id="modalProductDescription">Detail Produk...</p>
+            <div class="mt-6 flex justify-center space-x-4">
+                <!-- <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Detail</a>
+                <a href="#" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Beli</a> -->
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content Area -->
     <div class="container mx-auto mt-20 px-4">
@@ -82,31 +114,65 @@
                     </li>
                 </ul>
             </div>
-            <!-- Customer Product List -->
-            <div class="content-area bg-gray-50 rounded-xl shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Our Products</h2>
 
+            <!-- Produk Section -->
+            <div class="col-span-2">
+                <h1 class="text-2xl font-bold text-gray-700 mb-6">Our Products</h1>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Looping Produk -->
                     <?php foreach ($products as $product): ?>
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <!-- Product Image -->
+                        <!-- Gambar Produk -->
                         <?php if ($product['image'] && file_exists(ROOTPATH . '/public/img/products/' . $product['image'])): ?>
                         <img src="<?= base_url('/img/products/' . $product['image']) ?>"
-                            alt="<?= esc($product['name']) ?>" class="w-full h-48 object-cover">
+                            alt="<?= esc($product['name']) ?>" class="w-full h-40 object-cover">
                         <?php else: ?>
-                        <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                        <div class="w-full h-40 bg-gray-200 flex items-center justify-center">
                             <span class="text-gray-500">No Image</span>
                         </div>
                         <?php endif; ?>
 
-                        <!-- Product Details -->
+                        <!-- Detail Produk -->
                         <div class="p-4">
-                            <h3 class="text-lg font-bold text-[#2C3E50]"><?= esc($product['name']) ?></h3>
-                            <p class="text-gray-500 mb-2">Rp <?= esc(number_format($product['price'], 0, ',', '.')) ?>
-                            </p>
-                            <p class="text-gray-700"><?= esc($product['description']) ?></p>
+                            <h3 class="product-name"><?= esc($product['name']) ?></h3> <!-- Nama Produk -->
+                            <p class="text-blue-600 font-semibold">Rp
+                                <?= esc(number_format($product['price'], 0, ',', '.')) ?></p>
+                            <p class="text-gray-600 text-sm mb-4"><?= esc($product['description']) ?></p>
+
+                            <!-- Tombol Aksi -->
+                            <div class="flex justify-between items-center">
+                                <!-- Tombol Detail yang memanggil fungsi openModal -->
+                                <button
+                                    onclick="openModal('<?= esc($product['name']) ?>', 'Rp <?= esc(number_format($product['price'], 0, ',', '.')) ?>', '<?= esc($product['description']) ?>')"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Detail</button>
+                                <a href="/produk/beli/<?= $product['id'] ?>"
+                                    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Beli</a>
+                            </div>
                         </div>
                     </div>
                     <?php endforeach; ?>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <script>
+    // Fungsi untuk membuka modal dan menampilkan detail produk
+    function openModal(productName, productPrice, productDescription) {
+        // Set data produk pada modal
+        document.getElementById('modalProductName').textContent = productName;
+        document.getElementById('modalProductPrice').textContent = productPrice;
+        document.getElementById('modalProductDescription').textContent = productDescription;
+
+        // Tampilkan modal
+        document.getElementById('productModal').classList.remove('hidden');
+    }
+
+    // Menutup modal
+    document.getElementById('closeModal').onclick = function() {
+        document.getElementById('productModal').classList.add('hidden');
+    }
+    </script>
+</body>
+
+</html>
