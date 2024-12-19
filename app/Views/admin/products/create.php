@@ -91,13 +91,15 @@
                             class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
                     </button>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <img src="https://via.placeholder.com/40" alt="Admin Profile" class="rounded-full w-10 h-10">
-                    <div>
-                        <p class="text-sm font-semibold">Admin User</p>
-                        <p class="text-xs text-gray-400">Administrator</p>
+                <div class="flex items-center space-x-3 border-l pl-6">
+    <!-- Ikon Profil Admin -->
+    <i data-lucide="user" class="w-10 h-10 text-[#2C3E50] border-2 border-[#2C3E50] rounded-full flex items-center justify-center">
+    </i>
+    <div>
+        <p class="text-sm font-semibold"><?= esc($admin['username']) ?></p>
+                            <p class="text-xs text-gray-500"><?= esc(ucfirst($admin['role'])) ?></p>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     </nav>
