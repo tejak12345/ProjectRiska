@@ -4,3 +4,12 @@
 <IfModule !authz_core_module>
 	Deny from all
 </IfModule>
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Izinkan akses ke writable/uploads/products
+    RewriteCond %{REQUEST_URI} ^/writable/uploads/products/ [NC]
+    RewriteRule .* - [L]
+
+    # Aturan lain untuk redirect atau routing aplikasi Anda
+</IfModule>

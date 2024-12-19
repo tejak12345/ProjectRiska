@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
@@ -38,7 +39,7 @@ class AdminController extends Controller
         if ($image && $image->isValid()) {
             $imageName = $image->getRandomName(); // Nama acak untuk file gambar
             // Pindahkan gambar ke subfolder products di dalam folder uploads
-            $image->move(ROOTPATH . 'writable/uploads/products', $imageName); // Gambar disimpan di writable/uploads/products
+            $image->move(ROOTPATH . 'public/img/products', $imageName); // Gambar disimpan di writable/uploads/products
         } else {
             $imageName = null;
         }
@@ -50,6 +51,7 @@ class AdminController extends Controller
             'description' => $this->request->getPost('description'),
             'image' => $imageName,
         ];
+
 
         $model->save($data);
 
