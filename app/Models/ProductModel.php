@@ -10,4 +10,9 @@ class ProductModel extends Model
     protected $allowedFields = ['name', 'description', 'price', 'image'];  // Kolom yang boleh diubah
     protected $useTimestamps = true;  // Menggunakan timestamp (created_at, updated_at)
 
+    // Method untuk menghitung total produk
+    public function getTotalProductCount()
+    {
+        return $this->countAll(); // Menghitung semua baris dalam tabel produk
+    }
 }

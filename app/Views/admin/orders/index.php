@@ -124,18 +124,7 @@
                             Manage Orders
                         </a>
                     </li>
-                    <li>
-                        <a href="/admin/consultations" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
-                            <i data-lucide="message-square" class="w-5 h-5 mr-3"></i>
-                            Manage Consultations
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/projects" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
-                            <i data-lucide="clipboard-list" class="w-5 h-5 mr-3"></i>
-                            Manage Projects
-                        </a>
-                    </li>
+                 
                     <li>
                         <a href="/admin/logout" class="flex items-center hover:bg-gray-100 p-3 rounded-lg text-red-600">
                             <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>

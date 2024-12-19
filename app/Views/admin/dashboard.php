@@ -122,18 +122,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/consultations" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
-                        <i data-lucide="message-square" class="w-5 h-5 mr-3"></i>
-                        Manage Consultations
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/projects" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
-                        <i data-lucide="clipboard-list" class="w-5 h-5 mr-3"></i>
-                        Manage Projects
-                    </a>
-                </li>
-                <li>
                     <a href="/admin/logout" class="flex items-center hover:bg-gray-100 p-3 rounded-lg text-red-600">
                         <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
                         Logout
@@ -147,14 +135,16 @@
             <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Admin Dashboard Overview</h2>
 
             <!-- Quick Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-green-500">
-                    <div class="flex items-center justify-between mb-4">
-                        <i data-lucide="package" class="w-8 h-8 text-green-600"></i>
-                        <span class="text-lg font-bold text-[#2C3E50]">254</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-green-500">
+        <div class="flex items-center justify-between mb-4">
+            <i data-lucide="package" class="w-8 h-8 text-green-600"></i>
+            <span class="text-lg font-bold text-[#2C3E50]"><?= esc($totalProducts) ?></span>
                     </div>
                     <h3 class="font-semibold text-gray-700">Total Products</h3>
                 </div>
+           
+
 
                 <div class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-blue-500">
                     <div class="flex items-center justify-between mb-4">
@@ -164,72 +154,57 @@
                     <h3 class="font-semibold text-gray-700">Total Orders</h3>
                 </div>
 
-                <div
-                    class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-purple-500">
-                    <div class="flex items-center justify-between mb-4">
-                        <i data-lucide="users" class="w-8 h-8 text-purple-600"></i>
-                        <span class="text-lg font-bold text-[#2C3E50]">456</span>
-                    </div>
-                    <h3 class="font-semibold text-gray-700">Active Users</h3>
-                </div>
+           <div class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-purple-500">
+    <div class="flex items-center justify-between mb-4">
+        <i data-lucide="users" class="w-8 h-8 text-purple-600"></i>
+        <span class="text-lg font-bold text-[#2C3E50]"><?= $activeUsersCount ?></span>
+            </div>
+            <h3 class="font-semibold text-gray-700">Active Users</h3>
+        </div>
+
+
             </div>
 
             <!-- Recent Activity -->
-            <div class="mt-8">
-                <h3 class="text-xl font-semibold text-[#2C3E50] mb-4">Recent Orders Management</h3>
-                <div class="bg-gray-50 rounded-xl p-4">
-                    <table class="w-full table-auto">
-                        <thead>
-                            <tr class="border-b border-gray-200">
-                                <th class="py-2 text-left">Order ID</th>
-                                <th class="py-2 text-left">Customer</th>
-                                <th class="py-2 text-left">Status</th>
-                                <th class="py-2 text-right">Total</th>
-                                <th class="py-2 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-gray-200">
-                                <td class="py-2">#12345</td>
-                                <td class="py-2">John Doe</td>
-                                <td class="py-2">
-                                    <span
-                                        class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Completed</span>
-                                </td>
-                                <td class="py-2 text-right">Rp 250.000</td>
-                                <td class="py-2 text-right table-actions">
-                                    <a href="#" class="text-blue-600 hover:text-blue-800">
-                                        <i data-lucide="eye" class="w-4 h-4"></i> View
-                                    </a>
-                                    <a href="#" class="text-green-600 hover:text-green-800 ml-2">
-                                        <i data-lucide="edit" class="w-4 h-4"></i> Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <td class="py-2">#12346</td>
-                                <td class="py-2">Jane Smith</td>
-                                <td class="py-2">
-                                    <span
-                                        class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Pending</span>
-                                </td>
-                                <td class="py-2 text-right">Rp 175.500</td>
-                                <td class="py-2 text-right table-actions">
-                                    <a href="#" class="text-blue-600 hover:text-blue-800">
-                                        <i data-lucide="eye" class="w-4 h-4"></i> View
-                                    </a>
-                                    <a href="#" class="text-green-600 hover:text-green-800 ml-2">
-                                        <i data-lucide="edit" class="w-4 h-4"></i> Edit
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+<div class="mt-8">
+    <h3 class="text-xl font-semibold text-[#2C3E50] mb-4">Recent Orders Management</h3>
+    <div class="bg-gray-50 rounded-xl p-4">
+        <table class="w-full table-auto">
+            <thead>
+                <tr class="border-b border-gray-200">
+                    <th class="py-2 text-left">Order ID</th>
+                    <th class="py-2 text-left">Customer</th>
+                    <th class="py-2 text-left">Status</th>
+                    <th class="py-2 text-right">Total</th>
+                    <th class="py-2 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($recentOrders as $order): ?>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2"><?= $order['order_id'] ?></td>
+                        <td class="py-2"><?= $order['customer_name'] ?></td>
+                        <td class="py-2">
+                            <span class="bg-<?= $order['status'] == 'Completed' ? 'green' : 'yellow' ?>-100 text-<?= $order['status'] == 'Completed' ? 'green' : 'yellow' ?>-800 px-2 py-1 rounded-full text-xs">
+                                <?= ucfirst($order['status']) ?>
+                            </span>
+                        </td>
+                        <td class="py-2 text-right">Rp <?= number_format($order['total'], 0, ',', '.') ?></td>
+                        <td class="py-2 text-right table-actions">
+                            <a href="#" class="text-blue-600 hover:text-blue-800">
+                                <i data-lucide="eye" class="w-4 h-4"></i> View
+                            </a>
+                            <a href="#" class="text-green-600 hover:text-green-800 ml-2">
+                                <i data-lucide="edit" class="w-4 h-4"></i> Edit
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
+
 
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>

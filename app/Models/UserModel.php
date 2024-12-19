@@ -15,12 +15,21 @@ class UserModel extends Model
         return $this->where('username', $username)->first();
     }
     // Ambil semua customer
+   
+    public function getActiveUsersCount()
+    {
+        return $this->where('role', 'customer')->countAllResults();  // Menghitung jumlah pengguna dengan role 'customer'
+    }
+    // Fungsi untuk mendapatkan semua user berdasarkan role tertentu
     public function getCustomers()
     {
         return $this->where('role', 'customer')->findAll();
     }
+
     public function getAdmin()
     {
         return $this->where('role', 'admin')->first();
     }
+
+
 }
