@@ -3,9 +3,11 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\ProductModel;
 
 class CustomerController extends Controller
 {
+
     // Menampilkan halaman dashboard customer
     public function index()
     {
@@ -27,6 +29,13 @@ class CustomerController extends Controller
         ];
 
         return view('customer/detail', ['produk' => $produk]);
+    }
+
+    public function listProducts()
+    {
+        $model = new ProductModel(); // Pastikan Anda sudah membuat model ini
+        $data['products'] = $model->findAll();
+        return view('customer/produk', $data);
     }
 
 

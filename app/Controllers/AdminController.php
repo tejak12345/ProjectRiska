@@ -59,6 +59,12 @@ class AdminController extends Controller
     }
 
 
+    public function listProducts()
+    {
+        $model = new ProductModel();
+        $data['products'] = $model->findAll();
+        return view('customer/products', $data);
+    }
 
     public function editProduct($id)
     {

@@ -24,8 +24,8 @@ $routes->post('auth/registrasi', 'Auth::registerProcess');
 
 $routes->get('customer', 'CustomerController::index');  // Rute untuk menampilkan halaman dashboard customer
 // $routes->get('admin', 'AdminController::index');
-$routes->get('/produk', 'CustomerController::produk');
-$routes->get('customer/detail/(:num)', 'CustomerController::detail/$1');
+// $routes->get('/produk', 'CustomerController::produk');
+// $routes->get('customer/detail/(:num)', 'CustomerController::detail/$1');
 
 // Add these new routes:
 $routes->get('checkout/(:num)', 'CustomerController::checkout/$1');
@@ -51,3 +51,6 @@ $routes->get('/admin/projects/create', 'AdminController::createProject');
 $routes->post('/admin/projects/store', 'AdminController::storeProject');
 
 $routes->get('/admin/logout', 'AdminController::logout');
+
+// Customer route
+$routes->get('/produk', 'CustomerController::listProducts');
