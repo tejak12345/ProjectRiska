@@ -203,7 +203,7 @@
     </div>
 
     <!-- Modal untuk Detail Produk -->
-    <div id="productModal" class="fixed inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50 hidden">
+    <div id="productModal" class="fixed inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50">
         <div class="bg-white rounded-lg w-96 p-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-800" id="modalProductName">Nama Produk</h2>
