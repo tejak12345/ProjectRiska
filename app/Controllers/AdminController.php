@@ -11,7 +11,7 @@ use App\Models\ProjectModel;
 class AdminController extends Controller
 {
     // Halaman Dashboard Admin
-     public function index()
+    public function index()
     {
         // Instantiate the necessary models
         $productModel = new ProductModel();
@@ -27,28 +27,51 @@ class AdminController extends Controller
         // Get recent orders (adjust the limit as needed)
         $recentOrders = $orderModel->orderBy('created_at', 'desc')->limit(5)->findAll();
 
+        // Get admin details (fetching the first admin user from the database)
+        $admin = $userModel->getAdmin(); // This assumes you have a method getAdmin() to fetch the admin data
+
         // Pass the data to the view
         return view('admin/dashboard', [
-            'totalProducts' => $totalProducts, 
+            'totalProducts' => $totalProducts,
             'activeUsersCount' => $activeUsersCount,
-            'recentOrders' => $recentOrders
+            'recentOrders' => $recentOrders,
+            'admin' => $admin // Send admin data to the view
         ]);
     }
+
 
 
 
     // Manajemen Produk
     public function products()
     {
+        // Instantiate the necessary models
         $productModel = new ProductModel();
+        $userModel = new UserModel();  // Instantiate the UserModel correctly
+
+        // Get all products
         $data['products'] = $productModel->findAll();
+
+        // Get admin data
+        $data['admin'] = $userModel->getAdmin();  // Get admin data
+
+        // Pass the products and admin data to the view
         return view('admin/products/index', $data);
     }
 
+
     public function createProduct()
     {
-        return view('admin/products/create');
+        // Instantiate the necessary models
+        $userModel = new UserModel(); // Instantiate the UserModel
+
+        // Get admin data
+        $admin = $userModel->getAdmin();  // Retrieve the admin data
+
+        // Pass the admin data to the view along with the create product view
+        return view('admin/products/create', ['admin' => $admin]);
     }
+
 
     public function storeProduct()
     {
@@ -121,7 +144,15 @@ class AdminController extends Controller
     public function orders()
     {
         $orderModel = new OrderModel();
+        $userModel = new UserModel();
+
+        // Ambil data pesanan
         $data['orders'] = $orderModel->findAll();
+
+        // Ambil data admin
+        $data['admin'] = $userModel->getAdmin(); // Ambil data admin
+
+        // Kirim data pesanan dan data admin ke tampilan
         return view('admin/orders/index', $data);
     }
 
@@ -147,6 +178,6 @@ class AdminController extends Controller
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('auth/login');
     }
 }

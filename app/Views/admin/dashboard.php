@@ -8,210 +8,239 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8fafc;
+    }
 
-        .main-content {
-            display: flex;
-            margin-top: 80px;
-            min-height: 100vh;
-        }
+    .main-content {
+        display: flex;
+        margin-top: 80px;
+        min-height: calc(100vh - 80px);
+    }
 
-        .sidebar {
-            width: 250px;
-            background-color: #ffffff;
-            box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-right: 20px;
-        }
+    .sidebar {
+        background: linear-gradient(180deg, #2C3E50 0%, #34495E 100%);
+        width: 280px;
+        transition: all 0.3s ease;
+    }
 
-        .content-area {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f5f5f5;
-            min-height: 100vh;
-            overflow-y: auto;
-        }
+    .sidebar a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
 
-        .table th,
-        .table td {
-            padding: 12px 15px;
-            text-align: left;
-        }
+    .stat-card {
+        transition: all 0.3s ease;
+    }
 
-        .table th {
-            background-color: #f1f1f1;
-        }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
 
-        .table-actions a {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
+    .table th {
+        background-color: #f8fafc;
+    }
 
-        .table-actions a i {
-            width: 16px;
-            height: 16px;
-        }
+    .table tr {
+        transition: all 0.2s ease;
+    }
 
-        .table tr:hover {
-            background-color: #f9f9f9;
-        }
+    .table tr:hover {
+        background-color: #f1f5f9;
+    }
 
-        nav {
-            z-index: 10;
-        }
+    .action-button {
+        transition: all 0.2s ease;
+    }
+
+    .action-button:hover {
+        transform: scale(1.05);
+    }
     </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-50">
     <!-- Navbar -->
-    <nav class="bg-[#2C3E50] text-white p-4 shadow-md fixed top-0 w-full z-50">
+    <nav class="bg-white text-gray-800 p-4 shadow-lg fixed top-0 w-full z-50 border-b border-gray-100">
         <div class="container mx-auto flex justify-between items-center max-w-screen-xl px-6">
             <div class="flex items-center space-x-3">
-                <i data-lucide="shield" class="w-8 h-8"></i>
-                <h1 class="text-xl font-bold">LeafletPro Admin Panel</h1>
+                <div class="bg-[#2C3E50] p-2 rounded-lg">
+                    <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold text-[#2C3E50]">LeafletPro</h1>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <button id="notifikasi-toggle" class="hover:text-gray-300 transition">
-                        <i data-lucide="bell" class="w-6 h-6"></i>
-                        <span
-                            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                    </button>
+
+            <!-- Profile & Hamburger Menu for Mobile -->
+            <div class="flex items-center space-x-3 border-l pl-6">
+                <!-- Ikon Profil Admin -->
+                <i data-lucide="user"
+                    class="w-10 h-10 text-[#2C3E50] border-2 border-[#2C3E50] rounded-full flex items-center justify-center"></i>
+                <div>
+                    <p class="text-sm font-semibold"><?= esc($admin['username']) ?></p>
+                    <p class="text-xs text-gray-500"><?= esc(ucfirst($admin['role'])) ?></p>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <img src="https://via.placeholder.com/40" alt="Admin Profile" class="rounded-full w-10 h-10">
-                    <div>
-                        <p class="text-sm font-semibold">Admin User</p>
-                        <p class="text-xs text-gray-400">Administrator</p>
-                    </div>
-                </div>
+            </div>
+            <!-- Mobile Hamburger Menu -->
+            <div class="lg:hidden">
+                <button id="hamburger" class="text-gray-600">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
             </div>
         </div>
     </nav>
-</body>
 
-<!-- Main Content Area -->
-<div class="container mx-auto mt-20 px-4 max-w-screen-xl">
-    <div class="main-content">
-        <!-- Sidebar Menu -->
-        <div class="sidebar bg-white rounded-xl shadow-md p-6 border-l-4 border-[#2C3E50]">
-            <ul class="space-y-4">
-                <li>
-                    <a href="/admin/dashboard" class="flex items-center text-[#2C3E50] bg-gray-100 p-3 rounded-lg">
-                        <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/products" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
-                        <i data-lucide="package" class="w-5 h-5 mr-3"></i>
-                        Manage Products
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/orders" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
-                        <i data-lucide="truck" class="w-5 h-5 mr-3"></i>
-                        Manage Orders
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/logout" class="flex items-center hover:bg-gray-100 p-3 rounded-lg text-red-600">
-                        <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
-                        Logout
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Dashboard Content -->
-        <div class="content-area bg-gray-50 rounded-xl shadow-md p-6 mb-6 border-t-4 border-[#2C3E50]">
-            <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Admin Dashboard Overview</h2>
-
-            <!-- Quick Stats -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-green-500">
-        <div class="flex items-center justify-between mb-4">
-            <i data-lucide="package" class="w-8 h-8 text-green-600"></i>
-            <span class="text-lg font-bold text-[#2C3E50]"><?= esc($totalProducts) ?></span>
-                    </div>
-                    <h3 class="font-semibold text-gray-700">Total Products</h3>
-                </div>
-           
-
-
-                <div class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-blue-500">
-                    <div class="flex items-center justify-between mb-4">
-                        <i data-lucide="truck" class="w-8 h-8 text-blue-600"></i>
-                        <span class="text-lg font-bold text-[#2C3E50]">128</span>
-                    </div>
-                    <h3 class="font-semibold text-gray-700">Total Orders</h3>
-                </div>
-
-           <div class="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition border-l-4 border-purple-500">
-    <div class="flex items-center justify-between mb-4">
-        <i data-lucide="users" class="w-8 h-8 text-purple-600"></i>
-        <span class="text-lg font-bold text-[#2C3E50]"><?= $activeUsersCount ?></span>
-            </div>
-            <h3 class="font-semibold text-gray-700">Active Users</h3>
-        </div>
-
-
+    <div class="container mx-auto mt-20 px-4 max-w-screen-xl">
+        <div class="main-content">
+            <!-- Sidebar Menu -->
+            <div class="sidebar rounded-2xl shadow-xl p-6 mr-6 hidden lg:block">
+                <ul class="space-y-3">
+                    <li>
+                        <a href="/admin/dashboard"
+                            class="flex items-center text-white p-3 rounded-lg hover:bg-white/10 transition-all">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                            <span class="font-medium">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/products"
+                            class="flex items-center text-gray-300 hover:text-white p-3 rounded-lg transition-all">
+                            <i data-lucide="package" class="w-5 h-5 mr-3"></i>
+                            <span class="font-medium">Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/orders"
+                            class="flex items-center text-gray-300 hover:text-white p-3 rounded-lg transition-all">
+                            <i data-lucide="truck" class="w-5 h-5 mr-3"></i>
+                            <span class="font-medium">Orders</span>
+                        </a>
+                    </li>
+                    <li class="pt-4 mt-4 border-t border-gray-700">
+                        <a href="/admin/logout"
+                            class="flex items-center text-red-400 hover:text-red-300 p-3 rounded-lg transition-all">
+                            <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
+                            <span class="font-medium">Logout</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
 
-            <!-- Recent Activity -->
-<div class="mt-8">
-    <h3 class="text-xl font-semibold text-[#2C3E50] mb-4">Recent Orders Management</h3>
-    <div class="bg-gray-50 rounded-xl p-4">
-        <table class="w-full table-auto">
-            <thead>
-                <tr class="border-b border-gray-200">
-                    <th class="py-2 text-left">Order ID</th>
-                    <th class="py-2 text-left">Customer</th>
-                    <th class="py-2 text-left">Status</th>
-                    <th class="py-2 text-right">Total</th>
-                    <th class="py-2 text-right">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($recentOrders as $order): ?>
-                    <tr class="border-b border-gray-200">
-                        <td class="py-2"><?= $order['order_id'] ?></td>
-                        <td class="py-2"><?= $order['customer_name'] ?></td>
-                        <td class="py-2">
-                            <span class="bg-<?= $order['status'] == 'Completed' ? 'green' : 'yellow' ?>-100 text-<?= $order['status'] == 'Completed' ? 'green' : 'yellow' ?>-800 px-2 py-1 rounded-full text-xs">
-                                <?= ucfirst($order['status']) ?>
-                            </span>
-                        </td>
-                        <td class="py-2 text-right">Rp <?= number_format($order['total'], 0, ',', '.') ?></td>
-                        <td class="py-2 text-right table-actions">
-                            <a href="#" class="text-blue-600 hover:text-blue-800">
-                                <i data-lucide="eye" class="w-4 h-4"></i> View
-                            </a>
-                            <a href="#" class="text-green-600 hover:text-green-800 ml-2">
-                                <i data-lucide="edit" class="w-4 h-4"></i> Edit
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <!-- Dashboard Content -->
+            <div class="flex-1">
+                <div class="bg-white rounded-2xl shadow-md p-8 mb-6">
+                    <h2 class="text-2xl font-bold text-[#2C3E50] mb-8">Dashboard Overview</h2>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div
+                            class="stat-card bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="bg-white/20 p-3 rounded-xl">
+                                    <i data-lucide="package" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-2xl font-bold"><?= esc($totalProducts) ?></span>
+                            </div>
+                            <h3 class="font-medium">Total Products</h3>
+                        </div>
+
+                        <div
+                            class="stat-card bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="bg-white/20 p-3 rounded-xl">
+                                    <i data-lucide="truck" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-2xl font-bold">128</span>
+                            </div>
+                            <h3 class="font-medium">Total Orders</h3>
+                        </div>
+
+                        <div
+                            class="stat-card bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="bg-white/20 p-3 rounded-xl">
+                                    <i data-lucide="users" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-2xl font-bold"><?= $activeUsersCount ?></span>
+                            </div>
+                            <h3 class="font-medium">Active Users</h3>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders -->
+                    <div class="bg-white rounded-2xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-semibold text-[#2C3E50]">Recent Orders</h3>
+                            <button class="text-blue-600 hover:text-blue-700 flex items-center gap-2 text-sm">
+                                View All
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th class="py-4 px-4 text-left text-sm font-medium text-gray-600">Order ID</th>
+                                        <th class="py-4 px-4 text-left text-sm font-medium text-gray-600">Customer</th>
+                                        <th class="py-4 px-4 text-left text-sm font-medium text-gray-600">Status</th>
+                                        <th class="py-4 px-4 text-right text-sm font-medium text-gray-600">Total</th>
+                                        <th class="py-4 px-4 text-right text-sm font-medium text-gray-600">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($recentOrders as $order): ?>
+                                    <tr class="border-b border-gray-100">
+                                        <td class="py-4 px-4 text-sm">#<?= $order['order_id'] ?></td>
+                                        <td class="py-4 px-4 text-sm font-medium"><?= $order['customer_name'] ?></td>
+                                        <td class="py-4 px-4">
+                                            <span
+                                                class="px-3 py-1 text-xs font-medium rounded-full <?= $order['status'] == 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' ?>">
+                                                <?= ucfirst($order['status']) ?>
+                                            </span>
+                                        </td>
+                                        <td class="py-4 px-4 text-right text-sm font-medium">Rp
+                                            <?= number_format($order['total'], 0, ',', '.') ?>
+                                        </td>
+                                        <td class="py-4 px-4 text-right">
+                                            <div class="flex justify-end gap-2">
+                                                <button
+                                                    class="action-button p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                                </button>
+                                                <button
+                                                    class="action-button p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors">
+                                                    <i data-lucide="edit" class="w-4 h-4"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
+
+        const hamburger = document.getElementById("hamburger");
+        const sidebar = document.querySelector(".sidebar");
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle("lg:block");
+            sidebar.classList.toggle("hidden");
+        });
     });
-</script>
+    </script>
 </body>
 
 </html>
