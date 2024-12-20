@@ -84,15 +84,7 @@
                     LeafletPro</h1>
             </div>
 
-            <div class="flex items-center space-x-6">
-                <!-- Notifications -->
-                <div class="relative">
-                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                        <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                    </button>
-                </div>
-
+           
                 <!-- Profile Section -->
                 <div class="flex items-center space-x-3 border-l pl-6">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white">
@@ -167,14 +159,7 @@
                                 placeholder="Search products..."
                                 class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-3 top-2.5"></i>
-                        </div>
-                        <select class="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>All Categories</option>
-                            <option>Electronics</option>
-                            <option>Clothing</option>
-                            <option>Accessories</option>
-                        </select>
-                    </div>
+                        
 
                     <!-- Products Table -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100">
@@ -209,8 +194,9 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                $<?= esc(number_format($product['price'], 2)) ?>
+    Rp<?= esc(number_format($product['price'], 0, ',', '.')) ?>
                                             </span>
+
                                         </td>
                                         <td class="px-6 py-4">
                                             <p class="text-sm text-gray-600 max-w-xs truncate">

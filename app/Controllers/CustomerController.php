@@ -130,7 +130,7 @@ class CustomerController extends Controller
         return redirect()->to('auth/login');
     }
 
-    public function profil()
+    public function profile()
     {
         // Ambil data pengguna yang sedang login
         $session = session();
@@ -151,10 +151,10 @@ class CustomerController extends Controller
         }
 
         // Kirim data ke view 'customer/profil.php'
-        return view('customer/profil', ['user' => $user]);
+        return view('customer/profile', ['user' => $user]);
     }
 
-    public function updateProfil()
+    public function updateProfile()
     {
         // Validasi input
         $validation = \Config\Services::validation();
@@ -195,7 +195,7 @@ class CustomerController extends Controller
         // Menambahkan flashdata untuk notifikasi sukses
         session()->set('success', 'Profil berhasil diperbarui.');
 
-        return redirect()->to('/profil'); // Sesuaikan dengan route
+        return redirect()->to('/customer/profile'); // Sesuaikan dengan route
     }
 
     public function pesanan(){

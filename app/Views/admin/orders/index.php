@@ -71,16 +71,7 @@
                     LeafletPro</h1>
             </div>
 
-            <div class="flex items-center space-x-6">
-                <!-- Notifications -->
-                <div class="relative">
-                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                        <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
-                        <span
-                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                    </button>
-                </div>
-
+            
                 <!-- Profile Section -->
                 <div class="flex items-center space-x-3 border-l pl-6">
                     <div
@@ -169,7 +160,7 @@
                         </select>
                     </div>
 
-                 <!-- Orders Table -->
+              <!-- Orders Table -->
 <div class="bg-white rounded-xl shadow-sm border border-gray-100">
     <div class="overflow-x-auto max-h-96 overflow-y-auto">
         <table class="w-full">
@@ -184,62 +175,64 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 <?php foreach ($orders as $order): ?>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4">
-                            <div class="font-medium text-gray-900">#<?= esc($order['id']) ?></div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="text-gray-600"><?= esc($order['customer_name']) ?></div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                $<?= esc($order['total']) ?>
-                            </span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium 
-                            <?php
-                            switch (strtolower($order['status'])) {
-                                case 'pending':
-                                    echo 'bg-yellow-100 text-yellow-800';
-                                    break;
-                                case 'processing':
-                                    echo 'bg-blue-100 text-blue-800';
-                                    break;
-                                case 'completed':
-                                    echo 'bg-green-100 text-green-800';
-                                    break;
-                                case 'cancelled':
-                                    echo 'bg-red-100 text-red-800';
-                                    break;
-                                default:
-                                    echo 'bg-gray-100 text-gray-800';
-                            }
-                            ?>">
-                                <?= esc(ucfirst($order['status'])) ?>
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <form action="/admin/orders/confirm/<?= esc($order['id']) ?>" method="post" class="inline-block">
-                                <button type="submit"
-                                    class="action-button text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-lg px-3 py-1 transition-all duration-300 ease-in-out transform hover:scale-105">
-                                    Confirm
-                                </button>
-                            </form>
-                            <form action="/admin/orders/cancel/<?= esc($order['id']) ?>" method="post" class="inline-block ml-2">
-                                <button type="submit"
-                                    class="action-button text-sm text-white bg-red-500 hover:bg-red-600 rounded-lg px-3 py-1 transition-all duration-300 ease-in-out transform hover:scale-105">
-                                    Cancel
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="font-medium text-gray-900">#<?= esc($order['id']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-gray-600"><?= esc($order['customer_name']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Rp <?= number_format($order['total'], 0, ',', '.') ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium 
+                                        <?php
+                                        switch (strtolower($order['status'])) {
+                                            case 'pending':
+                                                echo 'bg-yellow-100 text-yellow-800';
+                                                break;
+                                            case 'processing':
+                                                echo 'bg-blue-100 text-blue-800';
+                                                break;
+                                            case 'completed':
+                                                echo 'bg-green-100 text-green-800';
+                                                break;
+                                            case 'cancelled':
+                                                echo 'bg-red-100 text-red-800';
+                                                break;
+                                            default:
+                                                echo 'bg-gray-100 text-gray-800';
+                                        }
+                                        ?>">
+                                            <?= esc(ucfirst($order['status'])) ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <form action="/admin/orders/confirm/<?= esc($order['id']) ?>" method="post"
+                                            class="inline-block">
+                                            <button type="submit"
+                                                class="action-button text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-lg px-3 py-1 transition-all duration-300 ease-in-out transform hover:scale-105">
+                                                Confirm
+                                            </button>
+                                        </form>
+                                        <form action="/admin/orders/cancel/<?= esc($order['id']) ?>" method="post"
+                                            class="inline-block ml-2">
+                                            <button type="submit"
+                                                class="action-button text-sm text-white bg-red-500 hover:bg-red-600 rounded-lg px-3 py-1 transition-all duration-300 ease-in-out transform hover:scale-105">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
                 </div>
             </div>
