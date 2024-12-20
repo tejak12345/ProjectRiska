@@ -8,14 +8,14 @@ class UserModel extends Model
 {
     protected $table = 'users'; // Nama tabel
     protected $primaryKey = 'id'; // Kolom primary key
-    protected $allowedFields = ['username', 'email', 'password', 'role',]; 
+    protected $allowedFields = ['username', 'email', 'password', 'role',];
     // Tambahkan fungsi untuk mengambil user berdasarkan username jika diperlukan
     public function getUserByUsername($username)
     {
         return $this->where('username', $username)->first();
     }
     // Ambil semua customer
-   
+
     public function getActiveUsersCount()
     {
         return $this->where('role', 'customer')->countAllResults();  // Menghitung jumlah pengguna dengan role 'customer'
@@ -30,6 +30,4 @@ class UserModel extends Model
     {
         return $this->where('role', 'admin')->first();
     }
-
-
 }

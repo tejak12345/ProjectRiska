@@ -85,69 +85,48 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-span-3 grid grid-cols-2">
-                <div class="col-span-1 shadow-xl m-2 px-5 py-2 rounded-xl">
-                    <?php if ($product['image'] && file_exists(ROOTPATH . '/public/img/products/' . $product['image'])): ?>
-                        <img src="<?= base_url('/img/products/' . $product['image']) ?>"
-                            alt="<?= esc($product['name']) ?>" class="w-full h-40 object-cover object-center">
-                    <?php else: ?>
-                        <div class="w-full h-40 bg-gray-200 flex items-center justify-center">
-                            <span class="text-gray-500">No Image</span>
-                        </div>
-                    <?php endif; ?>
-                    <h1 class="font-bold text-xl"><?= $product["name"] ?></h1>
-                    <p class="text-gray-500 lg:h-[70px] truncate"><?= $product["description"] ?></p>
-                    <p class="">Rp.<?= esc(number_format($product["price"],0,',','.'))?></p>
-                </div>
-                <form class="col-span-1" action="/prosescheckout/<?= esc($product["id"]) ?>" method="POST" >
-                    <?= csrf_field(); ?>
-                    <div class="">
-                        <label for="username" class="w-full text-blue-800">Username</label>
-                        <input type="text" class="w-full border-blue-800 border rounded-md py-2 px-3 mb-2" value="<?= $user["username"] ?> " name="username" required>
-                        <label for="uesrname" class="w-full text-blue-800">Email</label>
-                        <input type="email" class="w-full border-blue-800 border rounded-md py-2 px-3" value="<?= $user["email"] ?> " name="email" required>
-                    </div>
-                    <div class="">
-                        <label for="metode_pembayaran" class="w-full block text-blue-800 mt-2">Metode Pembayaran</label>
-                        <select name="metode_pembayaran" onchange={show_pilih_bank()} id="metode_pembayaran" class="w-full py-2 border border-blue-800 rounded-md hover:cursor-pointer">
-                            <option value="Cash">Cash</option>
-                            <option value="Transfer Bank">Transfer Bank</option>
-                        </select>
-                        <label for="pilih_bank" id="pilih_bank_lbl" class="w-full text-blue-800 mt-2 hidden">Pilih Bank</label>
-                        <select name="pilih_bank" id="pilih_bank" class="w-full py-2 border border-blue-800 rounded-md hover:cursor-pointer hidden">
-                            <option value="BRI">BRI</option>
-                            <option value="BCA">BCA</option>
-                        </select>
-                        <button type="submit" class="block py-2 px-3 border bg-green-500 hover:bg-green-800 rounded-md text-white mt-2">Pesan Sekarang</button>
-                    </div>
-                </form>
+            <div class="col-span-3">
+                <table class="w-full h-full border border-red-500">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Product_id</th>
+                            <th class="text-center">Total</th>
+                            <th class="text-center">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($pendings as $pending): ?>
+                            <tr>
+                                <td class="text-end"><?= $pending["product_id"] ?></td>
+                                <td class="text-end"><?= $pending["total_price"] ?></td>
+                                <td class="text-end"><?= $pending["quantity"] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
-        </div>
-    </div>
 
-    <!-- Modal untuk Detail Produk -->
-    <?php if(session()->getFlashdata("success") || session()->getFlashdata("error")) :?>
-        
-        <div id="notifikasiModal" class="fixed inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50">
-            <div class="bg-white rounded-lg w-96 p-6">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xl font-semibold text-gray-800">Notifikasi</h2>
-                    <button id="closeModal" onclick={closeModal()} class="text-gray-500 hover:text-gray-700">&times;</button>
-                </div>
-                <?php if(session()->getFlashdata("success")):  ?>
-                    <p class="text-green-500 font-semibold my-2" id="notifikasiStatus"><?= session()->getFlashdata("success") ?></p>
-                    <div class="flex justify-end items-center">
-                        <a id="okBtn" href="/produk/" class="mt-6 px-3 py-2 text-white btn bg-green-500 rounded-xl">Oke</a>
-                    </div>
-                    <?php elseif (session()->getFlashdata("error")):  ?>
-                        <p class="text-red-500 font-semibold my-2" id="notifikasiStatus"><?= session()->getFlashdata("error") ?></p>
-                        <div class="flex justify-end items-center">
-                            <a id="okBtn" href="/produk/beli/<?= esc($product["id"]) ?>" class="mt-6 text-right text-white btn bg-red-500 rounded-xl">Oke</a>
-                        </div>
-                        <?php endif; ?>
-                </div>
-            </div>
-    <?php endif; ?>
+            <!-- Orders Table -->
+            <!-- <div class="bg-white rounded-xl shadow-md p-6">
+                    <table class="w-full table-auto">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($pending as $pending): ?>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="text-end"><?= $pending["product_id"] ?></td>
+                                    <td class="text-end"><?= $pending["total_price"] ?></td>
+                                    <td class="text-end"><?= $pending["quantity"] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div> -->
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
