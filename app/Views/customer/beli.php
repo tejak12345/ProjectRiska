@@ -65,7 +65,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition">
+                            <a href="<?= base_url("pesanan") ?>" class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition">
                                 <i data-lucide="shopping-cart" class="w-5 h-5 mr-3 text-gray-600"></i>
                                 <span>Pesanan Saya</span>
                             </a>

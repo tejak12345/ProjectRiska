@@ -43,27 +43,11 @@ class CustomerController extends Controller
 
     public function checkout($id)
     {
-        
-
         return view('customer/checkout', ['produk' => $produk]);
     }
 
     public function processCheckout($id)
     {
-        // Validate input
-        // $rules = [
-        //     'full_name' => 'required',
-        //     'email' => 'required|valid_email',
-        //     'payment_method' => 'required'
-        // ];
-
-        // if (!$this->validate($rules)) {
-        //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        // }
-
-        // Process the payment based on method
-        // $paymentMethod = $this->request->getPost('payment_method');
-
         $userModel = new UserModel();
         $productModel = new ProductModel();
         $orderModel = new OrderModel();
@@ -92,20 +76,11 @@ class CustomerController extends Controller
             return redirect()->back()->with('error', 'Produk atau user tidak ditemukan.');
         }
 
-        
-        
         if(!$validation->run($data)){
-            // dd($this->validator->getErrors());
             return view('customer/beli'.$id,[
                 "validation" => $this->validator
             ]);
         };
-
-        // Here you would typically:
-        // 1. Save order to database
-        // 2. Process payment
-        // 3. Send confirmation email
-        // 4. etc.
 
         // Simpan data ke database
         try {
@@ -210,5 +185,9 @@ class CustomerController extends Controller
         session()->setFlashdata('success', 'Profil berhasil diperbarui.');
 
         return redirect()->to('/profil'); // Sesuaikan dengan route
+    }
+
+    public function pesanan(){
+        
     }
 }
