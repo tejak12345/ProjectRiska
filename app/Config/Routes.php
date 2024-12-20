@@ -58,7 +58,7 @@ $routes->get('/produk/beli/(:num)', 'CustomerController::beli/$1');
 $routes->post('/prosescheckout/(:num)', 'CustomerController::processCheckout/$1');
 
 $routes->get('/pesanan', 'CustomerController::pesanan');
-
+    
 $routes->get('/dashboard', 'CustomerController::index');
 $routes->get('/customer/logout', 'CustomerController::logout');
 

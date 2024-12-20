@@ -78,15 +78,11 @@ class CustomerController extends Controller
             "product_id" => (int) $product["id"],
             "metode_pembayaran" => $this->request->getPost("metode_pembayaran")
         ];
-
-
-
+        
         if (!$product || !$user) {
             return redirect()->back()->with('error', 'Produk atau user tidak ditemukan.');
         }
 
-        
-        
         if(!$validation->run($data)){
             // dd($this->validator->getErrors());
             return view('customer/beli'.$id,[
