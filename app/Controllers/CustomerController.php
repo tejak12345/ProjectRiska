@@ -188,6 +188,25 @@ class CustomerController extends Controller
     }
 
     public function pesanan(){
+        $username = session()->get("username");
+
+        $userModel = new UserModel();
+        $orderModel = new OrderModel();
+
+        $user = $userModel->where("username",$username)->first();
+        $orders = $orderModel->where("user_id",$user["id"])->all();
+        // $query1 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get();
+        // $query2 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Completed")->groupBy("product_id")->get();
+        // $query3 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Cancelled")->groupBy("product_id")->get();
+        // $query4 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Processed")->groupBy("product_id")->get();
         
+        // $orders["pendings"] = $query1->getResultArray();
+        // $orders["completeds"] = $query2->getResultArray();
+        // $orders["cancelleds"] = $query3->getResultArray();
+        // $orders["Processeds"] = $query4->getResultArray();
+
+        dd($orders["pendings"]->product_id);
+        return view("/customer/pesanan",$orders);
+
     }
 }
