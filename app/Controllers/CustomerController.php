@@ -101,6 +101,23 @@ class CustomerController extends Controller
 
         return view('customer/profile', $data);
     }
+
+    public function beli($id){
+        $session=session();
+
+        $productModel = new ProductModel();
+        $userModel = new UserModel();
+        $data["product"] = $productModel->where("id", $id)->first();
+        $data["user"] = $userModel->where("username",$session->get("username"))->first();
+
+
+        if(!$data){
+            return view("customer/notfound");
+        }
+
+        return view("customer/beli",$data);
+    }
+    
     public function updateProfile()
     {
         // Validasi input
