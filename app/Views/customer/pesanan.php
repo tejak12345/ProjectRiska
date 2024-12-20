@@ -59,21 +59,15 @@
                         </li>
                         <li>
                             <a href="<?= base_url('produk') ?>"
-                                class="flex items-center p-3 rounded-lg bg-blue-50 text-[#0F4C75] font-semibold">
-                                <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
+                                class="flex items-center p-3 rounded-lg hover:bg-blue-50">
+                                <i data-lucide="file-text" class="w-5 h-5 mr-3 text-gray-600"></i>
                                 <span>Produk</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?= base_url("pesanan") ?>" class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition">
-                                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3 text-gray-600"></i>
+                            <a href="<?= base_url("pesanan") ?>" class="flex items-center p-3 rounded-lg bg-blue-50 text-[#0F4C75]  font-semibold hover:bg-blue-50 transition">
+                                <i data-lucide="shopping-cart" class="w-5 h-5 mr-3 "></i>
                                 <span>Pesanan Saya</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition">
-                                <i data-lucide="message-circle" class="w-5 h-5 mr-3 text-gray-600"></i>
-                                <span>Konsultasi</span>
                             </a>
                         </li>
                         <li>
