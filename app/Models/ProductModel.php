@@ -15,4 +15,16 @@ class ProductModel extends Model
     {
         return $this->countAll(); // Menghitung semua baris dalam tabel produk
     }
+
+    public function getTopProducts($limit = 5)
+    {
+        return $this->select('products.name, products.price, SUM(order_items.quantity) as total_sales')
+            ->join('order_items', 'order_items.product_id = products.id')
+            ->groupBy('products.id')
+            ->orderBy('total_sales', 'desc')
+            ->limit($limit)
+            ->findAll();
+    }
+
+
 }

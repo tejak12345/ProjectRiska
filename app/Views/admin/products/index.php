@@ -133,13 +133,7 @@
                             <span class="font-medium">Orders</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/admin/customers"
-                            class="flex items-center text-gray-300 hover:text-white p-3 rounded-lg transition-all">
-                            <i data-lucide="users" class="w-5 h-5 mr-3"></i>
-                            <span class="font-medium">Customers</span>
-                        </a>
-                    </li>
+                 
                     <li class="pt-4 mt-4 border-t border-gray-700">
                         <a href="/admin/logout"
                             class="flex items-center text-red-400 hover:text-red-300 p-3 rounded-lg transition-all">

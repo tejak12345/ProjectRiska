@@ -199,7 +199,39 @@ class AdminController extends Controller
         }
     }
 
+    // Manajemen Pengguna
+    public function users()
+    {
+        $userModel = new UserModel();
+        $data['users'] = $userModel->findAll();
+        $data['admin'] = $userModel->getAdmin();
 
+        return view('admin/users/index', $data);
+    }
+
+    // Fungsi untuk mengaktifkan pengguna
+    public function activateUser($id)
+    {
+        $userModel = new UserModel();
+        $userModel->update($id, ['status' => 'active']);
+        return redirect()->to('/admin/users')->with('success', 'User activated successfully.');
+    }
+
+    // Fungsi untuk menonaktifkan pengguna
+    public function deactivateUser($id)
+    {
+        $userModel = new UserModel();
+        $userModel->update($id, ['status' => 'inactive']);
+        return redirect()->to('/admin/users')->with('success', 'User deactivated successfully.');
+    }
+
+    // Fungsi untuk menghapus pengguna
+    public function deleteUser($id)
+    {
+        $userModel = new UserModel();
+        $userModel->delete($id);
+        return redirect()->to('/admin/users')->with('success', 'User deleted successfully.');
+    }
 
     public function logout()
     {
