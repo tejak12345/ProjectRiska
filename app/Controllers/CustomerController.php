@@ -198,42 +198,67 @@ class CustomerController extends Controller
         return redirect()->to('/customer/profile'); // Sesuaikan dengan route
     }
 
-    public function pesanan(){
+    public function pesanan()
+    {
         $username = session()->get("username");
 
         $userModel = new UserModel();
         $orderModel = new OrderModel();
         $productModel = new ProductModel();
 
-        $user = $userModel->where("username",$username)->first();
-        $orders["products"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get()->getResultArray();
-        $orders["products_completed"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Completed")->groupBy("product_id")->get()->getResultArray();
-        $orders["products_cancelleds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Cancelled")->groupBy("product_id")->get()->getResultArray();
-        $orders["products_processeds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Processed")->groupBy("product_id")->get()->getResultArray();
-        // $products = $productModel->where("id",$orders);
-        // dd($orders["products"]);
-        $i = 0 ;
+        $user = $userModel->where("username", $username)->first();
 
-        foreach($orders["products"] as $prod){
-            $productName = $productModel->where("id",$prod["product_id"])->first()["name"];
-            // dd($productName);
-            $prod += ["product_name" => $productName,"status" => "Pending"];
-            // dd($prod);
-            $orders["products"][$i] += $prod;
-            $i++;
-        };
-        
-        // dd($orders["products"]);
-        // $query1 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get();
-       
-        
-        // $orders["pendings"] = $query1->getResultArray();
-        // $orders["completeds"] = $query2->getResultArray();
-        // $orders["cancelleds"] = $query3->getResultArray();
-        // $orders["Processeds"] = $query4->getResultArray();
+        // Ambil pesanan berdasarkan status masing-masing
+        $orders["products"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
+            ->where("user_id", $user["id"])
+            ->where("status", "Pending")
+            ->groupBy("product_id")
+            ->get()->getResultArray();
 
-        // dd($orders);
-        return view("/customer/pesanan",$orders);
+        $orders["products_completed"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
+            ->where("user_id", $user["id"])
+            ->where("status", "Completed")
+            ->groupBy("product_id")
+            ->get()->getResultArray();
 
+        $orders["products_cancelleds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
+            ->where("user_id", $user["id"])
+            ->where("status", "Cancelled")
+            ->groupBy("product_id")
+            ->get()->getResultArray();
+
+        $orders["products_processeds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
+            ->where("user_id", $user["id"])
+            ->where("status", "Processed")
+            ->groupBy("product_id")
+            ->get()->getResultArray();
+
+        // Loop untuk menambahkan nama produk ke pesanan berdasarkan product_id
+        foreach (['products', 'products_completed', 'products_cancelleds', 'products_processeds'] as $statusKey) {
+            $i = 0;
+            foreach ($orders[$statusKey] as $prod) {
+                // Mencari produk berdasarkan product_id
+                $product = $productModel->where("id", $prod["product_id"])->first();
+
+                // Cek apakah produk ditemukan
+                if ($product) {
+                    $productName = $product["name"];  // Ambil nama produk jika ditemukan
+                } else {
+                    $productName = "Produk Tidak Ditemukan";  // Jika produk tidak ditemukan
+                }
+
+                // Menambahkan nama produk dan status ke dalam pesanan
+                $orders[$statusKey][$i] += [
+                    "product_name" => $productName,
+                    "status" => ucfirst($statusKey)  // Menambahkan status berdasarkan nama array
+                ];
+
+                $i++;
+            }
+        }
+
+        // Kirim data pesanan ke view
+        return view("/customer/pesanan", $orders);
     }
+
 }
