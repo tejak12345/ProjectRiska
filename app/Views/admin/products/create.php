@@ -8,169 +8,156 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            display: flex;
-            margin-top: 80px;
-            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
         }
 
         .sidebar {
-            width: 250px;
-            background-color: #ffffff;
-            box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-right: 20px;
-        }
-
-        .content-area {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f5f5f5;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            width: 280px;
+            transition: all 0.3s ease;
+            position: fixed;
+            height: calc(100vh - 100px);
             overflow-y: auto;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
+        .sidebar a {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-        }
-
-        .form-group button {
-            background-color: #4caf50;
-            color: white;
-            padding: 0.75rem 1.25rem;
-            border: none;
-            border-radius: 0.375rem;
-            cursor: pointer;
-        }
-
-        .form-group button:hover {
-            background-color: #45a049;
-        }
-
-        nav {
-            z-index: 10;
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
     </style>
 </head>
 
-<body class="bg-gray-100">
+<body>
     <!-- Navbar -->
-    <nav class="bg-[#2C3E50] text-white p-4 shadow-md fixed top-0 w-full z-50">
+    <nav class="bg-white/80 backdrop-blur-md text-gray-800 p-4 fixed top-0 w-full z-50 border-b border-gray-100">
         <div class="container mx-auto flex justify-between items-center max-w-screen-xl px-6">
             <div class="flex items-center space-x-3">
-                <i data-lucide="shield" class="w-8 h-8"></i>
-                <h1 class="text-xl font-bold">LeafletPro Admin Panel</h1>
+                <div class="bg-gradient-to-br from-blue-600 to-blue-800 p-2 rounded-xl shadow-lg">
+                    <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+                    LeafletPro</h1>
             </div>
-            <div class="flex items-center space-x-4">
+
+            <div class="flex items-center space-x-6">
+                <!-- Notifications -->
                 <div class="relative">
-                    <button id="notifikasi-toggle" class="hover:text-gray-300 transition">
-                        <i data-lucide="bell" class="w-6 h-6"></i>
+                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
                         <span
-                            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
                     </button>
                 </div>
+
+                <!-- Profile Section -->
                 <div class="flex items-center space-x-3 border-l pl-6">
-    <!-- Ikon Profil Admin -->
-    <i data-lucide="user" class="w-10 h-10 text-[#2C3E50] border-2 border-[#2C3E50] rounded-full flex items-center justify-center">
-    </i>
-    <div>
-        <p class="text-sm font-semibold"><?= esc($admin['username']) ?></p>
-                            <p class="text-xs text-gray-500"><?= esc(ucfirst($admin['role'])) ?></p>
-                        </div>
+                    <div
+                        class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white">
+                        <i data-lucide="user" class="w-5 h-5"></i>
                     </div>
+                    <div>
+                        <p class="text-sm font-semibold">Admin User</p>
+                        <p class="text-xs text-gray-500">Administrator</p>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
     <div class="container mx-auto mt-20 px-4 max-w-screen-xl">
-        <div class="main-content">
+        <div class="flex gap-6">
             <!-- Sidebar Menu -->
-            <div class="sidebar bg-white rounded-xl shadow-md p-6 border-l-4 border-[#2C3E50]">
-                <ul class="space-y-4">
+            <div class="w-64 bg-gradient-to-b from-blue-800 to-blue-900 rounded-2xl shadow-xl p-6">
+                <ul class="space-y-3">
                     <li>
-                        <a href="/admin/dashboard" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
+                        <a href="/admin/dashboard"
+                            class="flex items-center text-gray-300 hover:text-white p-3 rounded-lg transition-all">
                             <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
-                            Dashboard
+                            <span class="font-medium">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/products" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
+                        <a href="/admin/products"
+                            class="flex items-center text-white bg-white/10 p-3 rounded-lg transition-all">
                             <i data-lucide="package" class="w-5 h-5 mr-3"></i>
-                            Manage Products
+                            <span class="font-medium">Products</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/orders" class="flex items-center hover:bg-gray-100 p-3 rounded-lg">
+                        <a href="/admin/orders"
+                            class="flex items-center text-gray-300 hover:text-white p-3 rounded-lg transition-all">
                             <i data-lucide="truck" class="w-5 h-5 mr-3"></i>
-                            Manage Orders
+                            <span class="font-medium">Orders</span>
                         </a>
                     </li>
-                  
-                    <li>
-                        <a href="/admin/logout" class="flex items-center hover:bg-gray-100 p-3 rounded-lg text-red-600">
+                    <li class="pt-4 mt-4 border-t border-gray-700">
+                        <a href="/admin/logout"
+                            class="flex items-center text-red-400 hover:text-red-300 p-3 rounded-lg transition-all">
                             <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
-                            Logout
+                            <span class="font-medium">Logout</span>
                         </a>
                     </li>
                 </ul>
             </div>
 
             <!-- Create Product Form -->
-            <div class="content-area bg-gray-50 rounded-xl shadow-md p-6 mb-6 border-t-4 border-[#2C3E50]">
-                <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Create New Product</h2>
+            <div class="flex-1 bg-white rounded-2xl shadow-md p-8">
+                <div class="mb-8">
+                    <h2
+                        class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+                        Create New Product</h2>
+                    <p class="text-gray-500 mt-1">Add a new product to your catalog</p>
+                </div>
 
-              <form action="/admin/products/store" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="name">Product Name</label>
-                        <input type="text" name="name" id="name" required>
+                <form action="/admin/products/store" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                        <input type="text" name="name" id="name" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
 
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="number" name="price" id="price" required>
+                    <div>
+                        <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price</label>
+                        <input type="number" name="price" id="price" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" rows="4" required></textarea>
+                    <div>
+                        <label for="description"
+                            class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea name="description" id="description" rows="4" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                     </div>
 
-                    <div class="form-group">
-                      <label for="image">Image</label>
-    <input type="file" name="image" id="image">
+                    <div>
+                        <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                        <input type="file" name="image" id="image"
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
 
-                    <div class="form-group flex space-x-4">
+                    <div class="flex space-x-4">
                         <button type="submit"
-                            class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition">
-                            Save
+                            class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            Save Product
                         </button>
                         <a href="/admin/products"
-                            class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition">
-                            Back
+                            class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors">
+                            Cancel
                         </a>
                     </div>
                 </form>

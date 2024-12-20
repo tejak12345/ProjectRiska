@@ -57,6 +57,10 @@ class CustomerController extends Controller
 
     public function processCheckout($id)
     {
+
+        // Process the payment based on method
+        // $paymentMethod = $this->request->getPost('payment_method');
+
         $userModel = new UserModel();
         $productModel = new ProductModel();
         $orderModel = new OrderModel();
@@ -83,18 +87,14 @@ class CustomerController extends Controller
             return redirect()->back()->with('error', 'Produk atau user tidak ditemukan.');
         }
 
+        
+        
         if(!$validation->run($data)){
             // dd($this->validator->getErrors());
             return view('customer/beli'.$id,[
                 "validation" => $this->validator
             ]);
         };
-
-        // Here you would typically:
-        // 1. Save order to database
-        // 2. Process payment
-        // 3. Send confirmation email
-        // 4. etc.
 
         // Simpan data ke database
         try {
@@ -106,28 +106,6 @@ class CustomerController extends Controller
         session()->setFlashdata("success", "produk berhasil dibeli!");
         // For now, just redirect with success message
         return redirect()->to('/produk/beli/'.$id);
-    }
-    
-    // Logout
-    public function logout()
-    {
-        session()->destroy();
-        return redirect()->to('auth/login');
-    }
-
-    public function profile()
-    {
-        $userModel = new UserModel();
-        $username = session()->get("username");
-        // dd($userId);
-        // Ambil data pengguna
-        $data['user'] = $userModel->where("username", $username)->first();
-
-        if (!$data['user']) {
-            return redirect()->to('/auth/login');
-        }
-
-        return view('customer/profile', $data);
     }
 
     public function beli($id){
@@ -145,7 +123,37 @@ class CustomerController extends Controller
 
         return view("customer/beli",$data);
     }
-    
+    // Logout
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('auth/login');
+    }
+
+    public function profile()
+    {
+        // Ambil data pengguna yang sedang login
+        $session = session();
+        $username = $session->get('username');
+
+        // Cek jika tidak ada sesi login
+        if (!$username) {
+            return redirect()->to('auth/login'); // Redirect ke halaman login jika tidak ada sesi
+        }
+
+        // Ambil data user berdasarkan username
+        $userModel = new UserModel();
+        $user = $userModel->getUserByUsername($username);
+
+        // Pastikan data pengguna ditemukan
+        if (!$user) {
+            return redirect()->to('auth/login'); // Redirect ke login jika user tidak ditemukan
+        }
+
+        // Kirim data ke view 'customer/profil.php'
+        return view('customer/profile', ['user' => $user]);
+    }
+
     public function updateProfile()
     {
         // Validasi input
@@ -187,7 +195,7 @@ class CustomerController extends Controller
         // Menambahkan flashdata untuk notifikasi sukses
         session()->set('success', 'Profil berhasil diperbarui.');
 
-        return redirect()->to('/profil'); // Sesuaikan dengan route
+        return redirect()->to('/customer/profile'); // Sesuaikan dengan route
     }
 
     public function pesanan(){

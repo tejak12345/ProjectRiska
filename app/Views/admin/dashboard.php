@@ -24,26 +24,71 @@
     }
 
     .sidebar {
-        background: linear-gradient(180deg, #2C3E50 0%, #34495E 100%);
+        background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
         width: 280px;
         transition: all 0.3s ease;
+        position: fixed;
+        height: calc(100vh - 100px);
+        overflow-y: auto;
+    }
+
+    .sidebar a {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
 
     .sidebar a:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.15);
         transform: translateX(5px);
+    }
+
+    .sidebar a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 0;
+        background: rgba(255, 255, 255, 0.1);
+        transition: width 0.3s ease;
+    }
+
+    .sidebar a:hover::before {
+        width: 100%;
     }
 
     .stat-card {
         transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1));
+        transform: skewX(-15deg);
+        transition: transform 0.5s;
     }
 
     .stat-card:hover {
         transform: translateY(-5px);
     }
 
+    .stat-card:hover::after {
+        transform: translateX(200%) skewX(-15deg);
+    }
+
     .table th {
         background-color: #f8fafc;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
 
     .table tr {
@@ -61,35 +106,49 @@
     .action-button:hover {
         transform: scale(1.05);
     }
+
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card-shadow {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
     </style>
 </head>
 
 <body class="bg-gray-50">
     <!-- Navbar -->
-    <nav class="bg-white text-gray-800 p-4 shadow-lg fixed top-0 w-full z-50 border-b border-gray-100">
+    <nav class="bg-white/80 backdrop-blur-md text-gray-800 p-4 fixed top-0 w-full z-50 border-b border-gray-100">
         <div class="container mx-auto flex justify-between items-center max-w-screen-xl px-6">
             <div class="flex items-center space-x-3">
-                <div class="bg-[#2C3E50] p-2 rounded-lg">
+                <div class="bg-gradient-to-br from-blue-600 to-blue-800 p-2 rounded-xl shadow-lg">
                     <i data-lucide="shield" class="w-6 h-6 text-white"></i>
                 </div>
-                <h1 class="text-xl font-bold text-[#2C3E50]">LeafletPro</h1>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+                    LeafletPro</h1>
             </div>
 
-            <!-- Profile & Hamburger Menu for Mobile -->
-            <div class="flex items-center space-x-3 border-l pl-6">
-                <!-- Ikon Profil Admin -->
-                <i data-lucide="user"
-                    class="w-10 h-10 text-[#2C3E50] border-2 border-[#2C3E50] rounded-full flex items-center justify-center"></i>
-                <div>
-                    <p class="text-sm font-semibold"><?= esc($admin['username']) ?></p>
-                    <p class="text-xs text-gray-500"><?= esc(ucfirst($admin['role'])) ?></p>
+            <div class="flex items-center space-x-6">
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center bg-gray-100 rounded-lg px-3 py-2">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-500 mr-2"></i>
+                    <input type="text" placeholder="Search..." class="bg-transparent outline-none text-sm w-48">
                 </div>
-            </div>
-            <!-- Mobile Hamburger Menu -->
-            <div class="lg:hidden">
-                <button id="hamburger" class="text-gray-600">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
+
+                <!-- Profile Section -->
+                <div class="flex items-center space-x-3 border-l pl-6">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold"><?= esc($admin['username']) ?></p>
+                        <p class="text-xs text-gray-500"><?= esc(ucfirst($admin['role'])) ?></p>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -131,116 +190,204 @@
             </div>
 
             <!-- Dashboard Content -->
-            <div class="flex-1">
+            <div class="flex-1 ml-[300px]">
                 <div class="bg-white rounded-2xl shadow-md p-8 mb-6">
-                    <h2 class="text-2xl font-bold text-[#2C3E50] mb-8">Dashboard Overview</h2>
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+                            Dashboard Overview</h2>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
+                                <i data-lucide="download" class="w-4 h-4 inline-block mr-1"></i>
+                                Export
+                            </button>
+                            <button class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <i data-lucide="plus" class="w-4 h-4 inline-block mr-1"></i>
+                                Add New
+                            </button>
+                        </div>
+                    </div>
 
                     <!-- Quick Stats -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div
-                            class="stat-card bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg">
+                        <div class="stat-card bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
                             <div class="flex items-center justify-between mb-4">
-                                <div class="bg-white/20 p-3 rounded-xl">
+                                <div class="glass-effect p-3 rounded-xl">
                                     <i data-lucide="package" class="w-6 h-6"></i>
                                 </div>
-                                <span class="text-2xl font-bold"><?= esc($totalProducts) ?></span>
+                                <span class="text-3xl font-bold"><?= esc($totalProducts) ?></span>
                             </div>
-                            <h3 class="font-medium">Total Products</h3>
+                            <h3 class="font-medium text-emerald-100">Total Products</h3>
+                            <p class="text-sm text-emerald-100 mt-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 inline-block mr-1"></i>
+                                +12.5% from last month
+                            </p>
                         </div>
 
-                        <div
-                            class="stat-card bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="bg-white/20 p-3 rounded-xl">
-                                    <i data-lucide="truck" class="w-6 h-6"></i>
-                                </div>
-                                <span class="text-2xl font-bold">128</span>
-                            </div>
-                            <h3 class="font-medium">Total Orders</h3>
+                       <div class="stat-card bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
+    <div class="flex items-center justify-between mb-4">
+        <div class="glass-effect p-3 rounded-xl">
+            <i data-lucide="truck" class="w-6 h-6"></i>
+        </div>
+        <span class="text-3xl font-bold"><?= $totalOrders ?></span> <!-- Menampilkan jumlah total pesanan -->
                         </div>
+                        <h3 class="font-medium text-blue-100">Total Orders</h3>
+                        <p class="text-sm text-blue-100 mt-2">
+                            <i data-lucide="trending-up" class="w-4 h-4 inline-block mr-1"></i>
+                            +8.2% from last month
+                        </p>
+                    </div>
 
-                        <div
-                            class="stat-card bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
+
+                        <div class="stat-card bg-gradient-to-br from-violet-400 to-violet-600 rounded-2xl p-6 text-white shadow-lg">
                             <div class="flex items-center justify-between mb-4">
-                                <div class="bg-white/20 p-3 rounded-xl">
+                                <div class="glass-effect p-3 rounded-xl">
                                     <i data-lucide="users" class="w-6 h-6"></i>
                                 </div>
-                                <span class="text-2xl font-bold"><?= $activeUsersCount ?></span>
+                                <span class="text-3xl font-bold"><?= $activeUsersCount ?></span>
                             </div>
-                            <h3 class="font-medium">Active Users</h3>
+                            <h3 class="font-medium text-violet-100">Active Users</h3>
+                            <p class="text-sm text-violet-100 mt-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 inline-block mr-1"></i>
+                                +15.3% from last month
+                            </p>
                         </div>
                     </div>
 
                     <!-- Recent Orders -->
-                    <div class="bg-white rounded-2xl">
+                    <div class="bg-white rounded-2xl card-shadow">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-xl font-semibold text-[#2C3E50]">Recent Orders</h3>
-                            <button class="text-blue-600 hover:text-blue-700 flex items-center gap-2 text-sm">
+                            <h3 class="text-xl font-semibold text-gray-800">Recent Orders</h3>
+                            <button class="text-blue-600 hover:text-blue-700 flex items-center gap-2 text-sm font-medium">
                                 View All
                                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </button>
                         </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b border-gray-200">
-                                        <th class="py-4 px-4 text-left text-sm font-medium text-gray-600">Order ID</th>
-                                        <th class="py-4 px-4 text-left text-sm font-medium text-gray-600">Customer</th>
-                                        <th class="py-4 px-4 text-left text-sm font-medium text-gray-600">Status</th>
-                                        <th class="py-4 px-4 text-right text-sm font-medium text-gray-600">Total</th>
-                                        <th class="py-4 px-4 text-right text-sm font-medium text-gray-600">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($recentOrders as $order): ?>
-                                    <tr class="border-b border-gray-100">
-                                        <td class="py-4 px-4 text-sm">#<?= $order['order_id'] ?></td>
-                                        <td class="py-4 px-4 text-sm font-medium"><?= $order['customer_name'] ?></td>
-                                        <td class="py-4 px-4">
-                                            <span
-                                                class="px-3 py-1 text-xs font-medium rounded-full <?= $order['status'] == 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' ?>">
-                                                <?= ucfirst($order['status']) ?>
-                                            </span>
-                                        </td>
-                                        <td class="py-4 px-4 text-right text-sm font-medium">Rp
-                                            <?= number_format($order['total'], 0, ',', '.') ?>
-                                        </td>
-                                        <td class="py-4 px-4 text-right">
-                                            <div class="flex justify-end gap-2">
-                                                <button
-                                                    class="action-button p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                                                    <i data-lucide="eye" class="w-4 h-4"></i>
-                                                </button>
-                                                <button
-                                                    class="action-button p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors">
-                                                    <i data-lucide="edit" class="w-4 h-4"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                        <div class="overflow-x-auto rounded-xl">
+    <table class="w-full">
+        <thead>
+            <tr class="border-b border-gray-200">
+                <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Order ID</th>
+                <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Customer</th>
+                <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Status</th>
+                <th class="py-4 px-4 text-right text-sm font-semibold text-gray-600">Total</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($recentOrders as $order): ?>
+                                        <tr class="border-b border-gray-100">
+                                            <td class="py-4 px-4 text-sm">#<?= $order['user_id'] ?></td>
+                                            <td class="py-4 px-4">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                                        <i data-lucide="user" class="w-4 h-4 text-gray-500"></i>
+                                                    </div>
+                                                    <span class="text-sm font-medium"><?= $order['customer_name'] ?></span>
+                                                </div>
+                                            </td>
+                                            <td class="py-4 px-4">
+                                                <span
+                                                    class="px-3 py-1 text-xs font-medium rounded-full inline-flex items-center gap-1
+                                                <?= $order['status'] == 'Completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' ?>">
+                                                    <?php if ($order['status'] == 'Completed'): ?>
+                                                        <i data-lucide="check-circle" class="w-3 h-3"></i>
+                                                    <?php else: ?>
+                                                        <i data-lucide="clock" class="w-3 h-3"></i>
+                                                    <?php endif; ?>
+                                                    <?= ucfirst($order['status']) ?>
+                                                </span>
+                                            </td>
+                                            <td class="py-4 px-4 text-right text-sm font-medium">Rp
+                                                <?= number_format($order['total'], 0, ',', '.') ?></td>
+                                     
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        lucide.createIcons();
+                                            
+                                            <!-- Additional Analytics Section -->
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                                                <!-- Sales Chart -->
+                                                <div class="bg-white rounded-2xl p-6 card-shadow">
+                                                    <div class="flex justify-between items-center mb-6">
+                                                        <h3 class="text-lg font-semibold text-gray-800">Sales Overview</h3>
+                                                        <select class="text-sm border rounded-lg px-3 py-2 text-gray-600">
+                                                            <option>Last 7 days</option>
+                                                            <option>Last 30 days</option>
+                                                            <option>Last 90 days</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+                                                        <!-- Placeholder for chart -->
+                                                        <span class="text-gray-400">Sales Chart Visualization</span>
+                                                    </div>
+                                                </div>
+                                            
+                                                <!-- Top Products -->
+                                                <div class="bg-white rounded-2xl p-6 card-shadow">
+                                                    <div class="flex justify-between items-center mb-6">
+                                                        <h3 class="text-lg font-semibold text-gray-800">Top Products</h3>
+                                                        <button class="text-sm text-blue-600 hover:text-blue-700">See All</button>
+                                                    </div>
+                                                    <div class="space-y-4">
+                                                        <!-- Product Item -->
+                                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                                            <div class="flex items-center space-x-3">
+                                                                <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
+                                                                    <i data-lucide="box" class="w-6 h-6 text-blue-600"></i>
+                                                                </div>
+                                                                <div>
+                                                                    <h4 class="text-sm font-medium">Product Name</h4>
+                                                                    <p class="text-xs text-gray-500">Category</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <p class="text-sm font-medium">Rp 2.500.000</p>
+                                                                <p class="text-xs text-emerald-600">+12.5%</p>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Repeat for more products -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            
+                                            <script src="https://unpkg.com/lucide@latest"></script>
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', () => {
+                                                    lucide.createIcons();
 
-        const hamburger = document.getElementById("hamburger");
-        const sidebar = document.querySelector(".sidebar");
-        hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle("lg:block");
-            sidebar.classList.toggle("hidden");
-        });
-    });
-    </script>
-</body>
+                                                    // Mobile menu toggle
+                                                    const hamburger = document.getElementById("hamburger");
+                                                    const sidebar = document.querySelector(".sidebar");
 
-</html>
+                                                    if (hamburger && sidebar) {
+                                                        hamburger.addEventListener('click', () => {
+                                                            sidebar.classList.toggle("hidden");
+                                                            sidebar.classList.toggle("fixed");
+                                                            sidebar.classList.toggle("inset-0");
+                                                            sidebar.classList.toggle("z-50");
+                                                        });
+                                                    }
+
+                                                    // Add smooth scroll to sidebar links
+                                                    document.querySelectorAll('.sidebar a').forEach(link => {
+                                                        link.addEventListener('click', (e) => {
+                                                            const href = link.getAttribute('href');
+                                                            if (href.startsWith('#')) {
+                                                                e.preventDefault();
+                                                                document.querySelector(href).scrollIntoView({
+                                                                    behavior: 'smooth'
+                                                                });
+                                                            }
+                                                        });
+                                                    });
+                                                });
+                                            </script>
+                                            </body>
+                                            
+                                            </html>
