@@ -139,13 +139,13 @@
                 </div>
                 <div>
                     <button id="btnProcessedTable"  class="flex w-full  p-2 justify-between">
-                        <h1 class="text-yellow-500 text-xl font-bold">Pending</h1>
+                        <h1 class="text-yellow-500 text-xl font-bold">Processed</h1>
                         <h1 class="text-yellow-500 text-xl font-bold">&darr;</h1>
                     </button>
                     <table id="processedTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Product_name</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">kuantitas</th>
                                 <th class="text-center">status</th>
@@ -153,9 +153,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($products_completed as $product): ?>
+                            <?php foreach ($products_processeds as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
                                     <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
@@ -173,7 +173,7 @@
                     <table id="cancelledTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Product_name</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">kuantitas</th>
                                 <th class="text-center">status</th>
@@ -181,9 +181,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($products_completed as $product): ?>
+                            <?php foreach ($products_cancelleds as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
                                     <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
