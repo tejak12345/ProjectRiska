@@ -277,30 +277,31 @@
                             </button>
                         </div>
                         <div class="overflow-x-auto rounded-xl">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="border-b border-gray-200">
-                                        <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Order ID</th>
-                                        <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Customer</th>
-                                        <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Status</th>
-                                        <th class="py-4 px-4 text-right text-sm font-semibold text-gray-600">Total</th>
-                                        <th class="py-4 px-4 text-right text-sm font-semibold text-gray-600">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($recentOrders as $order): ?>
-                                    <tr class="border-b border-gray-100">
-                                        <td class="py-4 px-4 text-sm">#<?= $order['user_id'] ?></td>
-                                        <td class="py-4 px-4">
-                                            <div class="flex items-center">
-                                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                                    <i data-lucide="user" class="w-4 h-4 text-gray-500"></i>
+    <table class="w-full">
+        <thead>
+            <tr class="border-b border-gray-200">
+                <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Order ID</th>
+                <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Customer</th>
+                <th class="py-4 px-4 text-left text-sm font-semibold text-gray-600">Status</th>
+                <th class="py-4 px-4 text-right text-sm font-semibold text-gray-600">Total</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($recentOrders as $order): ?>
+                                        <tr class="border-b border-gray-100">
+                                            <td class="py-4 px-4 text-sm">#<?= $order['user_id'] ?></td>
+                                            <td class="py-4 px-4">
+                                                <div class="flex items-center">
+                                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                                        <i data-lucide="user" class="w-4 h-4 text-gray-500"></i>
+                                                    </div>
+                                                    <span class="text-sm font-medium"><?= $order['customer_name'] ?></span>
                                                 </div>
-                                                <span class="text-sm font-medium"><?= $order['customer_name'] ?></span>
-                                            </div>
                                             </td>
-                                        <td class="py-4 px-4">
-                                            <span class="px-3 py-1 text-xs font-medium rounded-full inline-flex items-center gap-1
+                                            <td class="py-4 px-4">
+                                                <span
+                                                    class="px-3 py-1 text-xs font-medium rounded-full inline-flex items-center gap-1
                                                 <?= $order['status'] == 'Completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' ?>">
                                                     <?php if ($order['status'] == 'Completed'): ?>
                                                         <i data-lucide="check-circle" class="w-3 h-3"></i>
@@ -311,30 +312,13 @@
                                                 </span>
                                             </td>
                                             <td class="py-4 px-4 text-right text-sm font-medium">Rp
-                                                <?= number_format($order['total'], 0, ',', '.') ?>
-                                            </td>
-                                            <td class="py-4 px-4 text-right">
-                                                <div class="flex justify-end gap-2">
-                                                    <button class="action-button p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                        title="View Details">
-                                                        <i data-lucide="eye" class="w-4 h-4"></i>
-                                                    </button>
-                                                    <button class="action-button p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
-                                                        title="Edit Order">
-                                                        <i data-lucide="edit" class="w-4 h-4"></i>
-                                                    </button>
-                                                    <button class="action-button p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                        title="Delete Order">
-                                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                            </tbody>
-                                            </table>
-                                            </div>
-                                            </div>
+                                                <?= number_format($order['total'], 0, ',', '.') ?></td>
+                                     
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
                                             
                                             <!-- Additional Analytics Section -->
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">

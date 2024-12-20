@@ -37,6 +37,8 @@ $routes->post('/admin/products/store', 'AdminController::storeProduct');
 $routes->get('/admin/products/edit/(:num)', 'AdminController::editProduct/$1');
 $routes->post('/admin/products/update/(:num)', 'AdminController::updateProduct/$1');
 $routes->get('/admin/products/delete/(:num)', 'AdminController::deleteProduct/$1');
+$routes->get('admin/orders/confirm/(:num)', 'AdminController::confirmPage/$1');
+$routes->post('admin/orders/confirm/(:num)', 'AdminController::confirmOrder/$1');
 
 $routes->get('/admin/orders', 'AdminController::orders');
 $routes->get('/admin/orders/view/(:num)', 'AdminController::viewOrder/$1');

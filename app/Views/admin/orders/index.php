@@ -59,6 +59,7 @@
 </head>
 
 <body class="bg-gray-50">
+
     <!-- Navbar -->
     <nav class="bg-white/80 backdrop-blur-md text-gray-800 p-4 fixed top-0 w-full z-50 border-b border-gray-100">
         <div class="container mx-auto flex justify-between items-center max-w-screen-xl px-6">
@@ -143,11 +144,19 @@
                 <div class="bg-white rounded-2xl shadow-md p-8 mb-6">
                     <div class="flex justify-between items-center mb-8">
                         <div>
-                            <h2 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
+                            <h2
+                                class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
                                 Orders Management</h2>
                             <p class="text-gray-500 mt-1">Track and manage customer orders</p>
                         </div>
                     </div>
+
+                    <!-- Display Success Message -->
+                    <?php if (session()->getFlashdata('success')): ?>
+                        <div class="bg-green-100 text-green-800 p-4 mb-4 rounded-lg">
+                            <?= session()->getFlashdata('success') ?>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Search and Filter -->
                     <div class="flex gap-4 mb-6">
@@ -166,82 +175,84 @@
                         </select>
                     </div>
 
-                    <!-- Orders Table -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="bg-gray-50">
-                                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">Order ID</th>
-                                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">User ID</th>
-                                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">Total Price</th>
-                                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">Status</th>
-                                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-600">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-100">
-                                    <?php foreach ($orders as $order): ?>
-                                        <tr class="hover:bg-gray-50 transition-colors">
-                                            <td class="px-6 py-4">
-                                                <div class="font-medium text-gray-900">#<?= esc($order['id']) ?></div>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <div class="text-gray-600"><?= esc($order['user_id']) ?></div>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    $<?= esc($order['total']) ?>
-                                                </span>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium 
-                                                <?php
-                                                switch (strtolower($order['status'])) {
-                                                    case 'pending':
-                                                        echo 'bg-yellow-100 text-yellow-800';
-                                                        break;
-                                                    case 'processing':
-                                                        echo 'bg-blue-100 text-blue-800';
-                                                        break;
-                                                    case 'completed':
-                                                        echo 'bg-green-100 text-green-800';
-                                                        break;
-                                                    case 'cancelled':
-                                                        echo 'bg-red-100 text-red-800';
-                                                        break;
-                                                    default:
-                                                        echo 'bg-gray-100 text-gray-800';
-                                                }
-                                                ?>">
-                                                    <?= esc($order['status']) ?>
-                                                </span>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <div class="flex justify-end gap-2">
-                                                    <a href="/admin/orders/view/<?= esc($order['id']) ?>"
-                                                        class="action-button p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
-                                                        title="View Details">
-                                                        <i data-lucide="eye" class="w-4 h-4"></i>
-                                                    </a>
-                                                    <a href="/admin/orders/update/<?= esc($order['id']) ?>"
-                                                        class="action-button p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"
-                                                        title="Update Order">
-                                                        <i data-lucide="edit" class="w-4 h-4"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                 <!-- Orders Table -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-100">
+    <div class="overflow-x-auto max-h-96 overflow-y-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-gray-50">
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">Order ID</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">Customer Name</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">Total Price</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600">Status</th>
+                    <th class="px-6 py-4 text-right text-xs font-semibold text-gray-600">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                <?php foreach ($orders as $order): ?>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="font-medium text-gray-900">#<?= esc($order['id']) ?></div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-gray-600"><?= esc($order['customer_name']) ?></div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                $<?= esc($order['total']) ?>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium 
+                            <?php
+                            switch (strtolower($order['status'])) {
+                                case 'pending':
+                                    echo 'bg-yellow-100 text-yellow-800';
+                                    break;
+                                case 'processing':
+                                    echo 'bg-blue-100 text-blue-800';
+                                    break;
+                                case 'completed':
+                                    echo 'bg-green-100 text-green-800';
+                                    break;
+                                case 'cancelled':
+                                    echo 'bg-red-100 text-red-800';
+                                    break;
+                                default:
+                                    echo 'bg-gray-100 text-gray-800';
+                            }
+                            ?>">
+                                <?= esc(ucfirst($order['status'])) ?>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <form action="/admin/orders/confirm/<?= esc($order['id']) ?>" method="post" class="inline-block">
+                                <button type="submit"
+                                    class="action-button text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-lg px-3 py-1 transition-all duration-300 ease-in-out transform hover:scale-105">
+                                    Confirm
+                                </button>
+                            </form>
+                            <form action="/admin/orders/cancel/<?= esc($order['id']) ?>" method="post" class="inline-block ml-2">
+                                <button type="submit"
+                                    class="action-button text-sm text-white bg-red-500 hover:bg-red-600 rounded-lg px-3 py-1 transition-all duration-300 ease-in-out transform hover:scale-105">
+                                    Cancel
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/lucide@latest"></script>
+   <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();

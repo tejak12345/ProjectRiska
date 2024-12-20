@@ -162,6 +162,44 @@ class AdminController extends Controller
 
         return view('admin/orders/index', $data);
     }
+    public function confirmPage($id)
+    {
+        $orderModel = new OrderModel();
+        $order = $orderModel->find($id);
+
+        // Cek apakah pesanan ada
+        if (!$order) {
+            return redirect()->to('/admin/orders')->with('error', 'Order not found.');
+        }
+
+        // Tampilkan halaman konfirmasi dengan data pesanan
+        return view('admin/orders/confirm', ['order' => $order]);
+    }
+
+    // Fungsi untuk mengonfirmasi pesanan
+    public function confirmOrder($id)
+    {
+        $orderModel = new OrderModel();
+
+        // Cari pesanan berdasarkan IDs
+        $order = $orderModel->find($id);
+
+        // Jika pesanan ditemukan
+        if ($order) {
+            // Perbarui status pesanan menjadi 'Completed'
+            $orderModel->update($id, ['status' => 'Completed']);
+
+            // Set pesan sukses dan arahkan kembali ke halaman pesanan
+            session()->setFlashdata('success', 'Order successfully confirmed!');
+            return redirect()->to('/admin/orders');
+        } else {
+            // Set pesan error jika pesanan tidak ditemukan
+            session()->setFlashdata('error', 'Order not found!');
+            return redirect()->to('/admin/orders');
+        }
+    }
+
+
 
     public function logout()
     {
