@@ -99,7 +99,8 @@
                     <p class="text-gray-500 lg:h-[70px] truncate"><?= $product["description"] ?></p>
                     <p class="">Rp.<?= esc(number_format($product["price"],0,',','.'))?></p>
                 </div>
-                <form class="col-span-1" >
+                <form class="col-span-1" action="/prosescheckout/<?= esc($product["id"]) ?>" method="POST" >
+                    <?= csrf_field(); ?>
                     <div class="">
                         <label for="username" class="w-full text-blue-800">Username</label>
                         <input type="text" class="w-full border-blue-800 border rounded-md py-2 px-3 mb-2" value="<?= $user["username"] ?> " name="username" required>
@@ -123,6 +124,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal untuk Detail Produk -->
+    <?php if(session()->getFlashdata("success") || session()->getFlashdata("error")) :?>
+        
+        <div id="notifikasiModal" class="fixed inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50">
+            <div class="bg-white rounded-lg w-96 p-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Notifikasi</h2>
+                    <button id="closeModal" onclick={closeModal()} class="text-gray-500 hover:text-gray-700">&times;</button>
+                </div>
+                <?php if(session()->getFlashdata("success")):  ?>
+                    <p class="text-green-500 font-semibold my-2" id="notifikasiStatus"><?= session()->getFlashdata("success") ?></p>
+                    <div class="flex justify-end items-center">
+                        <a id="okBtn" href="/produk/" class="mt-6 px-3 py-2 text-white btn bg-green-500 rounded-xl">Oke</a>
+                    </div>
+                    <?php elseif (session()->getFlashdata("error")):  ?>
+                        <p class="text-red-500 font-semibold my-2" id="notifikasiStatus"><?= session()->getFlashdata("error") ?></p>
+                        <div class="flex justify-end items-center">
+                            <a id="okBtn" href="/produk/beli/<?= esc($product["id"]) ?>" class="mt-6 text-right text-white btn bg-red-500 rounded-xl">Oke</a>
+                        </div>
+                        <?php endif; ?>
+                </div>
+            </div>
+    <?php endif; ?>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -163,6 +188,14 @@
             pilih_bank_lbl.classList.add("hidden");
         }
     }
+
+    function closeModal(){
+        const modal = document.getElementById("notifikasiModal");
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+    }
+
+    
     
 
 
