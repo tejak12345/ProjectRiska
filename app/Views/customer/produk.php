@@ -147,7 +147,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#pesanan" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                    <a href="<?= base_url("pesanan") ?>" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
                         <i data-lucide="shopping-cart" class="w-5 h-5 mr-3"></i>
                         Pesanan Saya
                     </a>
@@ -203,7 +203,7 @@
     </div>
 
     <!-- Modal untuk Detail Produk -->
-    <div id="productModal" class="fixed inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50 hidden">
+    <div id="productModal" class="fixed inset-0 hidden justify-center items-center bg-gray-700 bg-opacity-50">
         <div class="bg-white rounded-lg w-96 p-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold text-gray-800" id="modalProductName">Nama Produk</h2>
@@ -214,6 +214,8 @@
             <div class="mt-6 flex justify-center space-x-4"></div>
         </div>
     </div>
+
+    
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -229,6 +231,7 @@
         // Fungsi untuk membuka modal dan mengisi konten detail produk
         window.openModal = function(name, price, description) {
             document.getElementById('productModal').classList.remove('hidden');
+            document.getElementById('productModal').classList.add('flex');
             document.getElementById('modalProductName').textContent = name;
             document.getElementById('modalProductPrice').textContent = price;
             document.getElementById('modalProductDescription').textContent = description;
@@ -239,6 +242,11 @@
             document.getElementById('productModal').classList.add('hidden');
         });
     });
+
+
+
+
+    
     </script>
 </body>
 

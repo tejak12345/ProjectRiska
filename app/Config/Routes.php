@@ -54,16 +54,13 @@ $routes->get('/admin/logout', 'AdminController::logout');
 
 // Customer route
 $routes->get('/produk', 'CustomerController::listProducts');
+$routes->get('/produk/beli/(:num)', 'CustomerController::beli/$1');
+$routes->post('/prosescheckout/(:num)', 'CustomerController::processCheckout/$1');
+
+$routes->get('/pesanan', 'CustomerController::pesanan');
+
 $routes->get('/dashboard', 'CustomerController::index');
 $routes->get('/customer/logout', 'CustomerController::logout');
-// $routes->get('/customer/profile', 'CustomerController::profile');
-// $routes->get('/profile', 'CustomerController::profile', ['filter' => 'auth']);
-$routes->get('/customer/profile', 'CustomerController::profile');
-$routes->get('/profile', 'CustomerController::index'); // Menampilkan profil
-$routes->post('/profile/update', 'CustomerController::updateProfile'); // Menangani pembaruan profil
 
-
-// $routes->group('customer', ['filter' => 'auth'], function ($routes) {
-//     $routes->get('profile', 'CustomerController::profile');
-//     $routes->post('update-profile', 'CustomerController::updateProfile');
-// });
+$routes->get('/profil', 'CustomerController::profil');
+$routes->post('/profil/update', 'CustomerController::updateProfil');
