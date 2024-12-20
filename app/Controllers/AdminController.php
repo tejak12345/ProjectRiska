@@ -18,15 +18,19 @@ class AdminController extends Controller
         $totalProducts = $productModel->countAll();
         $activeUsersCount = $userModel->getActiveUsersCount();
         $recentOrders = $orderModel->orderBy('created_at', 'desc')->limit(5)->findAll();
+        $totalOrders = $orderModel->countAll(); // Menghitung total pesanan
+
         $admin = $userModel->getAdmin();
 
         return view('admin/dashboard', [
             'totalProducts' => $totalProducts,
             'activeUsersCount' => $activeUsersCount,
             'recentOrders' => $recentOrders,
+            'totalOrders' => $totalOrders, // Menambahkan data totalOrders
             'admin' => $admin
         ]);
     }
+
 
     // Manajemen Produk
     public function products()

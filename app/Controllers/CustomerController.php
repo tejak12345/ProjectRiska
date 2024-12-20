@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\ProductModel;
 use App\Models\UserModel;
+use App\Models\OrderModel;
 
 class CustomerController extends Controller
 {
@@ -47,7 +48,7 @@ class CustomerController extends Controller
         return view('customer/checkout', ['produk' => $produk]);
     }
 
-    public function processCheckout()
+    public function processCheckout($id)
     {
         // Validate input
         // $rules = [
@@ -63,17 +64,42 @@ class CustomerController extends Controller
         // Process the payment based on method
         // $paymentMethod = $this->request->getPost('payment_method');
 
-        $username = $this->request->getPost("username");
-        $metode_pembayaran = $this->request->getPost("metode_pembayaran");
-        
-        $productModel = new ProductModel();
         $userModel = new UserModel();
-        $product["product"] = $productModel->where("id",$id)->fist();
-        $product["users"] = $userModel->where("username", $username);
+        $productModel = new ProductModel();
+        $orderModel = new OrderModel();
 
-        if($metode_pembayaran == "Transfer Bank"){
-            
+        $validation = \Config\Services::validation();
+
+        $validation->setRules($orderModel->validationRules);
+
+        $product = $productModel->where("id",$id)->first();
+        $user= $userModel->where("username", $this->request->getPost("username"))->first();
+
+        $status = "Pending";
+
+        $data = [
+            "user_id" => (int) $user["id"],
+            "customer_name" => $user["username"],
+            "status" => $status,
+            "total" =>  (int) $product["price"],
+            "product_id" => (int) $product["id"],
+            "metode_pembayaran" => $this->request->getPost("metode_pembayaran")
+        ];
+
+
+
+        if (!$product || !$user) {
+            return redirect()->back()->with('error', 'Produk atau user tidak ditemukan.');
         }
+
+        
+        
+        if(!$validation->run($data)){
+            // dd($this->validator->getErrors());
+            return view('customer/beli'.$id,[
+                "validation" => $this->validator
+            ]);
+        };
 
         // Here you would typically:
         // 1. Save order to database
@@ -81,8 +107,16 @@ class CustomerController extends Controller
         // 3. Send confirmation email
         // 4. etc.
 
+        // Simpan data ke database
+        try {
+            $orderModel->save($data);
+        } catch (\Exception $e) {
+            return dd($e->getMessage()); // Debug jika ada error dari query database
+        }
+
+        session()->setFlashdata("success", "produk berhasil dibeli!");
         // For now, just redirect with success message
-        return redirect()->to('/customer')->with('success', 'Pesanan berhasil! Terima kasih telah berbelanja.');
+        return redirect()->to('/produk/beli/'.$id);
     }
 
     public function beli($id){
