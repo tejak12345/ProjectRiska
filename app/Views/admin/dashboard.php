@@ -8,59 +8,59 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8fafc;
-        }
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8fafc;
+    }
 
-        .main-content {
-            display: flex;
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
-        }
+    .main-content {
+        display: flex;
+        margin-top: 80px;
+        min-height: calc(100vh - 80px);
+    }
 
-        .sidebar {
-            background: linear-gradient(180deg, #2C3E50 0%, #34495E 100%);
-            width: 280px;
-            transition: all 0.3s ease;
-        }
+    .sidebar {
+        background: linear-gradient(180deg, #2C3E50 0%, #34495E 100%);
+        width: 280px;
+        transition: all 0.3s ease;
+    }
 
-        .sidebar a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
+    .sidebar a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
 
-        .stat-card {
-            transition: all 0.3s ease;
-        }
+    .stat-card {
+        transition: all 0.3s ease;
+    }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
 
-        .table th {
-            background-color: #f8fafc;
-        }
+    .table th {
+        background-color: #f8fafc;
+    }
 
-        .table tr {
-            transition: all 0.2s ease;
-        }
+    .table tr {
+        transition: all 0.2s ease;
+    }
 
-        .table tr:hover {
-            background-color: #f1f5f9;
-        }
+    .table tr:hover {
+        background-color: #f1f5f9;
+    }
 
-        .action-button {
-            transition: all 0.2s ease;
-        }
+    .action-button {
+        transition: all 0.2s ease;
+    }
 
-        .action-button:hover {
-            transform: scale(1.05);
-        }
+    .action-button:hover {
+        transform: scale(1.05);
+    }
     </style>
 </head>
 
@@ -74,11 +74,12 @@
                 </div>
                 <h1 class="text-xl font-bold text-[#2C3E50]">LeafletPro</h1>
             </div>
-            
+
             <!-- Profile & Hamburger Menu for Mobile -->
             <div class="flex items-center space-x-3 border-l pl-6">
                 <!-- Ikon Profil Admin -->
-                <i data-lucide="user" class="w-10 h-10 text-[#2C3E50] border-2 border-[#2C3E50] rounded-full flex items-center justify-center"></i>
+                <i data-lucide="user"
+                    class="w-10 h-10 text-[#2C3E50] border-2 border-[#2C3E50] rounded-full flex items-center justify-center"></i>
                 <div>
                     <p class="text-sm font-semibold"><?= esc($admin['username']) ?></p>
                     <p class="text-xs text-gray-500"><?= esc(ucfirst($admin['role'])) ?></p>
@@ -192,31 +193,31 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($recentOrders as $order): ?>
-                                        <tr class="border-b border-gray-100">
-                                            <td class="py-4 px-4 text-sm">#<?= $order['order_id'] ?></td>
-                                            <td class="py-4 px-4 text-sm font-medium"><?= $order['customer_name'] ?></td>
-                                            <td class="py-4 px-4">
-                                                <span
-                                                    class="px-3 py-1 text-xs font-medium rounded-full <?= $order['status'] == 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' ?>">
-                                                    <?= ucfirst($order['status']) ?>
-                                                </span>
-                                            </td>
-                                            <td class="py-4 px-4 text-right text-sm font-medium">Rp
-                                                <?= number_format($order['total'], 0, ',', '.') ?>
-                                            </td>
-                                            <td class="py-4 px-4 text-right">
-                                                <div class="flex justify-end gap-2">
-                                                    <button
-                                                        class="action-button p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                                                        <i data-lucide="eye" class="w-4 h-4"></i>
-                                                    </button>
-                                                    <button
-                                                        class="action-button p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors">
-                                                        <i data-lucide="edit" class="w-4 h-4"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    <tr class="border-b border-gray-100">
+                                        <td class="py-4 px-4 text-sm">#<?= $order['order_id'] ?></td>
+                                        <td class="py-4 px-4 text-sm font-medium"><?= $order['customer_name'] ?></td>
+                                        <td class="py-4 px-4">
+                                            <span
+                                                class="px-3 py-1 text-xs font-medium rounded-full <?= $order['status'] == 'Completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' ?>">
+                                                <?= ucfirst($order['status']) ?>
+                                            </span>
+                                        </td>
+                                        <td class="py-4 px-4 text-right text-sm font-medium">Rp
+                                            <?= number_format($order['total'], 0, ',', '.') ?>
+                                        </td>
+                                        <td class="py-4 px-4 text-right">
+                                            <div class="flex justify-end gap-2">
+                                                <button
+                                                    class="action-button p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                                </button>
+                                                <button
+                                                    class="action-button p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors">
+                                                    <i data-lucide="edit" class="w-4 h-4"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -229,16 +230,16 @@
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            
-            const hamburger = document.getElementById("hamburger");
-            const sidebar = document.querySelector(".sidebar");
-            hamburger.addEventListener('click', () => {
-                sidebar.classList.toggle("lg:block");
-                sidebar.classList.toggle("hidden");
-            });
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+
+        const hamburger = document.getElementById("hamburger");
+        const sidebar = document.querySelector(".sidebar");
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle("lg:block");
+            sidebar.classList.toggle("hidden");
         });
+    });
     </script>
 </body>
 

@@ -20,42 +20,36 @@
     <!-- Navbar -->
     <nav class="bg-[#0F4C75] text-white p-4 shadow-md fixed top-0 w-full z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
+            <!-- Logo and Name (LeafletPro Farmasi) -->
+            <div class="flex items-center space-x-3 order-1">
                 <i data-lucide="file-text" class="w-8 h-8"></i>
                 <h1 class="text-xl font-bold">LeafletPro Farmasi</h1>
             </div>
-            <button id="menu-toggle" class="lg:hidden block">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
-            <div id="menu" class="hidden lg:flex items-center space-x-4">
-                <div class="relative">
-                    <button id="notifikasi-toggle" class="hover:text-blue-200 transition">
-                        <i data-lucide="bell" class="w-6 h-6"></i>
-                        <span
-                            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                    </button>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <img src="https://via.placeholder.com/40" alt="Profil" class="rounded-full w-10 h-10">
-                    <div>
-                        <!-- Menampilkan nama pengguna yang login -->
-                        <?php if (session()->get('username')): ?>
-                        <p class="text-sm font-semibold"><?= session()->get('username'); ?></p>
-                        <p class="text-xs text-blue-200">Farmasis</p>
-                        <?php else: ?>
-                        <p class="text-sm font-semibold">Guest</p>
-                        <?php endif; ?>
-                    </div>
+
+            <!-- User Name or Guest -->
+            <div class="flex items-center space-x-2 order-2 lg:order-3">
+                <img src="https://via.placeholder.com/40" alt="Profil" class="rounded-full w-10 h-10">
+                <div>
+                    <!-- Menampilkan nama pengguna yang login -->
+                    <?php if (session()->get('username')): ?>
+                    <p class="text-sm font-semibold"><?= session()->get('username'); ?></p>
+                    <p class="text-xs text-blue-200">Farmasis</p>
+                    <?php else: ?>
+                    <p class="text-sm font-semibold">Guest</p>
+                    <?php endif; ?>
                 </div>
             </div>
+
+            <!-- Hamburger Menu Toggle -->
+            <button id="menu-toggle" class="lg:hidden block order-3 lg:order-2">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
         </div>
     </nav>
-
 
     <!-- Main Content Area -->
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-screen pt-20">
         <!-- Sidebar Menu -->
-        <!-- Sidebar -->
         <div id="sidebar"
             class="col-span-1 bg-white rounded-xl shadow-md p-6 lg:relative lg:block lg:min-h-screen hidden absolute left-0 top-0 w-full lg:w-auto">
             <ul class="space-y-4">
@@ -82,6 +76,15 @@
                     <a href="#profil" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
                         <i data-lucide="user" class="w-5 h-5 mr-3"></i>
                         Profil Saya
+                    </a>
+                </li>
+
+                <!-- Menambahkan tombol Logout -->
+                <li class="pt-4 mt-4 border-t border-gray-700">
+                    <a href="/customer/logout"
+                        class="flex items-center text-red-400 hover:text-red-300 p-3 rounded-lg transition-all">
+                        <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
+                        <span class="font-medium">Logout</span>
                     </a>
                 </li>
             </ul>
