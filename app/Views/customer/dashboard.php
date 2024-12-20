@@ -73,11 +73,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#profil" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                    <a href="customer/profile" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
                         <i data-lucide="user" class="w-5 h-5 mr-3"></i>
                         Profil Saya
                     </a>
                 </li>
+
 
                 <!-- Menambahkan tombol Logout -->
                 <li class="pt-4 mt-4 border-t border-gray-700">

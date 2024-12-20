@@ -56,6 +56,14 @@ $routes->get('/admin/logout', 'AdminController::logout');
 $routes->get('/produk', 'CustomerController::listProducts');
 $routes->get('/dashboard', 'CustomerController::index');
 $routes->get('/customer/logout', 'CustomerController::logout');
+// $routes->get('/customer/profile', 'CustomerController::profile');
+// $routes->get('/profile', 'CustomerController::profile', ['filter' => 'auth']);
+$routes->get('/customer/profile', 'CustomerController::profile');
+$routes->get('/profile', 'CustomerController::index'); // Menampilkan profil
+$routes->post('/profile/update', 'CustomerController::updateProfile'); // Menangani pembaruan profil
 
-$routes->get('/profil', 'CustomerController::profil');
-$routes->post('/profil/update', 'CustomerController::updateProfil');
+
+// $routes->group('customer', ['filter' => 'auth'], function ($routes) {
+//     $routes->get('profile', 'CustomerController::profile');
+//     $routes->post('update-profile', 'CustomerController::updateProfile');
+// });
