@@ -55,6 +55,7 @@ $routes->get('/admin/logout', 'AdminController::logout');
 // Customer route
 $routes->get('/produk', 'CustomerController::listProducts');
 $routes->get('/produk/beli/(:num)', 'CustomerController::beli/$1');
+$routes->post('/prosescheckout/(:num)', 'CustomerController::processCheckout/$1');
 
 $routes->get('/dashboard', 'CustomerController::index');
 $routes->get('/customer/logout', 'CustomerController::logout');
