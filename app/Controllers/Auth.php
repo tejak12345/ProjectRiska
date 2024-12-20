@@ -7,7 +7,7 @@ use CodeIgniter\Controller;
 
 class Auth extends Controller
 {
- 
+
     // Menampilkan halaman login
     public function login()
     {
@@ -15,6 +15,35 @@ class Auth extends Controller
     }
 
     // Proses login
+    // public function process()
+    // {
+    //     $session = session();
+    //     $model = new UserModel();
+
+    //     // Ambil data dari form login
+    //     $username = $this->request->getVar('username');
+    //     $password = $this->request->getVar('password');
+
+    //     // Ambil user berdasarkan username
+    //     $user = $model->where('username', $username)->first();
+
+    //     // Verifikasi username dan password
+    //     if ($user && password_verify($password, $user['password'])) {
+    //         // Set session jika login berhasil
+    //         $session->set(['logged_in' => true, 'username' => $username, 'role' => $user['role']]);
+
+    //         // Redirect berdasarkan role
+    //         if ($user['role'] === 'admin') {
+    //             return redirect()->to('/admin/dashboard');  // Redirect ke dashboard admin
+    //         } else {
+    //             return redirect()->to('/customer');  // Redirect ke dashboard customer
+    //         }
+    //     } else {
+    //         // Jika gagal, set flashdata untuk pesan error
+    //         $session->setFlashdata('msg', 'Username atau Password salah');
+    //         return redirect()->to('/auth/login');  // Redirect kembali ke halaman login
+    //     }
+    // }
     public function process()
     {
         $session = session();
@@ -30,18 +59,23 @@ class Auth extends Controller
         // Verifikasi username dan password
         if ($user && password_verify($password, $user['password'])) {
             // Set session jika login berhasil
-            $session->set(['logged_in' => true, 'username' => $username, 'role' => $user['role']]);
+            $session->set([
+                'logged_in' => true,
+                'user_id' => $user['id'], // Pastikan ini tidak null
+                'username' => $username,
+                'role' => $user['role']
+            ]);
 
             // Redirect berdasarkan role
             if ($user['role'] === 'admin') {
-                return redirect()->to('/admin/dashboard');  // Redirect ke dashboard admin
+                return redirect()->to('/admin/dashboard'); // Redirect ke dashboard admin
             } else {
-                return redirect()->to('/customer');  // Redirect ke dashboard customer
+                return redirect()->to('/customer'); // Redirect ke dashboard customer
             }
         } else {
             // Jika gagal, set flashdata untuk pesan error
             $session->setFlashdata('msg', 'Username atau Password salah');
-            return redirect()->to('/auth/login');  // Redirect kembali ke halaman login
+            return redirect()->to('/auth/login'); // Redirect kembali ke halaman login
         }
     }
 
@@ -70,6 +104,7 @@ class Auth extends Controller
             'password' => 'required|min_length[8]',
             'password_confirm' => 'required|matches[password]',
             'role' => 'required|in_list[admin,customer]' // Validasi untuk memilih role
+
         ]);
 
         if (!$this->validate($validation->getRules())) {
@@ -98,6 +133,4 @@ class Auth extends Controller
         session()->setFlashdata('msg', 'Registrasi berhasil, silakan login');
         return redirect()->to('auth/login'); // Redirect ke halaman login setelah registrasi berhasil
     }
-
 }
-
