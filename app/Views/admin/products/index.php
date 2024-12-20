@@ -139,50 +139,98 @@
                 <h2 class="text-2xl font-bold text-[#2C3E50] mb-6">Manage Products</h2>
 
                 <!-- Product Table -->
-                <div class="bg-gray-50 rounded-xl p-4">
-                    <div class="flex justify-end mb-4">
-                        <a href="/admin/products/create"
-                            class="flex items-center bg-[#2C3E50] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
-                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>
-                            Create New Product
-                        </a>
-                    </div>
-                    <table class="w-full table-auto">
-                        <thead>
-                            <tr class="border-b border-gray-200">
-                                <th class="py-2 text-left">Name</th>
-                                <th class="py-2 text-left">Price</th>
-                                <th class="py-2 text-left">Description</th>
-                                <th class="py-2 text-left">Image</th>
-                                <th class="py-2 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($products as $product): ?>
-                                <tr>
-                                    <td class="py-2"><?= esc($product['name']) ?></td>
-                                    <td class="py-2"><?= esc(number_format($product['price'], 2)) ?></td>
-                                    <td class="py-2"><?= esc($product['description']) ?></td>
-                                    <td class="py-2">
-                                        <?php if ($product['image'] && file_exists(ROOTPATH . '/public/img/products/' . $product['image'])): ?>
-                                            <img src="<?= base_url('/img/products/' . $product['image']) ?>" alt="Product Image"
-                                                width="100" height="100" class="rounded-lg object-cover">
-                                        <?php else: ?>
-                                            <span>No Image</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="py-2 text-right">
-                                        <a href="/admin/products/edit/<?= esc($product['id']) ?>"
-                                            class="text-blue-600 hover:text-blue-800 mr-4">Edit</a>
-                                        <a href="/admin/products/delete/<?= esc($product['id']) ?>"
-                                            class="text-red-600 hover:text-red-800"
-                                            onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+<div class="bg-white rounded-xl shadow-lg p-6">
+    <!-- Header Area -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center space-x-2">
+            <h3 class="text-xl font-bold text-[#2C3E50]">Products Catalog</h3>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">5 Products</span>
+        </div>
+        <a href="/admin/products/create"
+            class="flex items-center bg-[#2C3E50] text-white py-2 px-4 rounded-lg hover:bg-[#34495E] transition-colors duration-200">
+            <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
+            Create New Product
+        </a>
+    </div>
+
+   <!-- Search and Filter Area -->
+<div class="mb-4 flex gap-4">
+    <div class="relative flex-1">
+        <form method="get" action="<?= current_url() ?>">
+            <input type="text" name="search" value="<?= esc($search) ?>" placeholder="Search products..."
+                class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2C3E50] focus:border-transparent">
+            <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-3 top-2.5"></i>
+        </form>
+    </div>
+</div>
+
+<!-- Table -->
+<div class="overflow-x-auto relative">
+    <table class="w-full text-sm text-left">
+        <thead class="text-xs uppercase bg-gray-50 rounded-lg">
+            <tr>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-500">Image</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-500">Name</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-500">Price</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-500">Description</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-500 text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($products as $product): ?>
+                <tr class="bg-white border-b hover:bg-gray-50 transition-colors duration-200">
+                    <td class="px-6 py-4">
+                        <?php if ($product['image'] && file_exists(ROOTPATH . '/public/img/products/' . $product['image'])): ?>
+                            <img src="<?= base_url('/img/products/' . $product['image']) ?>" alt="Product Image"
+                                class="w-16 h-16 rounded-lg object-cover border border-gray-200">
+                        <?php else: ?>
+                            <div class="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
+                                <i data-lucide="image" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                        <?php endif; ?>
+                    </td>
+                    <td class="px-6 py-4 font-medium text-gray-900">
+                        <?= esc($product['name']) ?>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                            $<?= esc(number_format($product['price'], 2)) ?>
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-500 max-w-xs truncate">
+                        <?= esc($product['description']) ?>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex justify-end gap-2">
+                            <a href="/admin/products/edit/<?= esc($product['id']) ?>"
+                                class="font-medium text-blue-600 hover:text-blue-800 bg-blue-50 p-2 rounded-lg transition-colors duration-200">
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
+                            </a>
+                            <a href="/admin/products/delete/<?= esc($product['id']) ?>"
+                                class="font-medium text-red-600 hover:text-red-800 bg-red-50 p-2 rounded-lg transition-colors duration-200"
+                                onclick="return confirm('Are you sure you want to delete this product?')">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination -->
+<div class="flex items-center justify-between mt-4">
+    <div class="text-sm text-gray-500">
+        Showing <span class="font-medium"><?= ($pager->getCurrentPage() - 1) * 5 + 1 ?></span> to
+        <span class="font-medium"><?= min($pager->getCurrentPage() * 5, $totalProducts) ?></span> of
+        <span class="font-medium"><?= $totalProducts ?></span> results
+    </div>
+    <div class="flex gap-2">
+        <?= $pager->links('default', 'bootstrap') ?>
+    </div>
+</div>
+
 
                 <script src="https://unpkg.com/lucide@latest"></script>
                 <script>
