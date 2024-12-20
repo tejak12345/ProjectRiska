@@ -82,9 +82,7 @@ class CustomerController extends Controller
             "product_id" => (int) $product["id"],
             "metode_pembayaran" => $this->request->getPost("metode_pembayaran")
         ];
-
-
-
+        
         if (!$product || !$user) {
             return redirect()->back()->with('error', 'Produk atau user tidak ditemukan.');
         }
@@ -98,12 +96,6 @@ class CustomerController extends Controller
             ]);
         };
 
-        // Here you would typically:
-        // 1. Save order to database
-        // 2. Process payment
-        // 3. Send confirmation email
-        // 4. etc.
-
         // Simpan data ke database
         try {
             $orderModel->save($data);
@@ -115,6 +107,22 @@ class CustomerController extends Controller
         // For now, just redirect with success message
         return redirect()->to('/produk/beli/'.$id);
     }
+
+    public function beli($id){
+        $session=session();
+
+        $productModel = new ProductModel();
+        $userModel = new UserModel();
+        $data["product"] = $productModel->where("id", $id)->first();
+        $data["user"] = $userModel->where("username",$session->get("username"))->first();
+
+
+        if(!$data){
+            return view("customer/notfound");
+        }
+
+        return view("customer/beli",$data);
+    }
     // Logout
     public function logout()
     {
@@ -122,21 +130,31 @@ class CustomerController extends Controller
         return redirect()->to('auth/login');
     }
 
-    public function profile()
+    public function profil()
     {
-        $userModel = new UserModel();
-        $username = session()->get("username");
-        // dd($userId);
-        // Ambil data pengguna
-        $data['user'] = $userModel->where("username", $username)->first();
+        // Ambil data pengguna yang sedang login
+        $session = session();
+        $username = $session->get('username');
 
-        if (!$data['user']) {
-            return redirect()->to('/auth/login');
+        // Cek jika tidak ada sesi login
+        if (!$username) {
+            return redirect()->to('auth/login'); // Redirect ke halaman login jika tidak ada sesi
         }
 
-        return view('customer/profile', $data);
+        // Ambil data user berdasarkan username
+        $userModel = new UserModel();
+        $user = $userModel->getUserByUsername($username);
+
+        // Pastikan data pengguna ditemukan
+        if (!$user) {
+            return redirect()->to('auth/login'); // Redirect ke login jika user tidak ditemukan
+        }
+
+        // Kirim data ke view 'customer/profil.php'
+        return view('customer/profil', ['user' => $user]);
     }
-    public function updateProfile()
+
+    public function updateProfil()
     {
         // Validasi input
         $validation = \Config\Services::validation();
@@ -185,9 +203,13 @@ class CustomerController extends Controller
 
         $userModel = new UserModel();
         $orderModel = new OrderModel();
+        $productModel = new ProductModel();
 
         $user = $userModel->where("username",$username)->first();
-        $orders = $orderModel->where("user_id",$user["id"])->all();
+        $orders["products"] = $orderModel->where("user_id",$user["id"])->findAll();
+        // $products = $productModel->where("id",$orders);
+
+
         // $query1 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get();
         // $query2 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Completed")->groupBy("product_id")->get();
         // $query3 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Cancelled")->groupBy("product_id")->get();
@@ -198,7 +220,7 @@ class CustomerController extends Controller
         // $orders["cancelleds"] = $query3->getResultArray();
         // $orders["Processeds"] = $query4->getResultArray();
 
-        dd($orders["pendings"]->product_id);
+        // dd($orders);
         return view("/customer/pesanan",$orders);
 
     }
