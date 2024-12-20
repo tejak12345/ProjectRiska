@@ -109,7 +109,7 @@
 
             <!-- User Name or Guest -->
             <div class="flex items-center space-x-2 order-2 lg:order-3">
-                <img src="https://via.placeholder.com/40" alt="Profil" class="rounded-full w-10 h-10">
+                <img src="/customer.jpg" alt="Profil" class="rounded-full w-10 h-10">
                 <div>
                     <!-- Menampilkan nama pengguna yang login -->
                     <?php if (session()->get('username')): ?>
@@ -127,9 +127,8 @@
             </button>
         </div>
     </nav>
-
     <!-- Main Content Area -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-screen pt-20">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 min-h-screen pt-20">
         <!-- Sidebar Menu -->
         <div id="sidebar"
             class="col-span-1 bg-white rounded-xl shadow-md p-6 lg:relative lg:block lg:min-h-screen hidden absolute left-0 top-0 w-full lg:w-auto">
@@ -141,24 +140,24 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/produk" class="flex items-center text-[#0F4C75] font-semibold bg-blue-50 p-3 rounded-lg">
+                    <a href="/produk" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
                         <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
                         Produk
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url("pesanan") ?>" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                    <a href="#pesanan" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
                         <i data-lucide="shopping-cart" class="w-5 h-5 mr-3"></i>
                         Pesanan Saya
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('profile') ?>" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                    <a href="<?= base_url('profile') ?>"
+                        class="flex items-center text-[#0F4C75] font-semibold bg-blue-50 p-3 rounded-lg">
                         <i data-lucide="user" class="w-5 h-5 mr-3"></i>
                         Profil Saya
                     </a>
                 </li>
-
                 <!-- Menambahkan tombol Logout -->
                 <li class="pt-4 mt-4 border-t border-gray-700">
                     <a href="/customer/logout"
@@ -170,84 +169,96 @@
             </ul>
         </div>
 
-        <!-- Produk Section -->
-        <div class="col-span-2">
-            <h1 class="text-2xl font-bold text-gray-700 mb-6">Our Products</h1>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <!-- Looping Produk -->
-                <?php foreach ($products as $product): ?>
-                <div class="product-card">
-                    <?php if ($product['image'] && file_exists(ROOTPATH . '/public/img/products/' . $product['image'])): ?>
-                    <img src="<?= base_url('/img/products/' . $product['image']) ?>" alt="<?= esc($product['name']) ?>"
-                        class="product-image">
-                    <?php else: ?>
-                    <div class="product-image bg-gray-200 flex items-center justify-center">
-                        <span class="text-gray-500">No Image</span>
-                    </div>
-                    <?php endif; ?>
-                    <div class="product-info">
-                        <h3 class="product-name"><?= esc($product['name']) ?></h3>
-                        <p class="product-price">Rp <?= esc(number_format($product['price'], 0, ',', '.')) ?></p>
-                        <p class="product-description"><?= esc($product['description']) ?></p>
-                        <div class="button-group">
-                            <button
-                                onclick="openModal('<?= esc($product['name']) ?>', 'Rp <?= esc(number_format($product['price'], 0, ',', '.')) ?>', '<?= esc($product['description']) ?>')"
-                                class="btn-detail">Detail</button>
-                            <a href="/produk/beli/<?= $product['id'] ?>" class="btn-buy">Beli</a>
-                        </div>
-                    </div>
+        <div class="lg:col-span-3 p-6 bg-white rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Edit Profil</h2>
+
+            <!-- Menampilkan pesan sukses atau error -->
+            <?php if (session()->get('success')): ?>
+            <div class="alert alert-success bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded">
+                <?= session()->get('success'); ?>
+            </div>
+            <?php session()->remove('success');
+            endif; ?>
+
+            <?php if (session()->get('error')): ?>
+            <div class="alert alert-danger bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
+                <?= session()->get('error'); ?>
+            </div>
+            <?php session()->remove('error');
+            endif; ?>
+
+            <form action="/profile/update" method="POST" class="space-y-6">
+                <!-- CSRF Token -->
+                <?= csrf_field(); ?>
+
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
+                    <input type="text" name="username" id="username" value="<?= esc($user['username']) ?>"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
-                <?php endforeach; ?>
-            </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" name="email" id="email" value="<?= esc($user['email']) ?>"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label for="current_password" class="block text-sm font-medium text-gray-700">Password Saat
+                        Ini</label>
+                    <input type="password" name="current_password" id="current_password"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label for="new_password" class="block text-sm font-medium text-gray-700">Password Baru
+                        (opsional)</label>
+                    <input type="password" name="new_password" id="new_password"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label for="confirm_password" class="block text-sm font-medium text-gray-700">Konfirmasi
+                        Password Baru</label>
+                    <input type="password" name="confirm_password" id="confirm_password"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Perbarui Profil
+                    </button>
+                </div>
+            </form>
         </div>
-    </div>
 
-    <!-- Modal untuk Detail Produk -->
-    <div id="productModal" class="fixed inset-0 hidden justify-center items-center bg-gray-700 bg-opacity-50">
-        <div class="bg-white rounded-lg w-96 p-6">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-semibold text-gray-800" id="modalProductName">Nama Produk</h2>
-                <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
-            </div>
-            <p class="text-blue-600 font-semibold mt-2" id="modalProductPrice">Rp 0</p>
-            <p class="text-gray-600 mt-4" id="modalProductDescription">Detail Produk...</p>
-            <div class="mt-6 flex justify-center space-x-4"></div>
-        </div>
-    </div>
 
-    
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        lucide.createIcons();
-        const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.getElementById('sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
+
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Fungsi untuk membuka modal dan mengisi konten detail produk
+            window.openModal = function(name, price, description) {
+                document.getElementById('productModal').classList.remove('hidden');
+                document.getElementById('modalProductName').textContent = name;
+                document.getElementById('modalProductPrice').textContent = price;
+                document.getElementById('modalProductDescription').textContent = description;
+            };
+
+            // Fungsi untuk menutup modal
+            document.getElementById('closeModal').addEventListener('click', () => {
+                document.getElementById('productModal').classList.add('hidden');
+            });
         });
-
-        // Fungsi untuk membuka modal dan mengisi konten detail produk
-        window.openModal = function(name, price, description) {
-            document.getElementById('productModal').classList.remove('hidden');
-            document.getElementById('productModal').classList.add('flex');
-            document.getElementById('modalProductName').textContent = name;
-            document.getElementById('modalProductPrice').textContent = price;
-            document.getElementById('modalProductDescription').textContent = description;
-        };
-
-        // Fungsi untuk menutup modal
-        document.getElementById('closeModal').addEventListener('click', () => {
-            document.getElementById('productModal').classList.add('hidden');
-        });
-    });
-
-
-
-
-    
-    </script>
-</body>
-
-</html>
+        </script>
