@@ -55,7 +55,7 @@ class CustomerController extends Controller
         return view('customer/checkout', ['produk' => $produk]);
     }
 
-    public function processCheckout()
+    public function processCheckout($id)
     {
         $userModel = new UserModel();
         $productModel = new ProductModel();
@@ -198,14 +198,26 @@ class CustomerController extends Controller
         $productModel = new ProductModel();
 
         $user = $userModel->where("username",$username)->first();
-        $orders["products"] = $orderModel->where("user_id",$user["id"])->findAll();
+        $orders["products"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get()->getResultArray();
+        $orders["products_completed"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Completed")->groupBy("product_id")->get()->getResultArray();
+        $orders["products_cancelleds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Cancelled")->groupBy("product_id")->get()->getResultArray();
+        $orders["products_processeds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Processed")->groupBy("product_id")->get()->getResultArray();
         // $products = $productModel->where("id",$orders);
+        // dd($orders["products"]);
+        $i = 0 ;
 
-
+        foreach($orders["products"] as $prod){
+            $productName = $productModel->where("id",$prod["product_id"])->first()["name"];
+            // dd($productName);
+            $prod += ["product_name" => $productName,"status" => "Pending"];
+            // dd($prod);
+            $orders["products"][$i] += $prod;
+            $i++;
+        };
+        
+        // dd($orders["products"]);
         // $query1 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get();
-        // $query2 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Completed")->groupBy("product_id")->get();
-        // $query3 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Cancelled")->groupBy("product_id")->get();
-        // $query4 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Processed")->groupBy("product_id")->get();
+       
         
         // $orders["pendings"] = $query1->getResultArray();
         // $orders["completeds"] = $query2->getResultArray();

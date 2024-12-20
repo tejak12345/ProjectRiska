@@ -87,25 +87,120 @@
             </div>
             <!-- Orders Table -->
             <div class="bg-white rounded-xl shadow-md p-6 col-span-3 w-full">
-                    <table class="w-full table-auto">
+                <div>
+                    <button id="btnPendingTable" class="flex w-full  p-2 justify-between">
+                        <h1 class="text-red-500 text-xl font-bold">Pending</h1>
+                        <h1 class="text-red-500 text-xl font-bold">&darr;</h1>
+                    </button>
+                    <table id="pendingTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
                                 <th class="text-center">Product_id</th>
                                 <th class="text-center">Total</th>
+                                <th class="text-center">kuantitas</th>
                                 <th class="text-center">status</th>
+                                <th class="text-center">Upload Bukti</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_id"] ?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["total"] ?></td>
-                                    <td class="text-end py-2 px-2 "><span class="px-2 py-1 rounded-full text-white <?= $product["status"] == "Pending" ? "bg-red-500" : "bg-green-500"?>"><?= $product["status"] ?></span></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-end py-2 px-2 "><button type="button" class="btn bg-yellow-300 hover:bg-yellow-500 py-1 px-2 rounded-full">Upload Bukti</button></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>    
+                <div>
+                    <button id="btnCompletedTable"  class="flex w-full  p-2 justify-between">
+                        <h1 class="text-green-500 text-xl font-bold">Completed</h1>
+                        <h1 class="text-green-500 text-xl font-bold">&darr;</h1>
+                    </button>
+                    <table id="completedTable" class="w-full collapse table-auto mt-[20px]">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">kuantitas</th>
+                                <th class="text-center">status</th>
+                                <th class="text-center">Bukti_pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($products_completed as $product): ?>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-end py-2 px-2 ">ini gambar</td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
+                <div>
+                    <button id="btnProcessedTable"  class="flex w-full  p-2 justify-between">
+                        <h1 class="text-yellow-500 text-xl font-bold">Pending</h1>
+                        <h1 class="text-yellow-500 text-xl font-bold">&darr;</h1>
+                    </button>
+                    <table id="processedTable" class="w-full collapse table-auto mt-[20px]">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">kuantitas</th>
+                                <th class="text-center">status</th>
+                                <th class="text-center">Bukti_pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($products_completed as $product): ?>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-end py-2 px-2 ">ini gambar</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <button id="btnCancelledTable"  class="flex w-full  p-2 justify-between">
+                        <h1 class="text-gray-500 text-xl font-bold">Cancelled</h1>
+                        <h1 class="text-gray-500 text-xl font-bold">&darr;</h1>
+                    </button>
+                    <table id="cancelledTable" class="w-full collapse table-auto mt-[20px]">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">kuantitas</th>
+                                <th class="text-center">status</th>
+                                <th class="text-center">Bukti_pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($products_completed as $product): ?>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-end py-2 px-2 ">ini gambar</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
             
 
 
@@ -155,6 +250,80 @@
         modal.classList.add("hidden");
     }
 
+    const buttonPending = document.getElementById("btnPendingTable");
+    buttonPending.addEventListener("click",showPendingTable);
+
+    function showPendingTable(){
+        const table = document.getElementById("pendingTable");
+        const button = document.getElementById("btnPendingTable");
+        table.classList.remove("collapse");
+        button.removeEventListener("click",showPendingTable);
+        button.addEventListener("click",hidePendingTable);
+        
+    }
+    function hidePendingTable(){
+        const table = document.getElementById("pendingTable");
+        const button = document.getElementById("btnPendingTable");
+        table.classList.add("collapse");
+        button.removeEventListener("click",hidePendingTable);
+        button.addEventListener("click",showPendingTable);
+    }
+
+    const button = document.getElementById("btnCompletedTable");
+    button.addEventListener("click",showCompletedTable);
+    
+    function showCompletedTable(){
+        const table = document.getElementById("completedTable");
+        const button = document.getElementById("btnCompletedTable");
+        table.classList.remove("collapse");
+        button.removeEventListener("click",showCompletedTable);
+        button.addEventListener("click",hideCompletedTable);
+        
+    }
+    function hideCompletedTable(){
+        const table = document.getElementById("completedTable");
+        const button = document.getElementById("btnCompletedTable");
+        table.classList.add("collapse");
+        button.removeEventListener("click",hideCompletedTable);
+        button.addEventListener("click",showCompletedTable);
+    }
+    const btnCancelledTable = document.getElementById("btnCancelledTable");
+    btnCancelledTable.addEventListener("click",showCancelledTable);
+    
+    function showCancelledTable(){
+        const table = document.getElementById("cancelledTable");
+        const button = document.getElementById("btnCancelledTable");
+        table.classList.remove("collapse");
+        button.removeEventListener("click",showCancelledTable);
+        button.addEventListener("click",hideCancelledTable);
+        
+    }
+    function hideCancelledTable(){
+        const table = document.getElementById("cancelledTable");
+        const button = document.getElementById("btnCancelledTable");
+        table.classList.add("collapse");
+        button.removeEventListener("click",hideCancelledTable);
+        button.addEventListener("click",showCancelledTable);
+    }
+    
+    const buttonProcessed = document.getElementById("btnProcessedTable");
+    buttonProcessed.addEventListener("click",showProcessedTable);
+
+    function showProcessedTable(){
+        const table = document.getElementById("processedTable");
+        const button = document.getElementById("btnProcessedTable");
+        table.classList.remove("collapse");
+        button.removeEventListener("click",showProcessedTable);
+        button.addEventListener("click",hideProcessedTable);
+        
+    }
+    function hideProcessedTable(){
+        const table = document.getElementById("processedTable");
+        const button = document.getElementById("btnProcessedTable");
+        table.classList.add("collapse");
+        button.removeEventListener("click",hideProcessedTable);
+        button.addEventListener("click",showProcessedTable);
+    }
     
     
 
