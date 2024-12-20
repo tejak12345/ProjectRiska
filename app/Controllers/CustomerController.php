@@ -210,29 +210,52 @@ class CustomerController extends Controller
         $orders["products_completed"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Completed")->groupBy("product_id")->get()->getResultArray();
         $orders["products_cancelleds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Cancelled")->groupBy("product_id")->get()->getResultArray();
         $orders["products_processeds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Processed")->groupBy("product_id")->get()->getResultArray();
-        // $products = $productModel->where("id",$orders);
-        // dd($orders["products"]);
-        $i = 0 ;
-
-        foreach($orders["products"] as $prod){
-            $productName = $productModel->where("id",$prod["product_id"])->first()["name"];
-            // dd($productName);
-            $prod += ["product_name" => $productName,"status" => "Pending"];
-            // dd($prod);
-            $orders["products"][$i] += $prod;
-            $i++;
+        
+        if($orders["products"]){
+            $i = 0 ;
+            foreach($orders["products"] as $prod){
+                $productName = $productModel->where("id",$prod["product_id"])->first()["name"];
+                $prod += ["product_name" => $productName,"status" => "Pending"];
+                $orders["products"][$i] += $prod;
+                $i++;
+            };
         };
         
-        // dd($orders["products"]);
-        // $query1 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get();
-       
-        
-        // $orders["pendings"] = $query1->getResultArray();
-        // $orders["completeds"] = $query2->getResultArray();
-        // $orders["cancelleds"] = $query3->getResultArray();
-        // $orders["Processeds"] = $query4->getResultArray();
+        if($orders["products_completed"]){
+            $i = 0 ;
+            foreach($orders["products_completed"] as $prod){
+                $productName = $productModel->where("id",$prod["product_id"])->first()["name"];
+                $prod += ["product_name" => $productName,"status" => "Pending"];
+                $orders["products_completed"][$i] += $prod;
+                $i++;
+            };
+        };
 
-        // dd($orders);
+        if($orders["products_cancelleds"]){
+            $i = 0 ;
+            foreach($orders["products_cancelleds"] as $prod){
+                $productName = $productModel->where("id",$prod["product_id"])->first()["name"];
+                $prod += ["product_name" => $productName,"status" => "Pending"];
+                $orders["products_cancelleds"][$i] += $prod;
+                $i++;
+            };
+        };
+
+        if($orders["products_processeds"]){
+            $i = 0 ;
+            foreach($orders["products_processeds"] as $prod){
+                $productName = $productModel->where("id",$prod["product_id"])->first()["name"];
+                $prod += ["product_name" => $productName,"status" => "Pending"];
+                $orders["products_processeds"][$i] += $prod;
+                $i++;
+            };
+        };
+
+
+
+
+        // dd($orders["products"]);
+        
         return view("/customer/pesanan",$orders);
 
     }

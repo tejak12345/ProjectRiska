@@ -89,7 +89,7 @@
                     <table id="pendingTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Product_name</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">kuantitas</th>
                                 <th class="text-center">status</th>
@@ -99,7 +99,7 @@
                         <tbody>
                             <?php foreach ($products as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
                                     <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
@@ -117,7 +117,7 @@
                     <table id="completedTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_id</th>
+                                <th class="text-center">Product_name</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">kuantitas</th>
                                 <th class="text-center">status</th>
@@ -127,7 +127,7 @@
                         <tbody>
                             <?php foreach ($products_completed as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_id"]?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
                                     <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
@@ -193,10 +193,8 @@
                         </tbody>
                     </table>
                 </div>
-                
             </div>
             
-
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
