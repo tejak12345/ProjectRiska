@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\ProductModel;
 use App\Models\UserModel;
+use App\Models\OrderModel;
 
 class CustomerController extends Controller
 {
@@ -150,9 +151,13 @@ class CustomerController extends Controller
 
         $userModel = new UserModel();
         $orderModel = new OrderModel();
+        $productModel = new ProductModel();
 
         $user = $userModel->where("username",$username)->first();
-        $orders = $orderModel->where("user_id",$user["id"])->all();
+        $orders["products"] = $orderModel->where("user_id",$user["id"])->findAll();
+        // $products = $productModel->where("id",$orders);
+
+
         // $query1 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Pending")->groupBy("product_id")->get();
         // $query2 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Completed")->groupBy("product_id")->get();
         // $query3 = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")->where("user_id",$user["id"])->where("status","Cancelled")->groupBy("product_id")->get();
@@ -163,7 +168,7 @@ class CustomerController extends Controller
         // $orders["cancelleds"] = $query3->getResultArray();
         // $orders["Processeds"] = $query4->getResultArray();
 
-        dd($orders["pendings"]->product_id);
+        // dd($orders);
         return view("/customer/pesanan",$orders);
 
     }

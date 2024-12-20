@@ -146,7 +146,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#pesanan" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
+                    <a href="<?= base_url('customer/pesanan') ?>" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
                         <i data-lucide="shopping-cart" class="w-5 h-5 mr-3"></i>
                         Pesanan Saya
                     </a>

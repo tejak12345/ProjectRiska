@@ -77,7 +77,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition">
+                            <a href="<?= base_url("customer/profile") ?>" class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition">
                                 <i data-lucide="user" class="w-5 h-5 mr-3 text-gray-600"></i>
                                 <span>Profil Saya</span>
                             </a>
@@ -85,48 +85,29 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-span-3">
-                <table class="w-full h-full border border-red-500">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Product_id</th>
-                            <th class="text-center">Total</th>
-                            <th class="text-center">Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($pendings as $pending): ?>
-                            <tr>
-                                <td class="text-end"><?= $pending["product_id"] ?></td>
-                                <td class="text-end"><?= $pending["total_price"] ?></td>
-                                <td class="text-end"><?= $pending["quantity"] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-
             <!-- Orders Table -->
-            <!-- <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="bg-white rounded-xl shadow-md p-6 col-span-3 w-full">
                     <table class="w-full table-auto">
                         <thead>
                             <tr class="border-b border-gray-200">
                                 <th class="text-center">Product_id</th>
                                 <th class="text-center">Total</th>
-                                <th class="text-center">Quantity</th>
+                                <th class="text-center">status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($pending as $pending): ?>
+                            <?php foreach ($products as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end"><?= $pending["product_id"] ?></td>
-                                    <td class="text-end"><?= $pending["total_price"] ?></td>
-                                    <td class="text-end"><?= $pending["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["product_id"] ?></td>
+                                    <td class="text-end py-2 px-2 "><?= $product["total"] ?></td>
+                                    <td class="text-end py-2 px-2 "><span class="px-2 py-1 rounded-full text-white <?= $product["status"] == "Pending" ? "bg-red-500" : "bg-green-500"?>"><?= $product["status"] ?></span></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                </div> -->
+                </div>
+            
+
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
