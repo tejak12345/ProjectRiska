@@ -5,7 +5,6 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\ProductModel;
 use App\Models\UserModel;
-use App\Models\OrderModel;
 
 class CustomerController extends Controller
 {
@@ -43,71 +42,43 @@ class CustomerController extends Controller
 
     public function checkout($id)
     {
+        // Simulasi pengambilan data produk berdasarkan $id
+        $produk = [
+            'id' => $id,
+            'nama' => 'Leaflet Informasi Vaksin',
+            'deskripsi' => 'Desain profesional untuk informasi vaksinasi',
+            'harga' => 150000,
+            'gambar' => 'https://via.placeholder.com/500'
+        ];
+
         return view('customer/checkout', ['produk' => $produk]);
     }
 
-    public function processCheckout($id)
+    public function processCheckout()
     {
-        $userModel = new UserModel();
-        $productModel = new ProductModel();
-        $orderModel = new OrderModel();
-
-        $validation = \Config\Services::validation();
-
-        $validation->setRules($orderModel->validationRules);
-
-        $product = $productModel->where("id",$id)->first();
-        $user= $userModel->where("username", $this->request->getPost("username"))->first();
-
-        $status = "Pending";
-
-        $data = [
-            "user_id" => (int) $user["id"],
-            "customer_name" => $user["username"],
-            "status" => $status,
-            "total" =>  (int) $product["price"],
-            "product_id" => (int) $product["id"],
-            "metode_pembayaran" => $this->request->getPost("metode_pembayaran")
+        // Validate input
+        $rules = [
+            'full_name' => 'required',
+            'email' => 'required|valid_email',
+            'phone' => 'required',
+            'payment_method' => 'required'
         ];
 
-
-
-        if (!$product || !$user) {
-            return redirect()->back()->with('error', 'Produk atau user tidak ditemukan.');
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        if(!$validation->run($data)){
-            return view('customer/beli'.$id,[
-                "validation" => $this->validator
-            ]);
-        };
+        // Process the payment based on method
+        $paymentMethod = $this->request->getPost('payment_method');
 
-        // Simpan data ke database
-        try {
-            $orderModel->save($data);
-        } catch (\Exception $e) {
-            return dd($e->getMessage()); // Debug jika ada error dari query database
-        }
+        // Here you would typically:
+        // 1. Save order to database
+        // 2. Process payment
+        // 3. Send confirmation email
+        // 4. etc.
 
-        session()->setFlashdata("success", "produk berhasil dibeli!");
         // For now, just redirect with success message
-        return redirect()->to('/produk/beli/'.$id);
-    }
-
-    public function beli($id){
-        $session=session();
-
-        $productModel = new ProductModel();
-        $userModel = new UserModel();
-        $data["product"] = $productModel->where("id", $id)->first();
-        $data["user"] = $userModel->where("username",$session->get("username"))->first();
-
-
-        if(!$data){
-            return view("customer/notfound");
-        }
-
-        return view("customer/beli",$data);
+        return redirect()->to('/customer')->with('success', 'Pesanan berhasil! Terima kasih telah berbelanja.');
     }
     // Logout
     public function logout()
@@ -173,9 +144,5 @@ class CustomerController extends Controller
 
         // Redirect kembali ke halaman profil untuk menampilkan notifikasi sukses
         return redirect()->back();  // Kembali ke halaman profil yang sama
-    }
-
-    public function pesanan(){
-        
     }
 }

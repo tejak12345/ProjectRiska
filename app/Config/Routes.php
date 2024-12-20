@@ -62,5 +62,5 @@ $routes->get('/pesanan', 'CustomerController::pesanan');
 $routes->get('/dashboard', 'CustomerController::index');
 $routes->get('/customer/logout', 'CustomerController::logout');
 
-$routes->get('/profil', 'CustomerController::profil');
-$routes->post('/profil/update', 'CustomerController::updateProfil');
+$routes->get('/customer/profile', 'CustomerController::profile');
+$routes->post('/profile/update', 'CustomerController::updateProfile');
