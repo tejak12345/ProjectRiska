@@ -103,6 +103,7 @@ class CustomerController extends Controller
             return dd($e->getMessage()); // Debug jika ada error dari query database
         }
 
+
         session()->setFlashdata("success", "produk berhasil dibeli!");
         // For now, just redirect with success message
         return redirect()->to('/produk/beli/'.$id);
@@ -259,5 +260,17 @@ class CustomerController extends Controller
         
         return view("/customer/pesanan",$orders);
 
+    }
+
+    public function kirimBukti($id){
+        $image = $this->request->getFile('image');
+        $imageName = null;
+
+        if ($image && $image->isValid()) {
+            $imageName = $image->getRandomName();
+            $image->move(ROOTPATH . 'public/BuktiPembayaran/'.$id, $imageName);
+        };
+
+        return redirect()->to("/customer/pesanan")->with("msg", "Bukti pembayaran berhasil diupload");
     }
 }

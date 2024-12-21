@@ -103,7 +103,7 @@
                                     <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
-                                    <td class="text-end py-2 px-2 "><button type="button" class="btn bg-yellow-300 hover:bg-yellow-500 py-1 px-2 rounded-full">Upload Bukti</button></td>
+                                    <td class="text-end py-2 px-2 "><button type="button" onclick="uploadBukti(<?= $product['product_id'] ?>,'<?= $product['product_name'] ?>',<?= $product['total_price'] ?>)" class="btn bg-yellow-300 hover:bg-yellow-500 py-1 px-2 rounded-full">Upload Bukti</button></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -195,6 +195,28 @@
                 </div>
             </div>
             
+            <div id="buktiPembayaranModal" tabindex="-1" aria-hidden="true" class="fixed hidden bottom-0 right-0  z-50  overflow-y-auto overflow-x-hidden">
+                <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                    <div class="relative  rounded-lg shadow ">
+                        <div class="flex justify-between items-start p-4 rounded-t border-b bg-[#0F4C75]">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                                Unggah Bukti Pembayaran
+                            </h3>
+                            <button type="button" onclick="closeModalBukti()" class="text-white bg-transparent hover:bg-white hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="buktiPembayaranModal">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.207a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                        </div>
+                        <div class="p-6 space-y-6 bg-white">
+                            <h3 id="productName" class="text-black text-xl"></h3>
+                            <p id="productPrice" class="text-gray-500 text-md"></p>
+                            <form id="form-upload-bukti" enctype="multipart/form-data">
+                                <input type="file" id="bukti_pembayaran" name="bukti_pembayaran" class="block w-full text-sm text-gray-900 bg-white rounded-full  border border-gray-300 cursor-pointer focus:outline-none focus:ring-[#0F4C75] focus:border-blue-500  file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#0F4C75] file:text-white hover:file:bg-[#0F4C75] hover:file:cursor-pointer">
+                            </form>
+                            <button type="button" class="text-white bg-[#0F4C75] hover:bg-[#0F4C75] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center " onclick="uploadBukti()">Unggah</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -318,7 +340,22 @@
     }
     
     
+    function uploadBukti(id, product_name, harga){
+        const modal = document.getElementById("buktiPembayaranModal");
+        const title = document.getElementById("productName");
+        const price = document.getElementById("productPrice");
 
+        title.textContent = product_name;
+        price.textContent = "Rp." + harga;
+
+        console.log(title); 
+        modal.classList.remove("hidden");
+    }
+    function closeModalBukti(){
+        const modal = document.getElementById("buktiPembayaranModal");
+
+        modal.classList.add("hidden");
+    }
 
     </script>
 </body>
