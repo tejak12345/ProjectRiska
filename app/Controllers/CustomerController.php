@@ -256,10 +256,10 @@ class CustomerController extends Controller
 
                 $i++;
             }
-        };
-        
-        return view("/customer/pesanan",$orders);
+        }
 
+        // Kirim data pesanan ke view
+        return view("/customer/pesanan", $orders);
     }
 
     public function kirimBukti($id){

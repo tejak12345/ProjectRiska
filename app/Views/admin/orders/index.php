@@ -221,10 +221,7 @@
                                         </form>
                                         <form action="/admin/orders/cancel/<?= esc($order['id']) ?>" method="post"
                                             class="inline-block ml-2">
-                                            <button type="submit"
-                                                class="action-button text-sm text-white bg-red-500 hover:bg-red-600 rounded-lg px-3 py-1 transition-all duration-300 ease-in-out transform hover:scale-105">
-                                                Cancel
-                                            </button>
+                                           
                                         </form>
                                     </td>
                                 </tr>
