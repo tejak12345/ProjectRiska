@@ -209,30 +209,39 @@ class CustomerController extends Controller
 
         $user = $userModel->where("username", $username)->first();
 
+        $query = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran")->where("user_id", $user["id"])->groupBy("metode_pembayaran");
+        
         // Ambil pesanan berdasarkan status masing-masing
-        $orders["products"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
-            ->where("user_id", $user["id"])
-            ->where("status", "Pending")
-            ->groupBy("product_id")
-            ->get()->getResultArray();
-
-        $orders["products_completed"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
-            ->where("user_id", $user["id"])
-            ->where("status", "Completed")
-            ->groupBy("product_id")
-            ->get()->getResultArray();
-
-        $orders["products_cancelleds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
-            ->where("user_id", $user["id"])
-            ->where("status", "Cancelled")
-            ->groupBy("product_id")
-            ->get()->getResultArray();
-
-        $orders["products_processeds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity")
-            ->where("user_id", $user["id"])
-            ->where("status", "Processed")
-            ->groupBy("product_id")
-            ->get()->getResultArray();
+        $orders["products"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
+        ->where("user_id", $user["id"])
+        ->groupBy("metode_pembayaran")->groupBy("product_id")
+        ->where("status", "Pending")
+        ->get()
+        ->getResultArray();
+        
+        // dd($orders["products"]);
+        
+        $orders["products_completed"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
+        ->where("user_id", $user["id"])
+        ->groupBy("metode_pembayaran")->groupBy("product_id")
+        ->where("status", "Completed")
+        ->get()
+        ->getResultArray();
+        
+        $orders["products_cancelleds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
+        ->where("user_id", $user["id"])
+        ->groupBy("metode_pembayaran")->groupBy("product_id")
+        ->where("status", "Cancelled")
+        ->get()
+        ->getResultArray();
+        
+        $orders["products_processeds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
+        ->where("user_id", $user["id"])
+        ->groupBy("metode_pembayaran")->groupBy("product_id")
+        ->where("status", "Processed")
+        ->get()
+        ->getResultArray();
+        // dd($orders["products_completed"]);
 
         // Loop untuk menambahkan nama produk ke pesanan berdasarkan product_id
         foreach (['products', 'products_completed', 'products_cancelleds', 'products_processeds'] as $statusKey) {
@@ -251,7 +260,7 @@ class CustomerController extends Controller
                 // Menambahkan nama produk dan status ke dalam pesanan
                 $orders[$statusKey][$i] += [
                     "product_name" => $productName,
-                    "status" => ucfirst($statusKey)  // Menambahkan status berdasarkan nama array
+                    "status" => $prod["status"]  // Menambahkan status berdasarkan nama array
                 ];
 
                 $i++;
@@ -262,7 +271,9 @@ class CustomerController extends Controller
         return view("/customer/pesanan", $orders);
     }
 
-    public function kirimBukti($id){
+    public function kirimBukti(){
+        $idProduct = $this->request->getPost("productID");
+
         $image = $this->request->getFile('image');
         $imageName = null;
 
