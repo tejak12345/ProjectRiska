@@ -110,6 +110,19 @@
             <!-- Product Details -->
             <div class="lg:col-span-3">
                 <div class="bg-white rounded-xl shadow-lg p-6">
+                    <?php if (session()->get('success')): ?>
+                        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-lg flex items-center">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3"></i>
+                            <p class="text-green-700"><?= session()->get('success'); ?></p>
+                        </div>
+                        <?php session()->remove('success'); endif; ?>
+
+                    <?php if (session()->get('error')): ?>
+                        <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-lg flex items-center">
+                            <i data-lucide="alert-circle" class="w-5 h-5 text-red-400 mr-3"></i>
+                            <p class="text-red-700"><?= session()->get('error'); ?></p>
+                        </div>
+                    <?php session()->remove('error'); endif; ?>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <!-- Product Image Section -->
                         <div class="space-y-4">
@@ -147,17 +160,26 @@
                                     <input type="email" name="email" value=<?= $user["email"] ?> required
                                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
                                 </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Metode Pembayaran
-                                    </label>
-                                    <select name="metode_pembayaran" id="metode_pembayaran"
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                                            Kuantitas
+                                        </label>
+                                        <input type="number" name="kuantitas" value="1" min="1" required
                                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
-                                        <option value="Cash">Cash</option>
-                                        <option value="Transfer Bank">Transfer Bank</option>
-                                    </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                                            Metode Pembayaran
+                                        </label>
+                                        <select name="metode_pembayaran" id="metode_pembayaran"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                                            <option value="Cash">Cash</option>
+                                            <option value="Transfer Bank">Transfer Bank</option>
+                                        </select>
+                                    </div>
                                 </div>
+
 
                                 <div id="bankSelection" class="hidden animate-fade-in">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -182,18 +204,6 @@
         </div>
     </div>
 
-    <div id="notificationModal" class="hidden fixed bottom-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-        <div class="relative p-4 rounded-xl shadow bg-green-500">
-            <div class="flex justify-between items-center mb-4">
-            <p class="text-lg font-medium text-white">Notification</p>
-            <button type="button" class="text-white bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-toggle="notificationModal">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            </button>
-            </div>
-            <p id="notificationMessage" class="mb-4 text-sm text-white"></p>
-        </div>
-    </div>
-
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -213,25 +223,6 @@
 
         });
 
-        // Function to show the notification modal
-        function showNotification(message) {
-            const notificationModal = document.getElementById('notificationModal');
-            const notificationMessage = document.getElementById('notificationMessage');
-
-            notificationMessage.textContent = message;
-            notificationModal.classList.remove('hidden');
-
-            // Automatically hide the modal after 3 seconds
-            setTimeout(() => {
-                document.location.href = "/produk";
-            }, 3000);
-        }
-
-        const successMessage = '<?= session()->getFlashdata('success') ?>';
-
-        if (successMessage) {
-            showNotification(successMessage);
-        }
     </script>
 </body>
 </html>

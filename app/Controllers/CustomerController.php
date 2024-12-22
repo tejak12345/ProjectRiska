@@ -111,13 +111,19 @@ class CustomerController extends Controller
 
         $status = "Pending";
 
+        $kuantitas = $this->request->getPost("kuantitas");
+
+        $total = ((int) $product["price"]) * $kuantitas;
+
         $data = [
             "user_id" => (int) $user["id"],
             "customer_name" => $user["username"],
             "status" => $status,
-            "total" =>  (int) $product["price"],
+            "total" =>  $total,
             "product_id" => (int) $product["id"],
-            "metode_pembayaran" => $this->request->getPost("metode_pembayaran")
+            "metode_pembayaran" => $this->request->getPost("metode_pembayaran"),
+            "bukti_pembayaran" => "belum upload bukti",
+            "kuantitas" => $kuantitas
         ];
         
         if (!$product || !$user) {
@@ -128,9 +134,7 @@ class CustomerController extends Controller
         
         if(!$validation->run($data)){
             // dd($this->validator->getErrors());
-            return view('customer/beli'.$id,[
-                "validation" => $this->validator
-            ]);
+            return redirect()->to('/produk/beli/'.$id)->with("validator",$this->validator);
         };
 
         // Simpan data ke database
@@ -309,24 +313,29 @@ class CustomerController extends Controller
         }
 
         $imageName = $image->getRandomName();
-        $image->move(ROOTPATH . 'public/img/buktiPembayaran/', $imageName);
+
         $updatedData = [
-            // "bukti_pembayaran" => $imageName,
-            "status" => "Processing"
+            "bukti_pembayaran" => $imageName,
+            "status" => 'Processing'
         ];
         // dd($updatedData);
 
         try {
-            $orderModel->update($id, $updatedData);
+            // $orderID = $id;  
+            $result = $orderModel->update(["id"=>$id],$updatedData);
+            if($result == FALSE){
+                dd($result);
+            }
         } catch (\Exception $e) {
             // Handle error
             log_message('error', 'Error updating order: ' . $e->getMessage());
             return redirect()->to("/pesanan/uploadBukti/".$id)->with("error", "Terjadi kesalahan saat mengunggah bukti pembayaran");
         }
-
+        
+        $image->move(ROOTPATH . 'public/img/buktiPembayaran/', $imageName);
         // dd($orderModel->where("id", $id)->first());
         
-        return redirect()->to("/pesanan")->with("berhasil", "Bukti pembayaran berhasil diupload");
+        return redirect()->to("/pesanan")->with("success", "Bukti pembayaran berhasil diupload");
         
     }
 }

@@ -81,6 +81,19 @@
             </div>
             <!-- Orders Table -->
             <div class="bg-white rounded-xl shadow-md p-6 col-span-3 w-full">
+                <?php if (session()->get('success')): ?>
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-lg flex items-center">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3"></i>
+                        <p class="text-green-700"><?= session()->get('success'); ?></p>
+                    </div>
+                    <?php session()->remove('success'); endif; ?>
+
+                <?php if (session()->get('error')): ?>
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-lg flex items-center">
+                        <i data-lucide="alert-circle" class="w-5 h-5 text-red-400 mr-3"></i>
+                        <p class="text-red-700"><?= session()->get('error'); ?></p>
+                    </div>
+                    <?php session()->remove('error'); endif; ?>
                 <div>
                     <button id="btnPendingTable" class="flex w-full  p-2 justify-between">
                         <h1 class="text-red-500 text-xl font-bold">Pending</h1>
@@ -92,19 +105,21 @@
                                 <th class="text-center">nama produk</th>
                                 <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
+                                <th class="text-center">kuantitas</th>
                                 <th class="text-center">upload bukti</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["product_name"]?></td>
+                                    <td class="text-center py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["kuantitas"] ?></td>
                                     <?php if($product["metode_pembayaran"] == "Transfer Bank"): ?>
-                                        <td class="text-end py-2 px-2 "><a href="/pesanan/uploadBukti/<?= $product["id"] ?>" class="btn bg-yellow-300 hover:bg-yellow-500 py-1 px-2 rounded-full">Upload Bukti</a></td>
+                                        <td class="text-center py-2 px-2 "><a href="/pesanan/uploadBukti/<?= $product["id"] ?>" class="btn bg-yellow-300 hover:bg-yellow-500 py-1 px-2 rounded-full">Upload Bukti</a></td>
                                     <?php else: ?>    
-                                        <td class="text-end py-2 px-2 "><?= $product["metode_pembayaran"] ?></td>
+                                        <td class="text-center py-2 px-2 "><?= $product["metode_pembayaran"] ?></td>
                                     <?php endif ?>
                                 </tr>
                             <?php endforeach; ?>
@@ -122,16 +137,23 @@
                                 <th class="text-center">nama produk</th>
                                 <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
+                                <th class="text-center">kuantitas</th>
                                 <th class="text-center">bukti pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products_completed as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
-                                    <td class="text-end py-2 px-2 "><img src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>"/></td>
+                                    <td class="text-center py-2 px-2 "><?=$product["product_name"]?></td>
+                                    <td class="text-center py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
+                                    <td class="text-center py-2 px-2 "><?=$product["status"] ?></td>
+                                    <td class="text-center py-2 px-2 "><?=$product["kuantitas"] ?></td>
+                                    <td class="text-center py-2 px-2 ">
+                                        <img src="/img/buktiPembayaran/<?=$product["bukti_pembayaran"] ?>" 
+                                        width="150" 
+                                        class="mx-auto" 
+                                        onclick="showModalBukti('<?= base_url('/img/BuktiPembayaran/' . $product['bukti_pembayaran']); ?>')"
+                                        /></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -148,16 +170,26 @@
                                 <th class="text-center">nama produk</th>
                                 <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
+                                <th class="text-center">kuantitas</th>
                                 <th class="text-center">bukti pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products_processeds as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
-                                    <td class="text-end py-2 px-2 "><img src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>" alt=""></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["product_name"]?></td>
+                                    <td class="text-center py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["kuantitas"] ?></td>
+                                    <td class="text-center py-2 px-2 ">
+                                        <img 
+                                        src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>" 
+                                        width="150" 
+                                        class="mx-auto"  
+                                        alt=""
+                                         onclick="showModalBukti('<?= base_url('/img/BuktiPembayaran/' . $product['bukti_pembayaran']); ?>')"
+                                        />
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -174,20 +206,36 @@
                                 <th class="text-center">nama produk</th>
                                 <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
+                                <th class="text-center">kuantitas</th>
                                 <th class="text-center">bukti pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products_cancelleds as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
-                                    <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
-                                    <td class="text-end py-2 px-2 "><img src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>" /></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["product_name"]?></td>
+                                    <td class="text-center py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["status"] ?></td>
+                                    <td class="text-center py-2 px-2 "><?= $product["kuantitas"] ?></td>
+                                    <td class="text-center py-2 px-2 ">
+                                        <img 
+                                        src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>" 
+                                        width="150" 
+                                        class="mx-auto" 
+                                        onclick="showModalBukti('<?= base_url('/img/BuktiPembayaran/' . $product['bukti_pembayaran']); ?>')"
+                                        /></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="imageModal" class="fixed inset-0  z-50 hidden bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div class="bg-white p-5 rounded shadow-lg max-w-xl relative ">
+                    <button class="absolute top-2 right-2 text-gray-700" onclick="hideModalBukti()">&#10005;</button>
+                    <img id="modalImage" src="" alt="Bukti Pembayaran" class="w-full rounded">
                 </div>
             </div>
 
@@ -311,6 +359,19 @@
         button.removeEventListener("click",hideProcessedTable);
         button.addEventListener("click",showProcessedTable);
     }
+
+    function showModalBukti(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+        }
+
+        function hideModalBukti() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+        }
     
     
     </script>

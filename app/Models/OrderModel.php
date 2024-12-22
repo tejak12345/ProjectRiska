@@ -8,7 +8,7 @@ class OrderModel extends Model
 {
     protected $table = 'orders'; // Tabel untuk pesanan
     protected $primaryKey = 'id'; // Kolom primary key
-    protected $allowedFields = ['user_id', 'customer_name', 'status', 'total', 'created_at','product_id','metode_pembayaran','bukti_pembayaran'];
+    protected $allowedFields = ['user_id', 'customer_name', 'status', 'total', 'created_at','product_id','metode_pembayaran','bukti_pembayaran',"kuantitas"];
 
     // Mendapatkan pesanan terbaru
     public function getRecentOrders($limit = 5)
@@ -20,10 +20,14 @@ class OrderModel extends Model
     protected $validationRules = [
         'user_id' => 'required|integer',
         'customer_name' => 'required|string|max_length[255]',
-        'status' => 'required|string|in_list[Completed, Pending, Cancelled, Processed]',
+        'status' => 'required|string|in_list[Completed, Pending, Cancelled, Processing]',
         'total' => 'required|integer',
         'product_id' => 'required|integer',
-        'metode_pembayaran' => 'required|string|in_list[Cash,Transfer Bank]'
+        'metode_pembayaran' => 'required|string|in_list[Cash,Transfer Bank]',
+        'bukti_pembayaran' => 'required|string',
+        'kuantitas' => 'required|integer'
     ];
+
+
 }
 
