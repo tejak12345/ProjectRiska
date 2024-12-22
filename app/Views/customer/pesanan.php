@@ -89,22 +89,20 @@
                     <table id="pendingTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_name</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">kuantitas</th>
+                                <th class="text-center">nama produk</th>
+                                <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
-                                <th class="text-center">Upload Bukti</th>
+                                <th class="text-center">upload bukti</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
                                     <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
                                     <?php if($product["metode_pembayaran"] == "Transfer Bank"): ?>
-                                        <td class="text-end py-2 px-2 "><a href="/pesanan/uploadBukti/<?= $product["product_id"] ?>" class="btn bg-yellow-300 hover:bg-yellow-500 py-1 px-2 rounded-full">Upload Bukti</a></td>
+                                        <td class="text-end py-2 px-2 "><a href="/pesanan/uploadBukti/<?= $product["id"] ?>" class="btn bg-yellow-300 hover:bg-yellow-500 py-1 px-2 rounded-full">Upload Bukti</a></td>
                                     <?php else: ?>    
                                         <td class="text-end py-2 px-2 "><?= $product["metode_pembayaran"] ?></td>
                                     <?php endif ?>
@@ -121,21 +119,19 @@
                     <table id="completedTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_name</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">kuantitas</th>
+                                <th class="text-center">nama produk</th>
+                                <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
-                                <th class="text-center">Bukti_pembayaran</th>
+                                <th class="text-center">bukti pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products_completed as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
                                     <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
-                                    <td class="text-end py-2 px-2 ">ini gambar</td>
+                                    <td class="text-end py-2 px-2 "><img src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>"/></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -149,21 +145,19 @@
                     <table id="processedTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_name</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">kuantitas</th>
+                                <th class="text-center">nama produk</th>
+                                <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
-                                <th class="text-center">Bukti_pembayaran</th>
+                                <th class="text-center">bukti pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products_processeds as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
                                     <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
-                                    <td class="text-end py-2 px-2 ">ini gambar</td>
+                                    <td class="text-end py-2 px-2 "><img src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>" alt=""></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -177,21 +171,19 @@
                     <table id="cancelledTable" class="w-full collapse table-auto mt-[20px]">
                         <thead>
                             <tr class="border-b border-gray-200">
-                                <th class="text-center">Product_name</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">kuantitas</th>
+                                <th class="text-center">nama produk</th>
+                                <th class="text-center">harga</th>
                                 <th class="text-center">status</th>
-                                <th class="text-center">Bukti_pembayaran</th>
+                                <th class="text-center">bukti pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($products_cancelleds as $product): ?>
                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
                                     <td class="text-end py-2 px-2 "><?= $product["product_name"]?></td>
-                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total_price'], 0, ',', '.'))?></td>
-                                    <td class="text-end py-2 px-2 "><?= $product["quantity"] ?></td>
+                                    <td class="text-end py-2 px-2 ">Rp.<?=esc(number_format($product['total'], 0, ',', '.'))?></td>
                                     <td class="text-end py-2 px-2 "><?= $product["status"] ?></td>
-                                    <td class="text-end py-2 px-2 ">ini gambar</td>
+                                    <td class="text-end py-2 px-2 "><img src="/img/buktiPembayaran/<?= $product["bukti_pembayaran"] ?>" /></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

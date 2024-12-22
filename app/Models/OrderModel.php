@@ -8,7 +8,7 @@ class OrderModel extends Model
 {
     protected $table = 'orders'; // Tabel untuk pesanan
     protected $primaryKey = 'id'; // Kolom primary key
-    protected $allowedFields = ['user_id', 'customer_name', 'status', 'total', 'created_at','product_id','metode_pembayaran'];
+    protected $allowedFields = ['user_id', 'customer_name', 'status', 'total', 'created_at','product_id','metode_pembayaran','bukti_pembayaran'];
 
     // Mendapatkan pesanan terbaru
     public function getRecentOrders($limit = 5)

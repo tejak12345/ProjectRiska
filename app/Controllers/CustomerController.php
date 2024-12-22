@@ -19,6 +19,43 @@ class CustomerController extends Controller
     {
         return view('customer/produk');
     }
+
+    public function upload($id){
+        $orderModel = new OrderModel();
+        $productModel = new ProductModel();
+
+        $session = session();
+
+        $data["produk"] = $orderModel->select("id, product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
+        ->where("user_id", $session->get("user_id"))
+        ->where("id", $id)
+        ->first();
+
+        $product = $productModel->where("id", $data["produk"]["product_id"])->first();
+
+        // Cek apakah produk ditemukan
+        if ($product) {
+            $productName = $product["name"]; // Ambil nama produk jika ditemukan
+            $productDesc = $product["description"] ;
+            $productImg = $product["image"] ;
+        } else {
+            $productName = "Produk Tidak Ditemukan";  // Jika produk tidak ditemukan
+            $productDesc = "Produk Tidak Ditemukan";
+            $productImg = "produk Tidak Ditemukan";
+        }
+
+        // Menambahkan nama produk dan status ke dalam pesanan
+        $data["produk"] += [
+            "product_name" => $productName,
+            "product_desc" => $productDesc,
+            "product_img" => $productImg
+        ];
+
+
+        // dd($data["produk"]); 
+        return view('customer/uploadBukti', $data);
+    }
+
     public function detail($id)
     {
         // Simulasi pengambilan data produk berdasarkan $id
@@ -209,40 +246,29 @@ class CustomerController extends Controller
 
         $user = $userModel->where("username", $username)->first();
 
-        $query = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran")->where("user_id", $user["id"])->groupBy("metode_pembayaran");
         
         // Ambil pesanan berdasarkan status masing-masing
-        $orders["products"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
-        ->where("user_id", $user["id"])
-        ->groupBy("metode_pembayaran")->groupBy("product_id")
+        $orders["products"] = $orderModel->where("user_id", $user["id"])
         ->where("status", "Pending")
         ->get()
         ->getResultArray();
         
         // dd($orders["products"]);
         
-        $orders["products_completed"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
-        ->where("user_id", $user["id"])
-        ->groupBy("metode_pembayaran")->groupBy("product_id")
+        $orders["products_completed"] = $orderModel->where("user_id", $user["id"])
         ->where("status", "Completed")
         ->get()
         ->getResultArray();
         
-        $orders["products_cancelleds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
-        ->where("user_id", $user["id"])
-        ->groupBy("metode_pembayaran")->groupBy("product_id")
+        $orders["products_cancelleds"] = $orderModel->where("user_id", $user["id"])
         ->where("status", "Cancelled")
         ->get()
         ->getResultArray();
         
-        $orders["products_processeds"] = $orderModel->select("product_id, SUM(total) as total_price, COUNT(*) as quantity, metode_pembayaran, status")
-        ->where("user_id", $user["id"])
-        ->groupBy("metode_pembayaran")->groupBy("product_id")
-        ->where("status", "Processed")
+        $orders["products_processeds"] = $orderModel->where("user_id", $user["id"])
+        ->where("status", "Processing")
         ->get()
         ->getResultArray();
-        // dd($orders["products_completed"]);
-
         // Loop untuk menambahkan nama produk ke pesanan berdasarkan product_id
         foreach (['products', 'products_completed', 'products_cancelleds', 'products_processeds'] as $statusKey) {
             $i = 0;
@@ -260,28 +286,47 @@ class CustomerController extends Controller
                 // Menambahkan nama produk dan status ke dalam pesanan
                 $orders[$statusKey][$i] += [
                     "product_name" => $productName,
-                    "status" => $prod["status"]  // Menambahkan status berdasarkan nama array
                 ];
 
                 $i++;
             }
         }
+        // dd($orders["products"]);
+
 
         // Kirim data pesanan ke view
         return view("/customer/pesanan", $orders);
     }
 
-    public function kirimBukti(){
-        $idProduct = $this->request->getPost("productID");
-
-        $image = $this->request->getFile('image');
+    public function kirimBukti($id){
+        $orderModel = new OrderModel();
+        
+        $image = $this->request->getFile('bukti_pembayaran');
         $imageName = null;
+        
+        if (!($image && $image->isValid())) {
+            return redirect()->to("/pesanan/uploadBukti/".$id)->with("error", "Foto tidak valid. pastikan gunakan format png/jpeg");
+        }
 
-        if ($image && $image->isValid()) {
-            $imageName = $image->getRandomName();
-            $image->move(ROOTPATH . 'public/BuktiPembayaran/'.$id, $imageName);
-        };
+        $imageName = $image->getRandomName();
+        $image->move(ROOTPATH . 'public/img/buktiPembayaran/', $imageName);
+        $updatedData = [
+            // "bukti_pembayaran" => $imageName,
+            "status" => "Processing"
+        ];
+        // dd($updatedData);
 
-        return redirect()->to("/customer/pesanan")->with("msg", "Bukti pembayaran berhasil diupload");
+        try {
+            $orderModel->update($id, $updatedData);
+        } catch (\Exception $e) {
+            // Handle error
+            log_message('error', 'Error updating order: ' . $e->getMessage());
+            return redirect()->to("/pesanan/uploadBukti/".$id)->with("error", "Terjadi kesalahan saat mengunggah bukti pembayaran");
+        }
+
+        // dd($orderModel->where("id", $id)->first());
+        
+        return redirect()->to("/pesanan")->with("berhasil", "Bukti pembayaran berhasil diupload");
+        
     }
 }
