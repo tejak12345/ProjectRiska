@@ -195,16 +195,7 @@
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">
                             Dashboard Overview</h2>
-                        <div class="flex space-x-2">
-                            <button class="px-4 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors">
-                                <i data-lucide="download" class="w-4 h-4 inline-block mr-1"></i>
-                                Export
-                            </button>
-                            <button class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                <i data-lucide="plus" class="w-4 h-4 inline-block mr-1"></i>
-                                Add New
-                            </button>
-                        </div>
+                       
                     </div>
 
                     <!-- Quick Stats -->
@@ -306,50 +297,7 @@
                         </div>
 
                                             
-                                            <!-- Additional Analytics Section -->
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                                                <!-- Sales Chart -->
-                                                <div class="bg-white rounded-2xl p-6 card-shadow">
-                                                    <div class="flex justify-between items-center mb-6">
-                                                        <h3 class="text-lg font-semibold text-gray-800">Sales Overview</h3>
-                                                        <select class="text-sm border rounded-lg px-3 py-2 text-gray-600">
-                                                            <option>Last 7 days</option>
-                                                            <option>Last 30 days</option>
-                                                            <option>Last 90 days</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-                                                        <!-- Placeholder for chart -->
-                                                        <span class="text-gray-400">Sales Chart Visualization</span>
-                                                    </div>
-                                                </div>
-                                            
-                                                <!-- Top Products -->
-                                                <div class="bg-white rounded-2xl p-6 card-shadow">
-                                                    <div class="flex justify-between items-center mb-6">
-                                                        <h3 class="text-lg font-semibold text-gray-800">Top Products</h3>
-                                                        <button class="text-sm text-blue-600 hover:text-blue-700">See All</button>
-                                                    </div>
-                                                    <div class="space-y-4">
-                                                        <!-- Product Item -->
-                                                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                                            <div class="flex items-center space-x-3">
-                                                                <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                                                                    <i data-lucide="box" class="w-6 h-6 text-blue-600"></i>
-                                                                </div>
-                                                                <div>
-                                                                    <h4 class="text-sm font-medium">Product Name</h4>
-                                                                    <p class="text-xs text-gray-500">Category</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-right">
-                                                                <p class="text-sm font-medium">Rp 2.500.000</p>
-                                                                <p class="text-xs text-emerald-600">+12.5%</p>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Repeat for more products -->
-                                                    </div>
-                                                </div>
+                                         
                                             </div>
                                             </div>
                                             </div>
