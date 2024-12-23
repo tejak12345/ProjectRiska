@@ -181,7 +181,7 @@
 
 <body class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
     <!-- Modern Navbar -->
-    <nav class="navbar fixed w-full z-50 px-6 py-4">
+    <nav class="navbar fixed w-full z-50 px-6 py-4 top-0 left-0">
         <div class="container mx-auto">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-6">
@@ -200,7 +200,7 @@
                         <div>
                             <?php if (session()->get('username')): ?>
                                 <p class="text-white font-semibold"><?= session()->get('username'); ?></p>
-                                <p class="text-blue-200 text-sm">Farmasis</p>
+                                <p class="text-blue-200 text-sm capitalize"><?= session()->get("role"); ?></p>
                             <?php else: ?>
                                 <p class="text-white font-semibold">Guest</p>
                             <?php endif; ?>

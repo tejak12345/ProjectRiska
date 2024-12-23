@@ -237,7 +237,7 @@ class CustomerController extends Controller
         // Menambahkan flashdata untuk notifikasi sukses
         session()->set('success', 'Profil berhasil diperbarui.');
 
-        return redirect()->to('/customer/profile'); // Sesuaikan dengan route
+        return redirect()->to('/profile'); // Sesuaikan dengan route
     }
 
     public function pesanan()
@@ -248,55 +248,14 @@ class CustomerController extends Controller
         $orderModel = new OrderModel();
         $productModel = new ProductModel();
 
-        $user = $userModel->where("username", $username)->first();
+        $user = session()->get("user_id");
 
-        
         // Ambil pesanan berdasarkan status masing-masing
-        $orders["products"] = $orderModel->where("user_id", $user["id"])
-        ->where("status", "Pending")
-        ->get()
-        ->getResultArray();
-        
-        // dd($orders["products"]);
-        
-        $orders["products_completed"] = $orderModel->where("user_id", $user["id"])
-        ->where("status", "Completed")
-        ->get()
-        ->getResultArray();
-        
-        $orders["products_cancelleds"] = $orderModel->where("user_id", $user["id"])
-        ->where("status", "Cancelled")
-        ->get()
-        ->getResultArray();
-        
-        $orders["products_processeds"] = $orderModel->where("user_id", $user["id"])
-        ->where("status", "Processing")
-        ->get()
-        ->getResultArray();
-        // Loop untuk menambahkan nama produk ke pesanan berdasarkan product_id
-        foreach (['products', 'products_completed', 'products_cancelleds', 'products_processeds'] as $statusKey) {
-            $i = 0;
-            foreach ($orders[$statusKey] as $prod) {
-                // Mencari produk berdasarkan product_id
-                $product = $productModel->where("id", $prod["product_id"])->first();
-
-                // Cek apakah produk ditemukan
-                if ($product) {
-                    $productName = $product["name"];  // Ambil nama produk jika ditemukan
-                } else {
-                    $productName = "Produk Tidak Ditemukan";  // Jika produk tidak ditemukan
-                }
-
-                // Menambahkan nama produk dan status ke dalam pesanan
-                $orders[$statusKey][$i] += [
-                    "product_name" => $productName,
-                ];
-
-                $i++;
-            }
-        }
-        // dd($orders["products"]);
-
+        $orders["products"] = $orderModel->getOrdersByUsersIdAndStatus($user,"Pending")->get()->getResultArray();
+        $orders["products_completed"] = $orderModel->getOrdersByUsersIdAndStatus($user,"Completed")->get()->getResultArray();        
+        $orders["products_cancelleds"] = $orderModel->getOrdersByUsersIdAndStatus($user,"Cancelled")->get()->getResultArray();
+        $orders["products_processeds"] = $orderModel->getOrdersByUsersIdAndStatus($user,"Processing")->get()->getResultArray();
+        // dd($orders["products_processeds"]);
 
         // Kirim data pesanan ke view
         return view("/customer/pesanan", $orders);
@@ -318,7 +277,6 @@ class CustomerController extends Controller
             "bukti_pembayaran" => $imageName,
             "status" => 'Processing'
         ];
-        // dd($updatedData);
 
         try {
             // $orderID = $id;  

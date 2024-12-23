@@ -36,7 +36,7 @@
                     <img src="https://via.placeholder.com/40" alt="Profil" class="rounded-full w-10 h-10">
                     <div>
                         <p class="text-sm font-semibold">Dr. Widya Pratama</p>
-                        <p class="text-xs text-blue-200">Farmasis</p>
+                        <p class="text-blue-200 text-sm capitalize"><?= session()->get("role"); ?></p>
                     </div>
                 </div>
             </div>

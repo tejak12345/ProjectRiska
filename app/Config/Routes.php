@@ -66,5 +66,5 @@ $routes->post('/uploadBukti/(:num)', 'CustomerController::kirimBukti/$1');
 $routes->get('/dashboard', 'CustomerController::index');
 $routes->get('/customer/logout', 'CustomerController::logout');
 
-$routes->get('/customer/profile', 'CustomerController::profile');
+$routes->get('/profile', 'CustomerController::profile');
 $routes->post('/profile/update', 'CustomerController::updateProfile');

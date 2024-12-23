@@ -8,91 +8,250 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.min.css" rel="stylesheet">
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-    body {
-        font-family: 'Inter', sans-serif;
-    }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f4f8;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(66, 153, 225, 0.1), rgba(49, 130, 206, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-image {
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, #3182CE 0%, #2C5282 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(49, 130, 206, 0.3);
+        }
+
+        .btn-modern {
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            transition: transform 0.5s ease;
+        }
+
+        .btn-modern:hover::before {
+            transform: translate(-50%, -50%) scale(2);
+        }
+
+        .btn-detail {
+            background: linear-gradient(135deg, #4299E1 0%, #3182CE 100%);
+            color: white;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #48BB78 0%, #38A169 100%);
+            color: white;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2C5282 0%, #2B6CB0 100%);
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-link {
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link:hover {
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.1) 0%, rgba(49, 130, 206, 0.1) 100%);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, #4299E1 0%, #3182CE 100%);
+            color: white;
+        }
+
+        /* Modern Search Bar */
+        .search-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 0.8rem 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus-within {
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.2);
+        }
+
+        /* Floating Labels */
+        .floating-label {
+            position: absolute;
+            top: 0;
+            left: 1rem;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 0.5rem;
+            color: #4A5568;
+            font-size: 0.875rem;
+        }
+
+        /* Modern Modal */
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-backdrop {
+            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.4);
+        }
     </style>
 </head>
 
-<body class="bg-gray-50">
-    <!-- Navbar -->
-    <nav class="bg-[#0F4C75] text-white p-4 shadow-md fixed top-0 w-full z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <!-- Logo and Name (LeafletPro Farmasi) -->
-            <div class="flex items-center space-x-3 order-1">
-                <i data-lucide="file-text" class="w-8 h-8"></i>
-                <h1 class="text-xl font-bold">LeafletPro Farmasi</h1>
-            </div>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+    <!-- Modern Navbar -->
+    <nav class="navbar fixed w-full z-50 px-6 py-4 top-0 left-0">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+                            <i data-lucide="file-text" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold text-white">LeafletPro</h1>
+                    </div>
+                </div>
 
-            <!-- User Name or Guest -->
-            <div class="flex items-center space-x-2 order-2 lg:order-3">
-                <img src="https://via.placeholder.com/40" alt="Profil" class="rounded-full w-10 h-10">
-                <div>
-                    <!-- Menampilkan nama pengguna yang login -->
-                    <?php if (session()->get('username')): ?>
-                    <p class="text-sm font-semibold"><?= session()->get('username'); ?></p>
-                    <p class="text-xs text-blue-200">Farmasis</p>
-                    <?php else: ?>
-                    <p class="text-sm font-semibold">Guest</p>
-                    <?php endif; ?>
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-4 bg-white/10 rounded-2xl px-6 py-3">
+                        <img src="https://via.placeholder.com/40" alt="Profile"
+                            class="w-10 h-10 rounded-xl border-2 border-white/30">
+                        <div>
+                            <?php if (session()->get('username')): ?>
+                                <p class="text-white font-semibold"><?= session()->get('username'); ?></p>
+                                <p class="text-blue-200 text-sm capitalize"><?= session()->get("role"); ?></p>
+                            <?php else: ?>
+                                <p class="text-white font-semibold">Guest</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <button class="lg:hidden text-white">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
                 </div>
             </div>
-
-            <!-- Hamburger Menu Toggle -->
-            <button id="menu-toggle" class="lg:hidden block order-3 lg:order-2">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
         </div>
     </nav>
 
     <!-- Main Content Area -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-screen pt-20">
-        <!-- Sidebar Menu -->
-        <div id="sidebar"
-            class="col-span-1 bg-white rounded-xl shadow-md p-6 lg:relative lg:block lg:min-h-screen hidden absolute left-0 top-0 w-full lg:w-auto">
-            <ul class="space-y-4">
-                <li>
-                    <a href="#dashboard"
-                        class="flex items-center text-[#0F4C75] font-semibold bg-blue-50 p-3 rounded-lg">
-                        <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="/produk" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
-                        <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
-                        Produk
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= base_url("pesanan") ?>" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
-                        <i data-lucide="shopping-cart" class="w-5 h-5 mr-3"></i>
-                        Pesanan Saya
-                    </a>
-                </li>
-                <li>
-                    <a href="customer/profile" class="flex items-center hover:bg-blue-50 p-3 rounded-lg">
-                        <i data-lucide="user" class="w-5 h-5 mr-3"></i>
-                        Profil Saya
-                    </a>
-                </li>
+    <div class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-screen pt-28">
+        <!-- Modern Sidebar -->
+        <div class="lg:col-span-1">
+                <div class="sidebar p-6 sticky top-28">
+                    <div class="space-y-3">
+                        <a href="/dashboard" class="sidebar-link flex active items-center p-4 hover:bg-blue-50">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5 mr-4"></i>
+                            <span class="font-medium">Dashboard</span>
+                        </a>
+                        <a href="/produk" class="sidebar-link flex items-center p-4 hover:bg-blue-50">
+                            <i data-lucide="file-text" class="w-5 h-5 mr-4"></i>
+                            <span class="font-medium">Produk</span>
+                        </a>
+                        <a href="<?= base_url("pesanan") ?>"
+                            class="sidebar-link flex  items-center p-4 hover:bg-blue-50">
+                            <i data-lucide="shopping-cart" class="w-5 h-5 mr-4"></i>
+                            <span class="font-medium">Pesanan</span>
+                        </a>
+                        <a href="<?= base_url('profile') ?>"
+                            class="sidebar-link flex items-center p-4 hover:bg-blue-50">
+                            <i data-lucide="user" class="w-5 h-5 mr-4"></i>
+                            <span class="font-medium">Profil</span>
+                        </a>
 
-
-                <!-- Menambahkan tombol Logout -->
-                <li class="pt-4 mt-4 border-t border-gray-700">
-                    <a href="/customer/logout"
-                        class="flex items-center text-red-400 hover:text-red-300 p-3 rounded-lg transition-all">
-                        <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
-                        <span class="font-medium">Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                        <div class="pt-4 mt-4 border-t border-gray-100">
+                            <a href="/customer/logout"
+                                class="sidebar-link flex items-center p-4 text-red-500 hover:bg-red-50">
+                                <i data-lucide="log-out" class="w-5 h-5 mr-4"></i>
+                                <span class="font-medium">Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <!-- Main Content -->
-        <div class="col-span-3 bg-gray-50 p-6 lg:p-0">
+        <div class="col-span-3 p-6 lg:p-0">
             <!-- Dashboard Overview -->
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
                 <div class="flex justify-between items-center mb-6">

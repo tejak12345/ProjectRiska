@@ -16,6 +16,12 @@ class OrderModel extends Model
         return $this->orderBy('created_at', 'desc')->limit($limit)->findAll();
     }
 
+    public function getOrdersByUsersIdAndStatus($id,$status)
+    {
+        return $this->select("orders.id as id, name AS product_name, total, status, kuantitas, metode_pembayaran, bukti_pembayaran")->where("user_id",$id)->where("status",$status)->join('products',"products.id = orders.product_id","inner");
+    }
+
+
     // Aturan validasi untuk menambah/edit konsultasi
     protected $validationRules = [
         'user_id' => 'required|integer',
